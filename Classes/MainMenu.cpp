@@ -43,15 +43,37 @@ bool MainMenu::init()
 		titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
 			origin.y + visibleSize.height - titleLabel->getContentSize().height));
 
+		// Setting Title Color to be Orange
+		titleLabel->setColor(cocos2d::Color3B(227, 95, 66));
+
 		// add the label as a child to this layer
 		this->addChild(titleLabel, 1);
 	}
+
+	// KeyPressed
+	auto Keyboardlistener = EventListenerKeyboard::create();
+	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(MainMenu::onKeyPressed, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(Keyboardlistener, this);
 
 
 	this->scheduleUpdate();
 	return true;
 }
 
+void MainMenu::update(float dt)
+{
+
+}
+
+// Key Pressed
+void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
+{
+	// Closing the Application
+	if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		Director::getInstance()->end();
+	}
+}
 
 void MainMenu::menuCloseCallback(Ref* pSender)
 {

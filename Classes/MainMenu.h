@@ -2,6 +2,7 @@
 #define _MAINMENU_SCENE_H_
 
 #include "cocos2d.h"
+using namespace cocos2d;
 
 class MainMenu : public cocos2d::Scene
 {
@@ -12,7 +13,11 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
+	virtual void onKeyPressed(EventKeyboard::KeyCode, Event*);
+
+	// Update Every Frame
+	virtual void update(float);
+
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);
 };
