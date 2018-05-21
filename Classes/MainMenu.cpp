@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "ui\CocosGUI.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -43,18 +44,40 @@ bool MainMenu::init()
 		titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
 			origin.y + visibleSize.height - titleLabel->getContentSize().height));
 
-		// Setting Title Color to be Orange
-		titleLabel->setColor(cocos2d::Color3B(227, 95, 66));
+		// Setting Title Color to be Orange + Shadow
+		titleLabel->setTextColor(Color4B::ORANGE);
+		titleLabel->enableOutline(Color4B::WHITE, 2);
 
 		// add the label as a child to this layer
 		this->addChild(titleLabel, 1);
 	}
+
+	// Adding a few buttons to navigate between scenes. 
+	//auto exitButton = ui::Button::create("CloseNormal.png", "CloseSelected.png");
+	//exitButton->setPosition(Vec2(50,50));
+	//exitButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+	//	switch (type)
+	//	{
+	//	case ui::Widget::TouchEventType::BEGAN:
+	//		break;
+	//	case ui::Widget::TouchEventType::ENDED:
+	//		menuCloseCallback(this);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//});
+
+	//this->addChild(exitButton);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(MainMenu::onKeyPressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(Keyboardlistener, this);
 
+	// Setting up camera
+	auto cam = Camera::create();
+	cam->setPosition(this->getPosition());
 
 	this->scheduleUpdate();
 	return true;
@@ -68,10 +91,16 @@ void MainMenu::update(float dt)
 // Key Pressed
 void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 {
+	// Testing Purposes
+	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
+	{
+		menuChangeScene(1.5f, MainMenu::createScene());
+	}
+
 	// Closing the Application
 	if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
 	{
-		Director::getInstance()->end();
+		menuCloseCallback(this);
 	}
 }
 
@@ -90,4 +119,9 @@ void MainMenu::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void MainMenu::menuChangeScene(float time, cocos2d::Scene * scene)
+{
+	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
 }
