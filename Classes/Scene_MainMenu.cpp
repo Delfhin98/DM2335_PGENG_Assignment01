@@ -1,9 +1,8 @@
-#include "MainMenu.h"
-#include "ui\CocosGUI.h"
+#include "Scene_MainMenu.h"
 #include "SimpleAudioEngine.h"
-
+#include "Scene_FreeMode.h"
 USING_NS_CC;
-
+using namespace ui;
 Scene* MainMenu::createScene()
 {
     return MainMenu::create();
@@ -11,7 +10,7 @@ Scene* MainMenu::createScene()
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
-{
+{	
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in MainMenuScene.cpp\n");
 }
@@ -51,6 +50,30 @@ bool MainMenu::init()
 		// add the label as a child to this layer
 		this->addChild(titleLabel, 1);
 	}
+	auto winSize = Director::getInstance()->getWinSize();
+
+	auto btn_FreeMode = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
+	btn_FreeMode->setTitleText("Free Mode");
+	btn_FreeMode->setTitleFontName("arial.ttf");
+	btn_FreeMode->setTitleFontSize(15.0f);
+	btn_FreeMode->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+	
+	btn_FreeMode->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+
+			break;
+		case ui::Widget::TouchEventType::ENDED:
+			MainMenuChangeScene(1.5f, GameScene::createScene());
+			break;
+		default:
+			break;
+		}
+	});
+
+	this->addChild(btn_FreeMode);
 
 	// Adding a few buttons to navigate between scenes. 
 	//auto exitButton = ui::Button::create("CloseNormal.png", "CloseSelected.png");
@@ -94,7 +117,7 @@ void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 	// Testing Purposes
 	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
-		menuChangeScene(1.5f, MainMenu::createScene());
+		
 	}
 
 	// Closing the Application
@@ -121,7 +144,7 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
 }
 
-void MainMenu::menuChangeScene(float time, cocos2d::Scene * scene)
+void MainMenu::MainMenuChangeScene(float time, cocos2d::Scene * scene)
 {
 	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
 }
