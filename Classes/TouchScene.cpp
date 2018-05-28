@@ -19,44 +19,49 @@ bool TouchScene::init()
 	}
 
 	//------message box appears when sprite is clicked
-	auto sprite = Sprite::create("HelloWorld.png");
-	sprite->setPosition(Vec2(
-		Director::getInstance()->getVisibleSize().width / 2,
-		Director::getInstance()->getVisibleSize().height / 2));
-	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->onTouchBegan = [](Touch* touch, Event* event)->bool
-	{
-		auto bounds = event->getCurrentTarget()->getBoundingBox();
+	//auto sprite = Sprite::create("HelloWorld.png");
+	//sprite->setPosition(Vec2(
+	//	Director::getInstance()->getVisibleSize().width / 2,
+	//	Director::getInstance()->getVisibleSize().height / 2));
+	//auto touchListener = EventListenerTouchOneByOne::create();
+	//touchListener->onTouchBegan = [](Touch* touch, Event* event)->bool
+	//{
+	//	auto bounds = event->getCurrentTarget()->getBoundingBox();
 
-		if (bounds.containsPoint(touch->getLocation())) {
-			std::stringstream touchDetails;
-			touchDetails << "Touched at OpenGL coordinates: " <<
-				touch->getLocation().x << "," << touch->getLocation().y << std::endl <<
-				"Touched at UI coordinate: " <<
-				touch->getLocationInView().x << "," << touch->getLocationInView().y << std::endl <<
-				"Touched at local coordinate:" <<
-				event->getCurrentTarget()->convertToNodeSpace(touch->getLocation()).x << "," <<
-				event->getCurrentTarget()->convertToNodeSpace(touch->getLocation()).y << std::endl <<
-				"Touched moved by:" << touch->getDelta().x << "," << touch->getDelta().y;
+	//	if (bounds.containsPoint(touch->getLocation())) {
+	//		std::stringstream touchDetails;
+	//		touchDetails << "Touched at OpenGL coordinates: " << touch->getLocation().x << "," << touch->getLocation().y << std::endl <<
+	//			"Touched at UI coordinate: " << touch->getLocationInView().x << "," << touch->getLocationInView().y << std::endl <<
+	//			"Touched at local coordinate:" << event->getCurrentTarget()->convertToNodeSpace(touch->getLocation()).x << "," <<
+	//											  event->getCurrentTarget()->convertToNodeSpace(touch->getLocation()).y << std::endl <<
+	//			"Touched moved by:" << touch->getDelta().x << "," << touch->getDelta().y;
 
-			MessageBox(touchDetails.str().c_str(),"Touched");
-		}
-		return true;
-	};
+	//		MessageBox(touchDetails.str().c_str(),"Touched Title");
+	//	}
+	//	return true;
+	//};
 
-	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, sprite);
-	this->addChild(sprite, 0);
+	//Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, sprite);
+	//this->addChild(sprite, 0);
 
-	return true;
+	//return true;
 
 
 	//---------message appears on screen when clicked on screen
-	/*labelTouchInfo = Label::createWithSystemFont("Touch or click to begin", "Arial", 30);
+	
+	//draw->drawLine(Point(0, 0), Point(100, 100), Color4F::RED); 
+	
+	labelTouchInfo = Label::createWithSystemFont("Touch or click to begin", "Arial", 30);
 
 	labelTouchInfo->setPosition(Vec2(
 		Director::getInstance()->getVisibleSize().width / 2,
 		Director::getInstance()->getVisibleSize().height / 2));
+	
+	labelTouchInfo1 = Label::createWithSystemFont(" ", "Arial", 30);
 
+	labelTouchInfo1->setPosition(Vec2(
+		Director::getInstance()->getVisibleSize().width / 2,
+		Director::getInstance()->getVisibleSize().height / 2));
 	auto touchListener = EventListenerTouchOneByOne::create();
 
 	touchListener->onTouchBegan = CC_CALLBACK_2(TouchScene::onTouch_Began, this);
@@ -67,24 +72,40 @@ bool TouchScene::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	this->addChild(labelTouchInfo);
-	return true;*/
+	this->addChild(labelTouchInfo1);
+	
+	return true;
 }
 
 bool TouchScene::onTouch_Began(Touch* touch, Event* event)
 {
 	labelTouchInfo->setPosition(touch->getLocation());
-	labelTouchInfo->setString("Yamete");
+	labelTouchInfo->setString("Start");
+	//start->add(touch->getLocationInView());
+	
 	return true;
 }
 
-void TouchScene::onTouch_Ended(Touch* touch, Event* event)
+bool TouchScene::onTouch_Ended(Touch* touch, Event* event)
 {
-	cocos2d::log("touch ended");
+	auto draw = DrawNode::create();
+	labelTouchInfo1->setPosition(touch->getLocation());
+	labelTouchInfo1->setString("End");
+	//end->add(touch->getLocationInView());
+	draw->drawLine(labelTouchInfo->getPosition(),labelTouchInfo1->getPosition(), Color4F::RED);
+	this->addChild(draw);
+	//cocos2d::log("touch ended");
+	return true;
 }
 
-void TouchScene::onTouch_Moved(Touch* touch, Event* event)
+bool TouchScene::onTouch_Moved(Touch* touch, Event* event)
 {
-	cocos2d::log("touch moved");
+	
+	labelTouchInfo1->setPosition(touch->getLocation());
+	labelTouchInfo1->setString("Moving");
+	
+	return true;
+	//cocos2d::log("touch moved");
 }
 
 void TouchScene::onTouch_Cancelled(Touch* touch, Event* event)
