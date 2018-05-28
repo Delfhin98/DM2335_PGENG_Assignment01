@@ -1,7 +1,9 @@
-#ifndef _MAINMENU_SCENE_H_
-#define _MAINMENU_SCENE_H_
+#ifndef _SCENE_MAINMENU_H_
+#define _SCENE_MAINMENU_H_
 
 #include "cocos2d.h"
+#include "ui\CocosGUI.h"
+
 using namespace cocos2d;
 
 class MainMenu : public cocos2d::Scene
@@ -13,7 +15,7 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	void menuChangeScene(float time, cocos2d::Scene *scene);
+	void MainMenuChangeScene(float time, cocos2d::Scene *scene);
 	virtual void onKeyPressed(EventKeyboard::KeyCode, Event*);
 
 	// Update Every Frame
