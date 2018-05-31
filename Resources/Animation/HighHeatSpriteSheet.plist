@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>HighHeatSprite01.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{6.5,-1}</string>
+                <key>spriteSize</key>
+                <string>{30,51}</string>
+                <key>spriteSourceSize</key>
+                <string>{45,63}</string>
+                <key>textureRect</key>
+                <string>{{2,1},{30,51}}</string>
+                <key>textureRotated</key>
+                <false/>
+                <key>triangles</key>
+                <string>0 1 2</string>
+                <key>vertices</key>
+                <string>44 47 14 58 15 7</string>
+                <key>verticesUV</key>
+                <string>32 41 2 52 3 1</string>
+            </dict>
+            <key>HighHeatSprite02.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-2.5,2}</string>
+                <key>spriteSize</key>
+                <string>{21,57}</string>
+                <key>spriteSourceSize</key>
+                <string>{44,63}</string>
+                <key>textureRect</key>
+                <string>{{33,1},{21,57}}</string>
+                <key>textureRotated</key>
+                <false/>
+                <key>triangles</key>
+                <string>0 1 2 0 2 3</string>
+                <key>vertices</key>
+                <string>30 25 30 58 9 51 18 1</string>
+                <key>verticesUV</key>
+                <string>54 25 54 58 33 51 42 1</string>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>HighHeatSpriteSheet.png</string>
+            <key>size</key>
+            <string>{55,59}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:6e3a8d29370e242a0cdba5e7cc02491d:c0fa8644c90d7840516dfcbc23826c16:3dd55ce0a2ef608901f65590727320c8$</string>
+            <key>textureFileName</key>
+            <string>HighHeatSpriteSheet.png</string>
+        </dict>
+    </dict>
+</plist>
