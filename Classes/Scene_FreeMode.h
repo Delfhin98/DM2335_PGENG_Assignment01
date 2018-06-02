@@ -3,11 +3,14 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "CookingAnimation.h"
 
 using namespace cocos2d;
 
 class GameScene : public cocos2d::Scene
 {
+	CookingAnimation* cookingAnim;
+
 public:
     static cocos2d::Scene* createScene();
 

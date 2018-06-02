@@ -1,41 +1,37 @@
-#include "testingScene.h"
+#include "CookingAnimation.h"
 
-//void CookingAnimation::init(const char* _spriteSheetImageDirectory, const char* _spriteSheetDataDirectory, std::string _spriteSheet1stPicName, const char* _animationID, int _animationVectorSize)
-//{
-//	// Sprite Sheet
-//	spriteBatch = SpriteBatchNode::create(_spriteSheetImageDirectory);
-//	cache = SpriteFrameCache::getInstance();
-//	cache->addSpriteFramesWithFile(_spriteSheetDataDirectory);
-//
-//	// Loading animation from Sprite Sheet
-//	Vector<SpriteFrame*> animFrames(_animationVectorSize);
-//	char str[100] = { 0 };
-//
-//	std::string _lastLink = "%d.png";
-//	_spriteSheet1stPicName.append(_lastLink);
-//
-//	for (int i = 1; i < _animationVectorSize + 1; i++)
-//	{
-//		sprintf(str, _spriteSheet1stPicName.c_str(), i);
-//		SpriteFrame* frame = cache->getSpriteFrameByName(str);
-//		animFrames.pushBack(frame);
-//	}
-//
-//	animationContainer.push_back(std::make_pair(_animationID, animFrames));
-//}
+
+void CookingAnimation::init()
+{
+	// Stove Fire Animation
+	// Low Heat
+	setSpriteSheet("Animation/StoveFire_LowHeat.png", "Animation/StoveFire_LowHeat.plist");
+	loadAnimation("StoveFire_Low", "StoveFire_LowHeat", 2);
+	// Medium Heat
+	setSpriteSheet("Animation/StoveFire_MediumHeat.png", "Animation/StoveFire_MediumHeat.plist");
+	loadAnimation("StoveFire_Medium", "StoveFire_MediumHeat", 2);
+	// High Heat
+	setSpriteSheet("Animation/StoveFire_HighHeat.png", "Animation/StoveFire_HighHeat.plist");
+	loadAnimation("StoveFire_High", "StoveFire_HighHeat", 2);
+
+	// About to Boil Water Animation - W Pot
+	setSpriteSheet("Animation/AboutToBoilWater.png", "Animation/AboutToBoilWater.plist");
+	loadAnimation("WaterAboutToBoil", "AboutToBoil_OnPot", 8);
+
+	// Boiling Water Animation - W Pot
+	setSpriteSheet("Animation/BoilingWater.png", "Animation/BoilingWater.plist");
+	loadAnimation("WaterBoiling", "Boiling_OnPot", 8);
+}
 
 void CookingAnimation::setSpriteSheet(const char * _spriteSheetImageDirectory, const char * _spriteSheetDataDirectory)
 {
-	spriteSheetImageDirectory = _spriteSheetImageDirectory;
-	spriteSheetDataDirectory = _spriteSheetDataDirectory;
-
 	// Sprite Sheet
-	spriteBatch = SpriteBatchNode::create(spriteSheetImageDirectory);
+	spriteBatch = SpriteBatchNode::create(_spriteSheetImageDirectory);
 	cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile(spriteSheetDataDirectory);
+	cache->addSpriteFramesWithFile(_spriteSheetDataDirectory);
 }
 
-void CookingAnimation::createAnimation(const char* _animationID, std::string _firstPictureName, int _animaFramesVectorSize)
+void CookingAnimation::loadAnimation(const char* _animationID, std::string _firstPictureName, int _animaFramesVectorSize)
 {
 	// Loading Animation from Sprite Sheet
 	Vector<SpriteFrame*> animFrames(_animaFramesVectorSize);

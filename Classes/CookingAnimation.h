@@ -8,20 +8,17 @@ using namespace cocos2d;
 class CookingAnimation
 {
 private:
-	const char* spriteSheetImageDirectory;
-	const char* spriteSheetDataDirectory;
-
 	SpriteBatchNode* spriteBatch;
 	SpriteFrameCache* cache;
 	std::vector<std::pair<const char*, Vector<SpriteFrame*>>> animationContainer;
 
 public:
-	//void init(const char* _spriteSheetImageDirectory, const char* _spriteSheetDataDirectory, std::string _spriteSheet1stPicName, const char* _animationID, int _animationVectorSize);
+	void init();
 	
 	// First Step - Setting Sprite Sheet Directories
 	void setSpriteSheet(const char* _spriteSheetImageDirectory, const char* _spriteSheetDataDirectory);
 	// Second Step - Loading Animation from Sprite Sheet
-	void createAnimation(const char* _animationID, std::string _firstPictureName, int _animaFramesVectorSize);
+	void loadAnimation(const char* _animationID, std::string _firstPictureName, int _animaFramesVectorSize);
 	// Third Step - Saving the Animation into a Container
 	void addAnimationIntoVector(const char* _animationID, int _animationContainerVectorSize, Vector<SpriteFrame*> _animFrames);
 
