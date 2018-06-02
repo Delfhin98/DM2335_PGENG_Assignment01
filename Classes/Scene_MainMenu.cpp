@@ -1,6 +1,9 @@
 #include "Scene_MainMenu.h"
 #include "SimpleAudioEngine.h"
 #include "Scene_FreeMode.h"
+#include "Scene_Loading.h"
+#include "Scene_Recipes.h"
+
 USING_NS_CC;
 using namespace ui;
 Scene* MainMenu::createScene()
@@ -51,47 +54,52 @@ bool MainMenu::init()
 		this->addChild(titleLabel, 1);
 	}
 	auto winSize = Director::getInstance()->getWinSize();
+	Vec2 pos_buttons = Vec2(winSize.width / 2, winSize.height / 2);
+	Vec2 pos_offset = Vec2(0, -50);
 
 	auto btn_FreeMode = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
 	btn_FreeMode->setTitleText("Free Mode");
-	btn_FreeMode->setTitleFontName("arial.ttf");
-	btn_FreeMode->setTitleFontSize(15.0f);
-	btn_FreeMode->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-	
+	btn_FreeMode->setTitleFontName("fonts/Marker Felt.ttf");
+	btn_FreeMode->setTitleFontSize(20.0f);
+	btn_FreeMode->setPosition(pos_buttons);
 	btn_FreeMode->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
 	{
-		switch (type)
+		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-		case ui::Widget::TouchEventType::BEGAN:
-
-			break;
-		case ui::Widget::TouchEventType::ENDED:
-			MainMenuChangeScene(1.5f, GameScene::createScene());
-			break;
-		default:
-			break;
+			MainMenuChangeScene(2.0f, GameScene::createScene());
 		}
 	});
-
 	this->addChild(btn_FreeMode);
+	pos_buttons += pos_offset;
 
-	// Adding a few buttons to navigate between scenes. 
-	//auto exitButton = ui::Button::create("CloseNormal.png", "CloseSelected.png");
-	//exitButton->setPosition(Vec2(50,50));
-	//exitButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-	//	switch (type)
-	//	{
-	//	case ui::Widget::TouchEventType::BEGAN:
-	//		break;
-	//	case ui::Widget::TouchEventType::ENDED:
-	//		menuCloseCallback(this);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//});
+	auto btn_RecipeDatabase = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
+	btn_RecipeDatabase->setTitleText("Recipes");
+	btn_RecipeDatabase->setTitleFontName("fonts/Marker Felt.ttf");
+	btn_RecipeDatabase->setTitleFontSize(20.0f);
+	btn_RecipeDatabase->setPosition(pos_buttons);
+	btn_RecipeDatabase->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			MainMenuChangeScene(2.0f, RecipeScene::createScene());
+		}
+	});
+	this->addChild(btn_RecipeDatabase);
+	pos_buttons += pos_offset;
 
-	//this->addChild(exitButton);
+	auto btn_Quit = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
+	btn_Quit->setTitleText("Quit Game");
+	btn_Quit->setTitleFontName("fonts/Marker Felt.ttf");
+	btn_Quit->setTitleFontSize(20.0f);
+	btn_Quit->setPosition(pos_buttons);
+	btn_Quit->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			menuCloseCallback(this);
+		}
+	});
+	this->addChild(btn_Quit);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
@@ -123,7 +131,7 @@ void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 	// Closing the Application
 	if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
 	{
-		menuCloseCallback(this);
+		
 	}
 }
 
@@ -146,5 +154,5 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
 void MainMenu::MainMenuChangeScene(float time, cocos2d::Scene * scene)
 {
-	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
+	CCDirector::getInstance()->replaceScene(TransitionFlipAngular::create(time, scene));
 }
