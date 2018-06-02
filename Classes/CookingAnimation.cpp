@@ -63,7 +63,7 @@ void CookingAnimation::addAnimationIntoVector(const char * _animationID, int _an
 	}
 }
 
-void CookingAnimation::playAnimation(Scene * _scene, const char * _animationID, float _animDelayTime, Vec2 _spritePosition)
+void CookingAnimation::playAnimation(Scene * _scene, const char * _animationID, float _animDelayTime, Vec2 _spritePosition, float _spriteScale)
 {
 	// Search for the Animation
 	for (auto it = animationContainer.begin(); it != animationContainer.end(); it++)
@@ -74,6 +74,7 @@ void CookingAnimation::playAnimation(Scene * _scene, const char * _animationID, 
 			auto sprite = Sprite::createWithSpriteFrame(it->second.front());
 			_scene->addChild(sprite);
 			sprite->setPosition(_spritePosition);
+			sprite->setScale(_spriteScale);
 
 			// Animation
 			auto animation = Animation::createWithSpriteFrames(it->second, _animDelayTime);
@@ -86,7 +87,7 @@ void CookingAnimation::playAnimation(Scene * _scene, const char * _animationID, 
 	}
 }
 
-void CookingAnimation::playAnimation(Sprite * _sprite, const char * _animationID, float _animDelayTime, Vec2 _spritePosition)
+void CookingAnimation::playAnimation(Sprite * _sprite, const char * _animationID, float _animDelayTime, Vec2 _spritePosition, float _spriteScale)
 {
 	// Search for the Animation
 	for (auto it = animationContainer.begin(); it != animationContainer.end(); it++)
@@ -97,6 +98,7 @@ void CookingAnimation::playAnimation(Sprite * _sprite, const char * _animationID
 			auto sprite = Sprite::createWithSpriteFrame(it->second.front());
 			_sprite->addChild(sprite);
 			sprite->setPosition(_spritePosition);
+			sprite->setScale(_spriteScale);
 
 			// Animation
 			auto animation = Animation::createWithSpriteFrames(it->second, _animDelayTime);

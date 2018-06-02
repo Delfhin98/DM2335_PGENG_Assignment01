@@ -26,8 +26,8 @@ public:
 	// Check to see if that animation have been created or not.
 	bool isAnimCreated(const char* _animationID);
 	// Play Animation
-	void playAnimation(Scene* _scene, const char* _animationID, float _animDelayTime, Vec2 _spritePosition);
-	void playAnimation(Sprite* _sprite, const char* _animationID, float _animDelayTime, Vec2 _spritePosition);
+	void playAnimation(Scene* _scene, const char* _animationID, float _animDelayTime, Vec2 _spritePosition, float _spriteScale);
+	void playAnimation(Sprite* _sprite, const char* _animationID, float _animDelayTime, Vec2 _spritePosition, float _spriteScale);
 };
 
 #endif // !_COOKING_ANIMATION_H
