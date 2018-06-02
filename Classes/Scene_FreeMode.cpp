@@ -34,42 +34,27 @@ bool GameScene::init()
 
 	// Adding a label shows "Main Menu"
 	// Create and initialize a label
-	auto titleLabel = Label::createWithTTF("Game Scene", "fonts/Marker Felt.ttf", visibleSize.width * 0.1f);
-	if (titleLabel == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// Position at the Center of the screen
-		titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - titleLabel->getContentSize().height));
+	//auto titleLabel = Label::createWithTTF("Game Scene", "fonts/Marker Felt.ttf", visibleSize.width * 0.1f);
+	//if (titleLabel == nullptr)
+	//{
+	//	problemLoading("'fonts/Marker Felt.ttf'");
+	//}
+	//else
+	//{
+	//	// Position at the Center of the screen
+	//	titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//		origin.y + visibleSize.height - titleLabel->getContentSize().height));
 
-		// Setting Title Color to be Orange + Shadow
-		titleLabel->setTextColor(Color4B::ORANGE);
-		titleLabel->enableOutline(Color4B::WHITE, 2);
+	//	// Setting Title Color to be Orange + Shadow
+	//	titleLabel->setTextColor(Color4B::ORANGE);
+	//	titleLabel->enableOutline(Color4B::WHITE, 2);
 
-		// add the label as a child to this layer
-		this->addChild(titleLabel, 1);
-	}
+	//	// add the label as a child to this layer
+	//	this->addChild(titleLabel, 1);
+	//}
 
-	// Adding a few buttons to navigate between scenes. 
-	//auto exitButton = ui::Button::create("CloseNormal.png", "CloseSelected.png");
-	//exitButton->setPosition(Vec2(50,50));
-	//exitButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-	//	switch (type)
-	//	{
-	//	case ui::Widget::TouchEventType::BEGAN:
-	//		break;
-	//	case ui::Widget::TouchEventType::ENDED:
-	//		menuCloseCallback(this);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//});
-
-	//this->addChild(exitButton);
+	cookingAnim = new CookingAnimation();
+	cookingAnim->init();
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();

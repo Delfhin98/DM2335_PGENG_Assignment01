@@ -4,47 +4,35 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>HighHeatSprite01.png</key>
+            <key>StoveFire_MediumHeat1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{6.5,-1}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{30,51}</string>
+                <string>{138,54}</string>
                 <key>spriteSourceSize</key>
-                <string>{45,63}</string>
+                <string>{138,54}</string>
                 <key>textureRect</key>
-                <string>{{2,1},{30,51}}</string>
+                <string>{{1,1},{138,54}}</string>
                 <key>textureRotated</key>
                 <false/>
-                <key>triangles</key>
-                <string>0 1 2</string>
-                <key>vertices</key>
-                <string>44 47 14 58 15 7</string>
-                <key>verticesUV</key>
-                <string>32 41 2 52 3 1</string>
             </dict>
-            <key>HighHeatSprite02.png</key>
+            <key>StoveFire_MediumHeat2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{-2.5,2}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{21,57}</string>
+                <string>{141,61}</string>
                 <key>spriteSourceSize</key>
-                <string>{44,63}</string>
+                <string>{141,61}</string>
                 <key>textureRect</key>
-                <string>{{33,1},{21,57}}</string>
+                <string>{{1,57},{141,61}}</string>
                 <key>textureRotated</key>
                 <false/>
-                <key>triangles</key>
-                <string>0 1 2 0 2 3</string>
-                <key>vertices</key>
-                <string>30 25 30 58 9 51 18 1</string>
-                <key>verticesUV</key>
-                <string>54 25 54 58 33 51 42 1</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -56,13 +44,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>HighHeatSpriteSheet.png</string>
+            <string>StoveFire_MediumHeat.png</string>
             <key>size</key>
-            <string>{55,59}</string>
+            <string>{143,119}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6e3a8d29370e242a0cdba5e7cc02491d:c0fa8644c90d7840516dfcbc23826c16:3dd55ce0a2ef608901f65590727320c8$</string>
+            <string>$TexturePacker:SmartUpdate:24338244cff6cc445227883c16d4a2ea:a13dd06e3473b0214ba2e264f637d1ce:9b20cb7a45e014c2f0702e29a5dc58fb$</string>
             <key>textureFileName</key>
-            <string>HighHeatSpriteSheet.png</string>
+            <string>StoveFire_MediumHeat.png</string>
         </dict>
     </dict>
 </plist>
