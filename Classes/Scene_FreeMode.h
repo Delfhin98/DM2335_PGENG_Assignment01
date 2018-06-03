@@ -3,15 +3,11 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "CookingAnimation.h"
 
 using namespace cocos2d;
 
 class GameScene : public cocos2d::Scene
 {
-	CookingAnimation* cookingAnim;
-	std::vector <std::pair<const char*, Sprite*>> objectContainer;
-
 public:
     static cocos2d::Scene* createScene();
 
@@ -21,12 +17,9 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void menuChangeScene(float time, cocos2d::Scene *scene);
 	virtual void onKeyPressed(EventKeyboard::KeyCode, Event*);
-	//virtual bool InteractWSpices(cocos2d::Touch*, cocos2d::Event*);
 
 	// Update Every Frame
 	virtual void update(float);
-
-	//void InteractWSpices(EventKeyboard::KeyCode keycode, Event * event);
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
