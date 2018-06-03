@@ -2,7 +2,6 @@
 #ifndef _RECIPE_DATABASE_H_
 #define _RECIPE_DATABASE_H_
 #include "Recipes.h"
-#include "SingletonTemplate.h"
 #include <fstream>
 #include <sstream>
 
