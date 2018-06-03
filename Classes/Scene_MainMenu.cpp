@@ -3,9 +3,10 @@
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
 #include "Scene_Recipes.h"
+using namespace ui;
 
 USING_NS_CC;
-using namespace ui;
+
 Scene* MainMenu::createScene()
 {
     return MainMenu::create();
@@ -66,7 +67,7 @@ bool MainMenu::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			MainMenuChangeScene(2.0f, GameScene::createScene());
+			MainMenuChangeScene(1.0f, GameScene::createScene());
 		}
 	});
 	this->addChild(btn_FreeMode);
@@ -154,5 +155,5 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
 void MainMenu::MainMenuChangeScene(float time, cocos2d::Scene * scene)
 {
-	CCDirector::getInstance()->replaceScene(TransitionFlipAngular::create(time, scene));
+	CCDirector::getInstance()->replaceScene(TransitionFade::create(time, scene));
 }

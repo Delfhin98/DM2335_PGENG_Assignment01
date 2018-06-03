@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ui\CocosGUI.h"
+#include "Recipe_Database.h"
 
 using namespace cocos2d;
 

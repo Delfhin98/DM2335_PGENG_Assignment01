@@ -7,9 +7,7 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
-using std::to_string;
+using namespace std;
 
 enum COOKING_TYPE
 {
@@ -19,12 +17,6 @@ enum COOKING_TYPE
 	CT_HIGH_OIL,
 	CT_OVEN
 };
-enum SEASONING_TYPE
-{
-	ST_NONE = 0,
-	ST_SALT,
-	ST_PEPPER
-};
 
 class Recipe
 {
@@ -32,17 +24,22 @@ public:
 	Recipe();
 	~Recipe();
 
-	void GetRecipe(const string name);
-
+	string GetRecipeName();
+	void SetData(string val, int element);
 private:
 	string recipe_name;
 	string main_ingredient;
 	string sub_ingredient1;
 	string sub_ingredient2;
 	string sub_ingredient3;
+	string sub_ingredient4;
+	string sub_ingredient5;
+	string sub_ingredient6;
+	COOKING_TYPE COOKTYPE;
 	vector<string> recipe_method;
+	int steps;
 
-	void SetRecipe();
+	void SetCookingType(string val);
 };
 
 #endif // _MAINMENU_SCENE_H_

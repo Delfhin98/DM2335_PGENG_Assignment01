@@ -1,5 +1,5 @@
 #include "Scene_Recipes.h"
-#include "Scene_MainMenu.h"
+
 #include "ui/CocosGUI.h"
 #include "SimpleAudioEngine.h"
 using namespace ui;
@@ -27,11 +27,12 @@ bool RecipeScene::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	numOfRecipes = 50;
-
+	RecipeDatabase* rd = RecipeDatabase::GetInstance();
+	numOfRecipes = rd->iRecNum;
+	
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
-
+	//string test = to_string(numOfRecipes);
 	// Create and initialize a label
 	auto titleLabel = Label::createWithTTF("RECIPES", "fonts/Marker Felt.ttf", visibleSize.width * 0.05f);
 	if (titleLabel == nullptr)
@@ -53,32 +54,27 @@ bool RecipeScene::init()
 	}
 
 	Vec2 pos_middle = visibleSize / 2;
-	Vec2 pos_offset = Vec2(0, -50);
+	//Vec2 pos_offset = Vec2(0, -50);
 
 	auto btns = Button::create("recipebutton.png", "recipebuttonselected.png");
 	ScrollView* RecipeScrollView = ScrollView::create();
 	RecipeScrollView->setDirection(ScrollView::Direction::VERTICAL);
 	RecipeScrollView->setContentSize(Size(visibleSize.width, visibleSize.height - 150));
 	RecipeScrollView->setInnerContainerSize(Size(btns->getContentSize().width + 10,
-		(btns->getContentSize().height / 2 * numOfRecipes) + (btns->getContentSize().height * 3)));
+		(btns->getContentSize().height * numOfRecipes) + (btns->getContentSize().height)));
 	//RecipeScrollView->setBackGroundImage("scrollpanel.png");
 	RecipeScrollView->setBounceEnabled(false);
 	RecipeScrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
 	RecipeScrollView->setPosition(Vec2(pos_middle.x, pos_middle.y));
-
+	Vec2 pos_btns = (Vec2(visibleSize.width - btns->getContentSize().width / 2 + 10, RecipeScrollView->getInnerContainerSize().height - (btns->getContentSize().height/2)));
 	for (int i = 0; i < numOfRecipes; ++i)
 	{
-		string temp;
-		temp = to_string(i);
-		list_recipes.push_back(temp);
-
 		btns = Button::create("recipebutton.png", "recipebuttonselected.png");
-		btns->setPosition(Vec2(visibleSize.width - btns->getContentSize().width / 2 + 10,
-			btns->getContentSize().height / 2 + (i * numOfRecipes / 2)));
-		btns->setTitleText(list_recipes[i]);
+		btns->setScale(0.5f);
+		btns->setPosition(Vec2(pos_btns.x,pos_btns.y - ((btns->getContentSize().height / 2) * i)));
+		btns->setTitleText(rd->list_recipes[i]->GetRecipeName());
 		btns->setTitleFontName("fonts/Marker Felt.ttf");
 		btns->setTitleColor(Color3B::BLACK);
-		btns->setScale(0.5f);
 		btns->setTitleFontSize(20.0f);
 		RecipeScrollView->addChild(btns);
 	}

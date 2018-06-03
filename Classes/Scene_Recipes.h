@@ -4,7 +4,8 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "Recipes.h"
+#include "Scene_MainMenu.h"
+#include "Recipe_Database.h"
 
 using namespace cocos2d;
 
@@ -21,7 +22,6 @@ public:
 
 	// Update Every Frame
 	virtual void update(float);
-	vector<string> list_recipes;
 	string selected_recipe;
 	int numOfRecipes;
 	
