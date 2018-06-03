@@ -53,13 +53,89 @@ bool GameScene::init()
 	//	this->addChild(titleLabel, 1);
 	//}
 
-	cookingAnim = new CookingAnimation();
-	cookingAnim->init();
+	// Freemode Background + Kitchen
+	// Background
+	auto BG_Image = Sprite::create("FreeMode/Freemode_Background.png");
+	BG_Image->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	this->addChild(BG_Image, -1);
+	// Scaling Factor to fill the screen size.
+	float rX = visibleSize.width / BG_Image->getContentSize().width;
+	float rY = visibleSize.height / BG_Image->getContentSize().height;
+	// Set Scaling Factor to BG_Image.
+	BG_Image->setScaleX(rX);
+	BG_Image->setScaleY(rY);
+
+	// Kitchen Counter
+	auto Kitchen_Counter = Sprite::create("Freemode/Freemode_KitchenCounter.png");
+	Kitchen_Counter->setPosition((visibleSize.width / 2 + origin.x), (visibleSize.height / 2 + origin.y) * 0.4f);
+	BG_Image->addChild(Kitchen_Counter);
+	// Set Scaling to Kitchen_Counter
+	Kitchen_Counter->setScaleX(BG_Image->getScaleX());
+
+	// Kitchen Spice Rack
+	auto Kitchen_SpiceRack = Sprite::create("Freemode/Freemode_SpiceShelf.png");
+	Kitchen_SpiceRack->setPosition((visibleSize.width / 2 + origin.x), (visibleSize.height / 2 + origin.y) * 2.5f);
+	BG_Image->addChild(Kitchen_SpiceRack);
+	// Set Scaling to Spice Rack
+	Kitchen_SpiceRack->setScaleY(BG_Image->getScaleY() * 2.4f);
+
+	// Kitchen Stove
+	auto Kitchen_Stove = Sprite::create("Freemode/Freemode_Stove.png");
+	Kitchen_Stove->setPosition((visibleSize.width / 2 + origin.x) * 0.6f, visibleSize.height / 2 + origin.y);
+	Kitchen_Counter->addChild(Kitchen_Stove);
+
+	// Kitchen Oven
+	auto Kitchen_Oven = Sprite::create("Freemode/Freemode_Oven.png");
+	Kitchen_Oven->setPosition((visibleSize.width / 2 + origin.x) * 0.605f, (visibleSize.height / 2 + origin.y) * 0.45f);
+	Kitchen_Counter->addChild(Kitchen_Oven);
+
+	// Chopping Board
+	auto Kitchen_ChoppingBoard = Sprite::create("Freemode/Freemode_ChoppingBoard.png");
+	Kitchen_ChoppingBoard->setPosition((visibleSize.width / 2 + origin.x) * 1.45f, (visibleSize.height / 2 + origin.y) * 1.2f);
+	Kitchen_Counter->addChild(Kitchen_ChoppingBoard);
+
+	//// Cooking Animation
+	//cookingAnim = new CookingAnimation();
+	//cookingAnim->init();
+	//cookingAnim->playAnimation(this, "WaterAboutToBoil", 1.0f / 8, Vec2(Kitchen_Stove->getPositionX(), Kitchen_Stove->getPositionY() * 0.5f), 1.f);
+
+	// Spices
+	auto Spices_Salt = Sprite::create("FreeMode/Spices_Salt.png");
+	objectContainer.push_back(std::make_pair("salt", Spices_Salt));
+	auto Spices_Pepper = Sprite::create("FreeMode/Spices_Pepper.png");
+	objectContainer.push_back(std::make_pair("pepper", Spices_Pepper));
+
+	// Scrolling Spice Shelf
+	ui::ScrollView *Scroll_SpiceShelf = ui::ScrollView::create();
+	Scroll_SpiceShelf->setDirection(ui::ScrollView::Direction::HORIZONTAL);
+	Scroll_SpiceShelf->setContentSize(Size(500, 200));
+	Scroll_SpiceShelf->setInnerContainerSize(Size(1000, 200));
+	Scroll_SpiceShelf->setBounceEnabled(true);
+	Scroll_SpiceShelf->setAnchorPoint(Vec2(0.5, 0.5));
+	Scroll_SpiceShelf->setPosition(Vec2(Kitchen_SpiceRack->getPositionX(), Kitchen_SpiceRack->getPositionY() * 0.8f));
+
+	for (auto it = objectContainer.begin(); it != objectContainer.end();)
+	{
+		for (int i = 0; i < objectContainer.size(); i++)
+		{
+			it->second->setPosition(Vec2(i * 100, Scroll_SpiceShelf->getContentSize().height * 0.3f));
+			Scroll_SpiceShelf->addChild(it->second);
+			
+			it++;
+		}
+	}
+
+	this->addChild(Scroll_SpiceShelf);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(Keyboardlistener, this);
+
+	//// Touch
+	//auto TouchListener = EventListenerTouchOneByOne::create();
+	//TouchListener->onTouchBegan = CC_CALLBACK_2(GameScene::InteractWSpices, this);
+	//_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
 
 	// Setting up camera
 	auto cam = Camera::create();
@@ -111,3 +187,24 @@ void GameScene::menuChangeScene(float time, cocos2d::Scene * scene)
 {
 	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
 }
+
+//bool GameScene::InteractWSpices(Touch * touch, Event * event)
+//{
+//	Vec2 p = touch->getLocation();
+//	Rect rect = this->getBoundingBox();
+//
+//	for (auto it = objectContainer.begin(); it != objectContainer.end(); it++)
+//	{
+//		if (it->first == "pepper")
+//		{
+//			rect = it->second->getBoundingBox();
+//			if (rect.containsPoint(p))
+//			{
+//				menuChangeScene(1.5f, MainMenu::createScene());				
+//				return true;
+//			}
+//		}
+//	}
+//
+//	return false;
+//}
