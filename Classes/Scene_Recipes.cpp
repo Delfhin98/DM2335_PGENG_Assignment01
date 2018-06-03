@@ -110,7 +110,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn1->setPositionX(pos_middle.x);
+			string temp = "Boiled Egg";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -129,7 +130,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn2->setPositionX(pos_middle.x);
+			string temp = "Mashed Potato";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -148,7 +150,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn3->setPositionX(pos_middle.x);
+			string temp = "Potato Wedges";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -167,7 +170,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn4->setPositionX(pos_middle.x);
+			string temp = "Fries";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -186,7 +190,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn5->setPositionX(pos_middle.x);
+			string temp = "Fish Fillet";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -205,7 +210,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn6->setPositionX(pos_middle.x);
+			string temp = "Roasted Chicken";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -224,7 +230,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn7->setPositionX(pos_middle.x);
+			string temp = "Simple Salad";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -243,7 +250,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn8->setPositionX(pos_middle.x);
+			string temp = "Fish Fillet Platter";
+			SetRecipeMethodText(temp);
 		}
 	});
 	++offsetCounter;
@@ -262,7 +270,8 @@ bool RecipeScene::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			btn9->setPositionX(pos_middle.x);
+			string temp = "Roasted Chicken Platter";
+			SetRecipeMethodText(temp);
 		}
 	});
 	this->addChild(RecipeScrollView);
