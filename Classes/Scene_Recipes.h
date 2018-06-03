@@ -22,10 +22,11 @@ public:
 
 	// Update Every Frame
 	virtual void update(float);
-	string selected_recipe;
+	string selected_method;
+	Label* text_methodtext;
 	int numOfRecipes;
-	
 
+	void SetRecipeMethodText(string val);
 	
 	// implement the "static create()" method manually
 	CREATE_FUNC(RecipeScene);

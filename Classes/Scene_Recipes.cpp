@@ -4,7 +4,7 @@
 #include "SimpleAudioEngine.h"
 using namespace ui;
 USING_NS_CC;
-
+RecipeDatabase* rd = RecipeDatabase::GetInstance();
 Scene* RecipeScene::createScene()
 {
 	return RecipeScene::create();
@@ -27,7 +27,7 @@ bool RecipeScene::init()
 	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	RecipeDatabase* rd = RecipeDatabase::GetInstance();
+	
 	numOfRecipes = rd->iRecNum;
 	
 	// Creating a size that is valid.
@@ -54,7 +54,8 @@ bool RecipeScene::init()
 	}
 
 	Vec2 pos_middle = visibleSize / 2;
-	//Vec2 pos_offset = Vec2(0, -50);
+	Vec2 midCoords = Director::getInstance()->getWinSize();
+	int offsetCounter = 0;
 
 	auto btns = Button::create("recipebutton.png", "recipebuttonselected.png");
 	ScrollView* RecipeScrollView = ScrollView::create();
@@ -62,22 +63,208 @@ bool RecipeScene::init()
 	RecipeScrollView->setContentSize(Size(visibleSize.width, visibleSize.height - 150));
 	RecipeScrollView->setInnerContainerSize(Size(btns->getContentSize().width + 10,
 		(btns->getContentSize().height * numOfRecipes) + (btns->getContentSize().height)));
-	//RecipeScrollView->setBackGroundImage("scrollpanel.png");
 	RecipeScrollView->setBounceEnabled(false);
 	RecipeScrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
 	RecipeScrollView->setPosition(Vec2(pos_middle.x, pos_middle.y));
+	RecipeScrollView->setSwallowTouches(true);
 	Vec2 pos_btns = (Vec2(visibleSize.width - btns->getContentSize().width / 2 + 10, RecipeScrollView->getInnerContainerSize().height - (btns->getContentSize().height/2)));
-	for (int i = 0; i < numOfRecipes; ++i)
+
+	selected_method = "";
+	text_methodtext = Label::createWithTTF(selected_method, "fonts/Marker Felt.ttf", 20);
+	text_methodtext->setPosition(pos_middle);
+	text_methodtext->setTextColor(Color4B::BLACK);
+	text_methodtext->setAlignment(TextHAlignment::LEFT);
+	this->addChild(text_methodtext, 3);
+	
+	auto btn0 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn0->setScale(0.5f);
+	btn0->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn0->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn0->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn0->setTitleFontName("fonts/Marker Felt.ttf");
+	btn0->setTitleColor(Color3B::BLACK);
+	btn0->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn0);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn0->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
 	{
-		btns = Button::create("recipebutton.png", "recipebuttonselected.png");
-		btns->setScale(0.5f);
-		btns->setPosition(Vec2(pos_btns.x,pos_btns.y - ((btns->getContentSize().height / 2) * i)));
-		btns->setTitleText(rd->list_recipes[i]->GetRecipeName());
-		btns->setTitleFontName("fonts/Marker Felt.ttf");
-		btns->setTitleColor(Color3B::BLACK);
-		btns->setTitleFontSize(20.0f);
-		RecipeScrollView->addChild(btns);
-	}
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			string temp = "Fried Egg";
+			SetRecipeMethodText(temp);
+		}
+	});
+	++offsetCounter;
+
+	auto btn1 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn1->setScale(0.5f);
+	btn1->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn1->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn1->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn1->setTitleFontName("fonts/Marker Felt.ttf");
+	btn1->setTitleColor(Color3B::BLACK);
+	btn1->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn1);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn1->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn1->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn2 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn2->setScale(0.5f);
+	btn2->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn2->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn2->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn2->setTitleFontName("fonts/Marker Felt.ttf");
+	btn2->setTitleColor(Color3B::BLACK);
+	btn2->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn2);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn2->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn2->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn3 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn3->setScale(0.5f);
+	btn3->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn3->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn3->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn3->setTitleFontName("fonts/Marker Felt.ttf");
+	btn3->setTitleColor(Color3B::BLACK);
+	btn3->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn3);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn3->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn3->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn4 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn4->setScale(0.5f);
+	btn4->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn4->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn4->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn4->setTitleFontName("fonts/Marker Felt.ttf");
+	btn4->setTitleColor(Color3B::BLACK);
+	btn4->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn4);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn4->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn4->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn5 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn5->setScale(0.5f);
+	btn5->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn5->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn5->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn5->setTitleFontName("fonts/Marker Felt.ttf");
+	btn5->setTitleColor(Color3B::BLACK);
+	btn5->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn5);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn5->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn5->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn6 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn6->setScale(0.5f);
+	btn6->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn6->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn6->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn6->setTitleFontName("fonts/Marker Felt.ttf");
+	btn6->setTitleColor(Color3B::BLACK);
+	btn6->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn6);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn6->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn6->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn7 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn7->setScale(0.5f);
+	btn7->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn7->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn7->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn7->setTitleFontName("fonts/Marker Felt.ttf");
+	btn7->setTitleColor(Color3B::BLACK);
+	btn7->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn7);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn7->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn7->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn8 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn8->setScale(0.5f);
+	btn8->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn8->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn8->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn8->setTitleFontName("fonts/Marker Felt.ttf");
+	btn8->setTitleColor(Color3B::BLACK);
+	btn8->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn8);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn8->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn8->setPositionX(pos_middle.x);
+		}
+	});
+	++offsetCounter;
+
+	auto btn9 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	btn9->setScale(0.5f);
+	btn9->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	btn9->setTitleText(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn9->setCallbackName(rd->list_recipes[offsetCounter]->GetRecipeName());
+	btn9->setTitleFontName("fonts/Marker Felt.ttf");
+	btn9->setTitleColor(Color3B::BLACK);
+	btn9->setTitleFontSize(20.0f);
+	RecipeScrollView->addChild(btn9);
+	rd->list_recipes[offsetCounter]->SetMethod();
+	btn9->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			btn9->setPositionX(pos_middle.x);
+		}
+	});
 	this->addChild(RecipeScrollView);
 
 	auto btn_back = Button::create("backbutton.png", "backbuttonselected.png");
@@ -91,6 +278,12 @@ bool RecipeScene::init()
 		}
 	});
 	this->addChild(btn_back);
+
+	auto sprite_methodpanel = Sprite::create("methodpanel.png");
+	sprite_methodpanel->setAnchorPoint(Vec2(0.5f, 0.5f));
+	sprite_methodpanel->setContentSize(visibleSize / 2);
+	sprite_methodpanel->setPosition(pos_middle);
+	this->addChild(sprite_methodpanel, 1);
 
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(RecipeScene::onKeyPressed, this);
@@ -106,7 +299,18 @@ bool RecipeScene::init()
 
 void RecipeScene::update(float dt)
 {
-	
+	text_methodtext->setString(selected_method);
+}
+
+void RecipeScene::SetRecipeMethodText(string val)
+{
+	for (int i = 0; i < numOfRecipes; ++i)
+	{
+		if (val == rd->list_recipes[i]->GetRecipeName())
+		{
+			selected_method = rd->list_recipes[i]->GetMethod();
+		}
+	}
 }
 
 void RecipeScene::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
@@ -115,6 +319,10 @@ void RecipeScene::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 	if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
 	{
 		menuCloseCallback(this);
+	}
+	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
+	{
+		
 	}
 }
 

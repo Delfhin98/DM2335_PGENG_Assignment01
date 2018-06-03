@@ -6,6 +6,8 @@
 #include "ui/CocosGUI.h"
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -26,6 +28,8 @@ public:
 
 	string GetRecipeName();
 	void SetData(string val, int element);
+	void SetMethod();
+	string GetMethod();
 private:
 	string recipe_name;
 	string main_ingredient;
@@ -35,9 +39,8 @@ private:
 	string sub_ingredient4;
 	string sub_ingredient5;
 	string sub_ingredient6;
+	string recipe_method;
 	COOKING_TYPE COOKTYPE;
-	vector<string> recipe_method;
-	int steps;
 
 	void SetCookingType(string val);
 };

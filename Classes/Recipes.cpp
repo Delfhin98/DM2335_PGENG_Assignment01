@@ -44,6 +44,9 @@ void Recipe::SetData(string val, int element)
 	case 9:
 		sub_ingredient6 = val;
 		break;
+	case 10:
+		recipe_method = val;
+		break;
 	}
 }
 
@@ -69,4 +72,25 @@ void Recipe::SetCookingType(string val)
 	{
 		COOKTYPE = CT_NONE;
 	}
+}
+
+void Recipe::SetMethod()
+{
+	string temp = recipe_method;
+	ifstream file_method;
+	istringstream ss(temp);
+
+	file_method.open("../Classes/Recipes/" + temp + ".txt");
+	recipe_method.clear();
+	while (file_method.is_open() && !file_method.eof())
+	{
+		getline(file_method, temp);
+		recipe_method.append(temp + "\n");
+	}
+	file_method.close();
+}
+
+string Recipe::GetMethod()
+{
+	return recipe_method;
 }

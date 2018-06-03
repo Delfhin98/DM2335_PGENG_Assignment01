@@ -11,12 +11,12 @@ RecipeDatabase::RecipeDatabase()
 	iRecNum = 0;
 	int iElement = 1;
 	file_recipes.open("../Classes/Recipes/recipes.txt");
-
+	
 	while (file_recipes.is_open() && !file_recipes.eof())
 	{
-		for (iElement; iElement <= 9; ++iElement)
+		for (iElement; iElement <= 10; ++iElement)
 		{
-			if (iElement == 9)
+			if (iElement == 10)
 			{
 				getline(file_recipes, temp, '\n');
 			}
