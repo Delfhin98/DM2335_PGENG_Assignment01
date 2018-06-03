@@ -2,7 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
-#include "Scene_Recipes.h"
+
 using namespace ui;
 
 USING_NS_CC;
