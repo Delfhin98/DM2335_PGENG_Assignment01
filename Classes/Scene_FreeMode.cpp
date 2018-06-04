@@ -138,6 +138,18 @@ bool GameScene::init()
 	});
 	this->addChild(buttonBack);
 
+	auto popupmen = ui::Button::create("backbutton.png", "backbuttonselected.png");
+	popupmen->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2 ) * 1.85f));
+	popupmen->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			//menuChangeScene(1.0f, MainMenu::createScene());
+			
+			openpop();
+		}
+	});
+	this->addChild(popupmen);
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -199,6 +211,21 @@ void GameScene::menuChangeScene(float time, cocos2d::Scene * scene)
 	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
 }
 
+void GameScene::openpop()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto sprite_methodpanel = Sprite::create("methodpanel.png");
+	sprite_methodpanel->setAnchorPoint(Vec2(0.5f, 0.5f));
+	sprite_methodpanel->setContentSize(visibleSize / 200);
+	sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
+	this->addChild(sprite_methodpanel, 1);
+
+	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
+	auto increasesize = ScaleTo::create(0.25f, 100);
+	//mainSprite->runAction(moveEvent);
+	sprite_methodpanel->runAction(moveEvent);
+	sprite_methodpanel->runAction(increasesize);
+}
 //bool GameScene::InteractWSpices(Touch * touch, Event * event)
 //{
 //	Vec2 p = touch->getLocation();
