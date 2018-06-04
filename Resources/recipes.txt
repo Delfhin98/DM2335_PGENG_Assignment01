@@ -1,0 +1,10 @@
+Fried Egg,lowoil,egg,none,none,none,none,none,none,friedegg
+Boiled Egg,water,egg,none,none,none,none,none,none,boiledegg
+Mashed Potato,water,potato,butter,salt,pepper,none,none,none,mashedpotato
+Potato Wedges,lowoil,potato,salt,pepper,none,none,none,none,potatowedges
+Fries,highoil,potato,salt,pepper,none,none,none,none,fries
+Fish Fillet,highoil,fish,salt,pepper,flour,none,none,none,fishfillet
+Roasted Chicken,oven,chicken,salt,pepper,butter,none,none,none,roastedchicken
+Simple Salad,none,spinach,carrot,tomato,greenbean,none,none,none,simplesalad
+Fish Fillet Platter,none,Fish Fillet,Fries,lemon,mayonnaise,none,none,none,fishfilletplatter
+Roasted Chicken Platter,none,Roasted Chicken,Fries,lemon,mayonnaise,none,none,none,roastedchickenplatter

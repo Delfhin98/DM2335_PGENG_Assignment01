@@ -126,6 +126,17 @@ bool GameScene::init()
 	}
 
 	this->addChild(Scroll_SpiceShelf);
+	
+	auto buttonBack = ui::Button::create("backbutton.png", "backbuttonselected.png");
+	buttonBack->setPosition(Vec2((visibleSize.width / 2 + origin.x) * 0.15f, (visibleSize.height / 2 + origin.y) * 1.85f));
+	buttonBack->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
+	{
+		if (type == ui::Widget::TouchEventType::ENDED)
+		{
+			menuChangeScene(1.0f, MainMenu::createScene());
+		}
+	});
+	this->addChild(buttonBack);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();

@@ -80,7 +80,7 @@ void Recipe::SetMethod()
 	ifstream file_method;
 	istringstream ss(temp);
 
-	file_method.open("../Classes/Recipes/" + temp + ".txt");
+	file_method.open(temp + ".txt");
 	recipe_method.clear();
 	while (file_method.is_open() && !file_method.eof())
 	{

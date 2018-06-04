@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
+#include "Scene_Recipes.h"
 
 using namespace ui;
 
@@ -67,7 +68,7 @@ bool MainMenu::init()
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			MainMenuChangeScene(1.0f, GameScene::createScene());
+			MainMenuChangeScene(1.0f, LoadingScene::createScene());
 		}
 	});
 	this->addChild(btn_FreeMode);

@@ -45,8 +45,8 @@ bool LoadingScene::init()
 			origin.y + visibleSize.height - titleLabel->getContentSize().height));
 
 		// Setting Title Color to be Orange + Shadow
-		titleLabel->setTextColor(Color4B::MAGENTA);
-		titleLabel->enableOutline(Color4B::RED, 2);
+		titleLabel->setTextColor(Color4B::ORANGE);
+		titleLabel->enableOutline(Color4B::WHITE, 2);
 
 		// add the label as a child to this layer
 		this->addChild(titleLabel, 1);
@@ -85,6 +85,10 @@ void LoadingScene::update(float dt)
 {
 	auto scene = GameScene::createScene();
 	auto director = Director::getInstance();
+	if (percentage == 100)
+	{
+		textLabel->setString("Press Spacebar");
+	}
 	if (hasFinished)
 	{
 		director->replaceScene(scene);
@@ -127,7 +131,7 @@ void LoadingScene::loadingTextureFinished(Texture2D * texture)
 	auto scene = GameScene::createScene();
 	currResource++;
 
-	int percentage = currResource * 100 / numOfResource;
+	percentage = currResource * 100 / numOfResource;
 	textLabel->setString(CCString::createWithFormat("%d%%", percentage)->getCString());
 	if (currResource < numOfResource)
 	{

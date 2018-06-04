@@ -10,7 +10,7 @@ RecipeDatabase::RecipeDatabase()
 	Recipe* tempRecipe = new Recipe();
 	iRecNum = 0;
 	int iElement = 1;
-	file_recipes.open("../Classes/Recipes/recipes.txt");
+	file_recipes.open("recipes.txt");
 	
 	while (file_recipes.is_open() && !file_recipes.eof())
 	{
