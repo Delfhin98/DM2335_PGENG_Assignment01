@@ -137,16 +137,23 @@ bool GameScene::init()
 		}
 	});
 	this->addChild(buttonBack);
-
+	popmenu = 42;//i set randomly so no taking my tag
 	auto popupmen = ui::Button::create("backbutton.png", "backbuttonselected.png");
 	popupmen->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2 ) * 1.85f));
 	popupmen->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
 		{
-			//menuChangeScene(1.0f, MainMenu::createScene());
-			
-			openpop();
+			if (!this->getChildByTag(popmenu))
+			{
+				openpop();
+			}
+			else
+			{
+				closepop();
+				//this->removeChildByTag(popmenu);
+
+			}
 		}
 	});
 	this->addChild(popupmen);
@@ -171,6 +178,10 @@ bool GameScene::init()
 void GameScene::update(float dt)
 {
 
+	/*if (this->getChildByTag(popmenu)->getScale <= 0)
+	{
+		
+	}*/
 }
 
 // Key Pressed
@@ -218,13 +229,44 @@ void GameScene::openpop()
 	sprite_methodpanel->setAnchorPoint(Vec2(0.5f, 0.5f));
 	sprite_methodpanel->setContentSize(visibleSize / 200);
 	sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
-	this->addChild(sprite_methodpanel, 1);
+	sprite_methodpanel->setTag(popmenu);
 
+	this->addChild(sprite_methodpanel, 1);
+	//move to center
 	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
+	//scale to menu size
 	auto increasesize = ScaleTo::create(0.25f, 100);
-	//mainSprite->runAction(moveEvent);
+	//action
 	sprite_methodpanel->runAction(moveEvent);
 	sprite_methodpanel->runAction(increasesize);
+	
+}
+
+void GameScene::closepop()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	//auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto sprite_methodpanel = this->getChildByTag(popmenu);
+	//sprite_methodpanel->setContentSize(visibleSize / 200);
+	//sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
+
+	//this->addChild(sprite_methodpanel, 1);
+	//move to center
+	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
+	//scale to menu size
+	auto increasesize = ScaleTo::create(0.25f, 0);
+	//action
+
+	sprite_methodpanel->runAction(moveEvent);
+	sprite_methodpanel->runAction(increasesize);
+	
+	
+	//DelayTime().setDuration(0.25f);
+	//DelayTime();
+	this->removeChildByTag(popmenu);
+	
+		//return true;
 }
 //bool GameScene::InteractWSpices(Touch * touch, Event * event)
 //{

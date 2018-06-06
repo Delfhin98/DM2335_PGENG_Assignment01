@@ -22,10 +22,14 @@ public:
 	void menuChangeScene(float time, cocos2d::Scene *scene);
 	virtual void onKeyPressed(EventKeyboard::KeyCode, Event*);
 	//virtual bool InteractWSpices(cocos2d::Touch*, cocos2d::Event*);
-	void openpop();
+	
 	// Update Every Frame
 	virtual void update(float);
 
+	//Raph needs this for pop menu
+	void openpop();
+	void closepop();
+	int popmenu;
 	//void InteractWSpices(EventKeyboard::KeyCode keycode, Event * event);
 
     // implement the "static create()" method manually
