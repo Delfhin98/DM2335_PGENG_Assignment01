@@ -3,6 +3,7 @@
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
 #include "Scene_Recipes.h"
+#include "SimpleAudioEngine.h"
 
 using namespace ui;
 
@@ -29,9 +30,11 @@ bool MainMenu::init()
 		return false;
 	}
 
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	audio->playBackgroundMusic("Kalimba.mp3", true);
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
 

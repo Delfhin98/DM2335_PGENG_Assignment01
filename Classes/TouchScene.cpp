@@ -58,7 +58,8 @@ bool TouchScene::init()
 		Director::getInstance()->getVisibleSize().height / 2));
 	
 	labelTouchInfo1 = Label::createWithSystemFont(" ", "Arial", 30);
-
+	labelTouchInfo2 = Label::createWithSystemFont(" ", "Arial", 30);
+	labelTouchInfo2->setPosition(Vec2(0,0));
 	labelTouchInfo1->setPosition(Vec2(
 		Director::getInstance()->getVisibleSize().width / 2,
 		Director::getInstance()->getVisibleSize().height / 2));
@@ -73,14 +74,22 @@ bool TouchScene::init()
 
 	this->addChild(labelTouchInfo);
 	this->addChild(labelTouchInfo1);
-	
+	this->addChild(labelTouchInfo2);
 	return true;
+}
+
+// Update Every Frame
+void TouchScene::update(float dt)
+{
+	auto draw1 = DrawNode::create();
+	draw->drawPoint(labelTouchInfo2->getPosition(), 10, Color4F::GREEN);
 }
 
 bool TouchScene::onTouch_Began(Touch* touch, Event* event)
 {
 	labelTouchInfo->setPosition(touch->getLocation());
 	labelTouchInfo->setString("Start");
+	labelTouchInfo2->setPosition(touch->getLocation());
 	//start->add(touch->getLocationInView());
 	
 	return true;
@@ -103,6 +112,7 @@ bool TouchScene::onTouch_Moved(Touch* touch, Event* event)
 	
 	labelTouchInfo1->setPosition(touch->getLocation());
 	labelTouchInfo1->setString("Moving");
+	labelTouchInfo2->setPosition(touch->getLocation());
 	
 	return true;
 	//cocos2d::log("touch moved");

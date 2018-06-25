@@ -230,16 +230,26 @@ void GameScene::openpop()
 	sprite_methodpanel->setContentSize(visibleSize / 200);
 	sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
 	sprite_methodpanel->setTag(popmenu);
-
+	auto sprite_methodpanel1 = Sprite::create("strawberry.png");
+	sprite_methodpanel1->setAnchorPoint(Vec2(0.5f, 0.5f));
+	sprite_methodpanel1->setContentSize(visibleSize / 200);
+	sprite_methodpanel1->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
+	sprite_methodpanel1->setTag(popmenu);
 	this->addChild(sprite_methodpanel, 1);
+	this->addChild(sprite_methodpanel1, 1);
+
 	//move to center
 	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
+	auto moveEvent1 = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
+
 	//scale to menu size
 	auto increasesize = ScaleTo::create(0.25f, 100);
+	auto increasesize1 = ScaleTo::create(0.25f, 90);
 	//action
 	sprite_methodpanel->runAction(moveEvent);
 	sprite_methodpanel->runAction(increasesize);
-	
+	sprite_methodpanel1->runAction(moveEvent1);
+	sprite_methodpanel1->runAction(increasesize1);
 }
 
 void GameScene::closepop()
@@ -265,7 +275,7 @@ void GameScene::closepop()
 	//DelayTime().setDuration(0.25f);
 	//DelayTime();
 	this->removeChildByTag(popmenu);
-	
+	this->removeChildByTag(popmenu);
 		//return true;
 }
 //bool GameScene::InteractWSpices(Touch * touch, Event * event)
