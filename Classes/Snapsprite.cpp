@@ -35,7 +35,7 @@ bool OHsnap::init()
 	//add touch event
 	//auto touchListener = EventListenerTouchOneByOne::create();
 	auto listener1 = EventListenerTouchOneByOne::create();
-	listener1->onTouchBegan = CC_CALLBACK_2(OHsnap::onTouchBegan, this);
+	listener1->onTouchBegan = CC_CALLBACK_2(OHsnap::onTouch_Began, this);
 	listener1->onTouchEnded = CC_CALLBACK_2(OHsnap::onTouch_Ended, this);
 	listener1->onTouchMoved = CC_CALLBACK_2(OHsnap::onTouch_Moved, this);
 	listener1->onTouchCancelled = CC_CALLBACK_2(OHsnap::onTouch_Cancelled, this);

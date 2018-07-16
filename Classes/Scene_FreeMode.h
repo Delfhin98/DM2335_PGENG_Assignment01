@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "CookingAnimation.h"
-
+#include "Recipe_Database.h"
 using namespace cocos2d;
 
 class GameScene : public cocos2d::Scene
@@ -31,7 +31,10 @@ public:
 	void closepop();
 	int popmenu;
 	//void InteractWSpices(EventKeyboard::KeyCode keycode, Event * event);
-
+	//string selected_method;
+	//Label* text_methodtext;
+	//int numOfRecipes;
+	//void SetRecipeMethodText(string val);
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
 };

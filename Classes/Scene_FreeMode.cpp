@@ -2,9 +2,9 @@
 #include "ui\CocosGUI.h"
 #include "SimpleAudioEngine.h"
 #include "Scene_MainMenu.h"
-
+//using namespace ui;
 USING_NS_CC;
-
+//RecipeDatabase* RD = RecipeDatabase::GetInstance();
 Scene* GameScene::createScene()
 {
     return GameScene::create();
@@ -29,6 +29,7 @@ bool GameScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	//numOfRecipes = RD->iRecNum;
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
 
@@ -93,18 +94,38 @@ bool GameScene::init()
 	auto Kitchen_ChoppingBoard = Sprite::create("Freemode/Freemode_ChoppingBoard.png");
 	Kitchen_ChoppingBoard->setPosition((visibleSize.width / 2 + origin.x) * 1.45f, (visibleSize.height / 2 + origin.y) * 1.2f);
 	Kitchen_Counter->addChild(Kitchen_ChoppingBoard);
-
 	//// Cooking Animation
 	//cookingAnim = new CookingAnimation();
 	//cookingAnim->init();
-	//cookingAnim->playAnimation(this, "WaterAboutToBoil", 1.0f / 8, Vec2(Kitchen_Stove->getPositionX(), Kitchen_Stove->getPositionY() * 0.5f), 1.f);
+	//cookingAnim->playAnimation(this, "WaterAboutToBoil", 1.0f / 8, Vec2(Kitchen_Stove->getPositionX(), Kitchen_Stove->getPositionY() * 0.75f), 1.f);
 
 	// Spices
 	auto Spices_Salt = Sprite::create("FreeMode/Spices_Salt.png");
 	objectContainer.push_back(std::make_pair("salt", Spices_Salt));
 	auto Spices_Pepper = Sprite::create("FreeMode/Spices_Pepper.png");
 	objectContainer.push_back(std::make_pair("pepper", Spices_Pepper));
+	
+	auto Spices_Salt1 = Sprite::create("FreeMode/Spices_Salt.png");
+	objectContainer.push_back(std::make_pair("salt1", Spices_Salt1));
+	auto Spices_Pepper1 = Sprite::create("FreeMode/Spices_Pepper.png");
+	objectContainer.push_back(std::make_pair("pepper1", Spices_Pepper1));
 
+	auto Spices_Salt2 = Sprite::create("FreeMode/Spices_Salt.png");
+	objectContainer.push_back(std::make_pair("salt2", Spices_Salt2));
+	auto Spices_Pepper2 = Sprite::create("FreeMode/Spices_Pepper.png");
+	objectContainer.push_back(std::make_pair("pepper2", Spices_Pepper2));
+	auto Spices_Salt3 = Sprite::create("FreeMode/Spices_Salt.png");
+	objectContainer.push_back(std::make_pair("salt3", Spices_Salt3));
+	auto Spices_Pepper3 = Sprite::create("FreeMode/Spices_Pepper.png");
+	objectContainer.push_back(std::make_pair("pepper3", Spices_Pepper3));
+
+	auto Spices_Salt4 = Sprite::create("FreeMode/Spices_Salt.png");
+	objectContainer.push_back(std::make_pair("salt4", Spices_Salt4));
+	auto Spices_Pepper4 = Sprite::create("FreeMode/Spices_Pepper.png");
+	objectContainer.push_back(std::make_pair("pepper4", Spices_Pepper4));
+
+	//i assume both are same png for offset in the slider( Raph )-----------------------------------------------------------------------------------------<<<<<<<<<<<<<<<<<<<
+	auto Spice_offset = Spices_Salt->getContentSize().width * 0.5;
 	// Scrolling Spice Shelf
 	ui::ScrollView *Scroll_SpiceShelf = ui::ScrollView::create();
 	Scroll_SpiceShelf->setDirection(ui::ScrollView::Direction::HORIZONTAL);
@@ -118,7 +139,7 @@ bool GameScene::init()
 	{
 		for (int i = 0; i < objectContainer.size(); i++)
 		{
-			it->second->setPosition(Vec2(i * 100, Scroll_SpiceShelf->getContentSize().height * 0.3f));
+			it->second->setPosition(Vec2(i * 100 + Spice_offset, Scroll_SpiceShelf->getContentSize().height * 0.3f));
 			Scroll_SpiceShelf->addChild(it->second);
 			
 			it++;
@@ -157,6 +178,77 @@ bool GameScene::init()
 		}
 	});
 	this->addChild(popupmen);
+
+	//Vec2 pos_middle = visibleSize / 2;
+	//Vec2 midCoords = Director::getInstance()->getWinSize();
+	//int offsetCounter = 0;
+
+	//auto btns = Button::create("recipebutton.png", "recipebuttonselected.png");
+	//ScrollView* RecipeScrollView = ScrollView::create();
+	//RecipeScrollView->setDirection(ScrollView::Direction::VERTICAL);
+	//RecipeScrollView->setContentSize(Size(visibleSize.width, visibleSize.height - 150));
+	//RecipeScrollView->setInnerContainerSize(Size(btns->getContentSize().width + 10,
+	//	(btns->getContentSize().height * numOfRecipes) + (btns->getContentSize().height)));
+	//RecipeScrollView->setBounceEnabled(false);
+	//RecipeScrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
+	//RecipeScrollView->setPosition(Vec2(pos_middle.x, pos_middle.y));
+	//RecipeScrollView->setSwallowTouches(true);
+	//Vec2 pos_btns = (Vec2(visibleSize.width - btns->getContentSize().width / 2 + 10, RecipeScrollView->getInnerContainerSize().height - (btns->getContentSize().height / 2)));
+
+	//selected_method = "";
+	//text_methodtext = Label::createWithTTF(selected_method, "fonts/Marker Felt.ttf", 20);
+	//text_methodtext->setPosition(pos_middle);
+	//text_methodtext->setTextColor(Color4B::BLACK);
+	//text_methodtext->setAlignment(TextHAlignment::LEFT);
+	//this->addChild(text_methodtext, 3);
+	////auto Default_buttnScale = 0.5f;
+
+	//auto btn0 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	//btn0->setScale(0.5f);
+	//btn0->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	//btn0->setTitleText(RD->list_recipes[offsetCounter]->GetRecipeName());
+	//btn0->setCallbackName(RD->list_recipes[offsetCounter]->GetRecipeName());
+	//btn0->setTitleFontName("fonts/Marker Felt.ttf");
+	//btn0->setTitleColor(Color3B::BLACK);
+	//btn0->setTitleFontSize(20.0f);
+	//RecipeScrollView->addChild(btn0);
+	//RD->list_recipes[offsetCounter]->SetMethod();
+	//btn0->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	//{
+	//	if (type == ui::Widget::TouchEventType::ENDED)
+	//	{
+	//		string temp = "Fried Egg";
+	//		SetRecipeMethodText(temp);
+	//	}
+	//});
+	//++offsetCounter;
+
+	//auto btn1 = Button::create("recipebutton.png", "recipebuttonselected.png");
+	//btn1->setScale(0.5f);
+	//btn1->setPosition(Vec2(pos_btns.x, pos_btns.y - ((btns->getContentSize().height / 2) * offsetCounter)));
+	//btn1->setTitleText(RD->list_recipes[offsetCounter]->GetRecipeName());
+	//btn1->setCallbackName(RD->list_recipes[offsetCounter]->GetRecipeName());
+	//btn1->setTitleFontName("fonts/Marker Felt.ttf");
+	//btn1->setTitleColor(Color3B::BLACK);
+	//btn1->setTitleFontSize(20.0f);
+	//RecipeScrollView->addChild(btn1);
+	//RD->list_recipes[offsetCounter]->SetMethod();
+	//btn1->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
+	//{
+	//	if (type == ui::Widget::TouchEventType::ENDED)
+	//	{
+	//		string temp = "Boiled Egg";
+	//		SetRecipeMethodText(temp);
+	//	}
+	//});
+	//this->addChild(RecipeScrollView);
+
+	//auto sprite_methodpanel = Sprite::create("methodpanel.png");
+	//sprite_methodpanel->setAnchorPoint(Vec2(0.5f, 0.5f));
+	//sprite_methodpanel->setContentSize(visibleSize / 2);
+	//sprite_methodpanel->setPosition(pos_middle);
+	//this->addChild(sprite_methodpanel, 1);
+
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -175,6 +267,16 @@ bool GameScene::init()
 	return true;
 }
 
+//void GameScene::SetRecipeMethodText(string val)
+//{
+//	for (int i = 0; i < numOfRecipes; ++i)
+//	{
+//		if (val == RD->list_recipes[i]->GetRecipeName())
+//		{
+//			selected_method = RD->list_recipes[i]->GetMethod();
+//		}
+//	}
+//}
 void GameScene::update(float dt)
 {
 

@@ -7,7 +7,7 @@ USING_NS_CC;
 
 Scene* TestingScene::createScene()
 {
-    return TestingScene::create();
+	return TestingScene::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
