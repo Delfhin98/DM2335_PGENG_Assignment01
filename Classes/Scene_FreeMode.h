@@ -11,7 +11,13 @@ class GameScene : public cocos2d::Scene
 {
 	CookingAnimation* cookingAnim;
 	std::vector <std::pair<const char*, Sprite*>> objectContainer;
-
+	Size visibleSize;
+	Vec2 origin;
+	MenuItemImage* Kitchen_ChoppingBoard;
+	MenuItemImage* Popup_ChoppingBoard;
+	Label* Label_ChoppingBoard_Counter;
+	int iCuts;
+	bool isBoardInUse;
 public:
     static cocos2d::Scene* createScene();
 
@@ -30,6 +36,12 @@ public:
 	void openpop();
 	void closepop();
 	int popmenu;
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	bool onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+	void CuttingBoardEvent(Ref *pSender);
+	void PopupChoppingBoardEvent(Ref *pSender);
+	void PopupIngredient(Ref *pSender);
 	//void InteractWSpices(EventKeyboard::KeyCode keycode, Event * event);
 	//string selected_method;
 	//Label* text_methodtext;
