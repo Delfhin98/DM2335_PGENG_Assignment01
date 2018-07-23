@@ -9,6 +9,7 @@ using namespace cocos2d;
 
 class GameScene : public cocos2d::Scene
 {
+private:
 	CookingAnimation* cookingAnim;
 	std::vector <std::pair<const char*, Sprite*>> objectContainer;
 	Size visibleSize;
@@ -16,6 +17,7 @@ class GameScene : public cocos2d::Scene
 	MenuItemImage* Kitchen_ChoppingBoard;
 	MenuItemImage* Popup_ChoppingBoard;
 	Label* Label_ChoppingBoard_Counter;
+	Sprite* SelectedIngredient;
 	int iCuts;
 	bool isBoardInUse;
 public:
