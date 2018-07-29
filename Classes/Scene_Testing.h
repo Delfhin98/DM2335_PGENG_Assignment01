@@ -2,6 +2,7 @@
 #define _SCENE_TESTING_H
 
 #include "cocos2d.h"
+#include "Recipe_Database.h"
 using namespace cocos2d;
 
 class SceneTesting : public cocos2d::Scene
@@ -9,6 +10,8 @@ class SceneTesting : public cocos2d::Scene
 	std::vector <std::pair<std::pair<const char*, const char*>, Sprite*>> objectContainer;
 
 	Sprite* popUp;
+	string recipeDetailsText;
+	Label* recipeDetailsLabel;
 	bool isPopUpOpen;
 
 public:
@@ -25,6 +28,9 @@ public:
 	bool onTestTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	bool onTestTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTestTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+
+	// Touch for Button
+	void onTestButtonPressed(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType eventType);
 
 	// Update Every Frame
 	virtual void update(float);

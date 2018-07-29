@@ -2,6 +2,7 @@
 #include "ui\CocosGUI.h"
 
 USING_NS_CC;
+RecipeDatabase* recipeData = RecipeDatabase::GetInstance();
 
 Scene* SceneTesting::createScene()
 {
@@ -45,21 +46,56 @@ bool SceneTesting::init()
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
 
-	// Common Pop Up Menu
-	popUp = Sprite::create("Freemode/PopUp_CommonMenu.png");
-	popUp->setPosition(playingSize * 0.5f);
-	popUp->setScale(0.f);
-	isPopUpOpen = false;
-
-	//_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener->clone(), popUp);
-	objectContainer.push_back(std::make_pair(std::make_pair("POPUP", "POPUP_MENU"), popUp));
-	this->addChild(popUp);
-
 	// Recipe Drop Down Button
 	Sprite* DropDown_RecipeButton = Sprite::create("Freemode/DropDown_RecipeButton.png");
 	DropDown_RecipeButton->setPosition(Vec2(playingSize.width * 0.2f, playingSize.height * 0.8f));
 	objectContainer.push_back(std::make_pair(std::make_pair("BUTTON", "BUTTON_RECIPE"), DropDown_RecipeButton));
 	this->addChild(DropDown_RecipeButton);
+
+	// Common Pop Up Menu
+	popUp = Sprite::create("Freemode/PopUp_CommonMenu.png");
+	popUp->setPosition(playingSize * 0.5f);
+	popUp->setScale(0.f);
+	popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
+	isPopUpOpen = false;
+
+	objectContainer.push_back(std::make_pair(std::make_pair("POPUP", "POPUP_MENU"), popUp));
+	this->addChild(popUp);
+
+	// Scrolling Recipe Buttons
+	ui::ScrollView* recipeButtons = ui::ScrollView::create();
+	recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
+	recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
+	recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * recipeData->iRecNum));
+	recipeButtons->setBounceEnabled(true);
+	recipeButtons->setSwallowTouches(true);
+
+	// Putting Recipe Buttons into ScrollView
+	for (int i = 0; i < recipeData->iRecNum; i++)
+	{
+		ui::Button* button = ui::Button::create("recipebutton.png");
+		button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
+		button->setTitleText(recipeData->list_recipes[i]->GetRecipeName());
+		button->setTitleFontName("fonts/Marker Felt.ttf");
+		button->setTitleColor(Color3B::BLACK);
+		button->setTitleFontSize(20.0f);
+		button->setAnchorPoint(Vec2(0, 0));
+		button->setName(recipeData->list_recipes[i]->GetRecipeName());
+		
+		recipeData->list_recipes[i]->SetMethod();
+		button->addTouchEventListener(CC_CALLBACK_2(SceneTesting::onTestButtonPressed, this));
+		recipeButtons->addChild(button);
+	}
+
+	popUp->addChild(recipeButtons);
+
+	// Text for Recipe Details
+	recipeDetailsText = "";
+	recipeDetailsLabel = Label::createWithTTF(recipeDetailsText, "fonts/Marker Felt.ttf", 15);
+	recipeDetailsLabel->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.75f));
+	recipeDetailsLabel->setTextColor(Color4B::BLACK);
+	recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
+	popUp->addChild(recipeDetailsLabel);
 
 	// Setting up camera
 	auto cam = Camera::create();
@@ -71,7 +107,7 @@ bool SceneTesting::init()
 
 void SceneTesting::update(float dt)
 {
-
+	recipeDetailsLabel->setString(recipeDetailsText);
 }
 
 // Key Pressed
@@ -119,7 +155,6 @@ bool SceneTesting::onTestTouchBegan(cocos2d::Touch * touch, cocos2d::Event * eve
 		}
 	}
 
-
 	// If POP UP MENU IS OPEN
 	if (isPopUpOpen)
 	{
@@ -139,6 +174,28 @@ bool SceneTesting::onTestTouchBegan(cocos2d::Touch * touch, cocos2d::Event * eve
 	}
 
 	return false;
+}
+
+void SceneTesting::onTestButtonPressed(cocos2d::Ref * sender, cocos2d::ui::Widget::TouchEventType eventType)
+{
+	string buttonName;
+	string recipeName;
+
+	if (ui::Widget::TouchEventType::BEGAN == eventType)
+	{
+		buttonName = ((ui::Button*) sender)->getName();
+
+		for (int i = 0; i < recipeData->iRecNum; i++)
+		{
+			recipeName = recipeData->list_recipes[i]->GetRecipeName();
+
+			// If Selected Button is inside the Recipe Database
+			if (buttonName == recipeName)
+			{
+				recipeDetailsText = recipeData->list_recipes[i]->GetMethod();
+			}
+		}
+	}
 }
 
 // Touch Moved
@@ -177,17 +234,12 @@ void SceneTesting::menuChangeScene(float time, cocos2d::Scene * scene)
 void SceneTesting::openPopUpMenu(const char * objectID)
 {
 	isPopUpOpen = true;
-	popUp->setScale(1.f);
-
-	// Touched Recipe Button
-	if (objectID == "BUTTON_RECIPE")
-	{
-
-	}
+	popUp->setScale(1.2f);
 }
 
 void SceneTesting::closePopUpMenu()
 {
 	isPopUpOpen = false;
+	recipeDetailsText = "";
 	popUp->setScale(0.f);
 }
