@@ -7,12 +7,22 @@ using namespace cocos2d;
 
 class SceneTesting : public cocos2d::Scene
 {
-	std::vector <std::pair<std::pair<const char*, const char*>, Sprite*>> objectContainer;
+	std::vector <std::pair< const char*, Sprite*>> objectContainer;
 
 	Sprite* popUp;
+	Sprite* recipePaper;
+
 	string recipeDetailsText;
+	string recipeOnPaperText;
+
 	Label* recipeDetailsLabel;
+	Label* recipeOnPaperLabel;
+
+	int chosenRecipe;
+
 	bool isPopUpOpen;
+	bool isRecipePaperShown;
+	bool isPinShown;
 
 public:
 	static cocos2d::Scene* createScene();

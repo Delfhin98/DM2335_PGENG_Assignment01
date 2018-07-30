@@ -46,10 +46,32 @@ bool SceneTesting::init()
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
 
+	// Spice Rack
+	auto rack = Sprite::create("Freemode/Freemode_SpiceShelf.png");
+	rack->setPosition(Vec2(playingSize.width * 0.5f, playingSize.height));
+	this->addChild(rack);
+
+	// Recipe Paper Sprite
+	recipePaper = Sprite::create("Freemode/recipePaper.png");
+	recipePaper->setPosition(Vec2(playingSize.width * 0.5f, playingSize.height * 0.82f));
+	recipePaper->setScale(0.f);
+	isRecipePaperShown = false;
+
+	objectContainer.push_back(std::make_pair("RECIPE_PAPER", recipePaper));
+	this->addChild(recipePaper);
+
+	// Details on Recipe Paper Sprite
+	recipeOnPaperText = "";
+	recipeOnPaperLabel = Label::createWithTTF(recipeOnPaperText, "fonts/Marker Felt.ttf", 15);
+	recipeOnPaperLabel->setPosition(Vec2(recipePaper->getContentSize().width * 0.5f, recipePaper->getContentSize().height * 0.5f));
+	recipeOnPaperLabel->setTextColor(Color4B::BLACK);
+	recipeOnPaperLabel->setAlignment(TextHAlignment::LEFT);
+	recipePaper->addChild(recipeOnPaperLabel);
+
 	// Recipe Drop Down Button
 	Sprite* DropDown_RecipeButton = Sprite::create("Freemode/DropDown_RecipeButton.png");
-	DropDown_RecipeButton->setPosition(Vec2(playingSize.width * 0.2f, playingSize.height * 0.8f));
-	objectContainer.push_back(std::make_pair(std::make_pair("BUTTON", "BUTTON_RECIPE"), DropDown_RecipeButton));
+	DropDown_RecipeButton->setPosition(Vec2(playingSize.width * 0.1f, playingSize.height * 0.8f));
+	objectContainer.push_back(std::make_pair("BUTTON_RECIPE", DropDown_RecipeButton));
 	this->addChild(DropDown_RecipeButton);
 
 	// Common Pop Up Menu
@@ -59,7 +81,7 @@ bool SceneTesting::init()
 	popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
 	isPopUpOpen = false;
 
-	objectContainer.push_back(std::make_pair(std::make_pair("POPUP", "POPUP_MENU"), popUp));
+	objectContainer.push_back(std::make_pair("POPUP_MENU", popUp));
 	this->addChild(popUp);
 
 	// Scrolling Recipe Buttons
@@ -97,6 +119,18 @@ bool SceneTesting::init()
 	recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
 	popUp->addChild(recipeDetailsLabel);
 
+	// Sprite to 'Pin' up Selected Recipe
+	Sprite* recipePin = Sprite::create("Freemode/recipePin.png");
+	recipePin->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.2f));
+	recipePin->setScale(0.f);
+	isPinShown = false;
+
+	objectContainer.push_back(make_pair("POPUP_RECIPE_PIN", recipePin));
+	popUp->addChild(recipePin);
+
+	// In order to display the chosen recipe
+	chosenRecipe = 0;
+
 	// Setting up camera
 	auto cam = Camera::create();
 	cam->setPosition(this->getPosition());
@@ -108,6 +142,22 @@ bool SceneTesting::init()
 void SceneTesting::update(float dt)
 {
 	recipeDetailsLabel->setString(recipeDetailsText);
+
+	for (auto it : objectContainer)
+	{
+		if (it.first == "POPUP_RECIPE_PIN" && isPinShown)
+		{
+			// Show the Pin
+			it.second->setScale(1.f);
+		}
+
+		if (it.first == "RECIPE_PAPER" && isRecipePaperShown)
+		{
+			// Show the Paper
+			it.second->setScale(1.f);
+		}
+	}
+	
 }
 
 // Key Pressed
@@ -129,27 +179,45 @@ bool SceneTesting::onTestTouchBegan(cocos2d::Touch * touch, cocos2d::Event * eve
 
 	for (auto it = objectContainer.begin(); it != objectContainer.end(); it++)
 	{
-		// If 'it' is BUTTON
-		if (it->first.first == "BUTTON")
+		// If POP UP is CLOSED
+		if (!isPopUpOpen)
 		{
-			// If POP UP is CLOSED
-			if (!isPopUpOpen)
+			rect = it->second->getBoundingBox();
+
+			// If TOUCH is INSIDE 'BUTTON' SPRITE BOUNDING BOX
+			if (rect.containsPoint(p))
 			{
-				rect = it->second->getBoundingBox();
-
-				// If TOUCH is INSIDE 'BUTTON' SPRITE BOUNDING BOX
-				if (rect.containsPoint(p))
+				// Check what am I touching
+				if (it->first == "BUTTON_RECIPE")
 				{
-					CCLOG("TOUCHING BUTTON TYPE OBJECT");
+					CCLOG("TOUCHING RECIPE BUTTON");
+					openPopUpMenu(it->first);
 
-					// Check what BUTTON am I touching
-					if (it->first.second == "BUTTON_RECIPE")
-					{
-						CCLOG("TOUCHING RECIPE BUTTON");
-						openPopUpMenu(it->first.second);
+					return true;
+				}
+			}
+		}
+		// If POP UP MENU IS OPEN
+		else
+		{
+			pInNodeSpace = it->second->getParent()->convertToNodeSpace(p);
+			rect = it->second->getBoundingBox();
 
-						return true;
-					}
+			if (rect.containsPoint(pInNodeSpace))
+			{
+				// Check what am I touching
+				if (it->first == "POPUP_RECIPE_PIN")
+				{
+					CCLOG("TOUCHING PIN");
+					
+					// Show Recipe Paper
+					isRecipePaperShown = true;
+					// Set Text
+					recipeOnPaperLabel->setString(recipeData->list_recipes[chosenRecipe]->GetRecipeName());
+					// Close Pop Up Immediately
+					closePopUpMenu();
+
+					return true;
 				}
 			}
 		}
@@ -193,6 +261,8 @@ void SceneTesting::onTestButtonPressed(cocos2d::Ref * sender, cocos2d::ui::Widge
 			if (buttonName == recipeName)
 			{
 				recipeDetailsText = recipeData->list_recipes[i]->GetMethod();
+				chosenRecipe = i;
+				isPinShown = true;
 			}
 		}
 	}
