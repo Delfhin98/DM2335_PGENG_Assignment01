@@ -11,7 +11,6 @@ class GameScene : public cocos2d::Scene
 {
 private:
 	CookingAnimation* cookingAnim;
-	std::vector <std::pair<const char*, Sprite*>> objectContainer;
 	Size visibleSize;
 	Vec2 origin;
 	MenuItemImage* Kitchen_ChoppingBoard;
@@ -20,6 +19,14 @@ private:
 	Sprite* SelectedIngredient;
 	int iCuts;
 	bool isBoardInUse;
+
+	// Showing Recipe on Gamescene
+	std::vector <std::pair<const char*, Sprite*>> objectContainer;
+	Sprite* popUp;
+	string recipeDetailsText;
+	Label* recipeDetailsLabel;
+	bool isPopUpOpen;
+
 public:
     static cocos2d::Scene* createScene();
 
@@ -50,6 +57,13 @@ public:
 	//int numOfRecipes;
 	//void SetRecipeMethodText(string val);
     // implement the "static create()" method manually
+
+	//// Showing Recipe on Gamescene - Liang Li
+	void openPopUpMenu(const char * objectID);
+	void closePopUpMenu();
+	// Touch for Button Type
+	void onButtonPressed(Ref* sender, ui::Widget::TouchEventType eventType);
+
     CREATE_FUNC(GameScene);
 };
 

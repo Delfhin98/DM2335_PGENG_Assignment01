@@ -3,8 +3,10 @@
 #include "SimpleAudioEngine.h"
 #include "Scene_MainMenu.h"
 //using namespace ui;
+
 USING_NS_CC;
-//RecipeDatabase* RD = RecipeDatabase::GetInstance();
+RecipeDatabase* recipeDatabase = RecipeDatabase::GetInstance();
+
 Scene* GameScene::createScene()
 {
     return GameScene::create();
@@ -108,9 +110,6 @@ bool GameScene::init()
 
 	//this->addChild(Kitchen_ChoppingBoard);
 	
-	
-	
-
 	//// Cooking Animation
 	//cookingAnim = new CookingAnimation();
 	//cookingAnim->init();
@@ -218,6 +217,58 @@ bool GameScene::init()
 
 	this->addChild(menuitemholder);
 
+	//// Showing Recipe on GameScene - Liang Li
+	// Recipe Button
+	Sprite* recipeButton = Sprite::create("Freemode/DropDown_RecipeButton.png");
+	recipeButton->setPosition(Vec2(playingSize.width * 0.05f, playingSize.height * 0.8f));
+	objectContainer.push_back(make_pair("RECIPE_BUTTON", recipeButton));
+	this->addChild(recipeButton);
+
+	// Common Pop Up Menu
+	popUp = Sprite::create("Freemode/PopUp_CommonMenu.png");
+	popUp->setPosition(playingSize * 0.5f);
+	popUp->setScale(0.f);
+	popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
+	isPopUpOpen = false;
+
+	objectContainer.push_back(make_pair("POPUP", popUp));
+	this->addChild(popUp);
+
+	// Scrolling Recipe Buttons
+	ui::ScrollView* recipeButtons = ui::ScrollView::create();
+	recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
+	recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
+	recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * recipeDatabase->iRecNum));
+	recipeButtons->setBounceEnabled(true);
+	recipeButtons->setSwallowTouches(true);
+
+	// Putting Recipe Buttons into ScrollView
+	for (int i = 0; i < recipeDatabase->iRecNum; i++)
+	{
+		ui::Button* button = ui::Button::create("recipebutton.png");
+		button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
+		button->setTitleText(recipeDatabase->list_recipes[i]->GetRecipeName());
+		button->setTitleFontName("fonts/Marker Felt.ttf");
+		button->setTitleColor(Color3B::BLACK);
+		button->setTitleFontSize(20.0f);
+		button->setAnchorPoint(Vec2(0, 0));
+		button->setName(recipeDatabase->list_recipes[i]->GetRecipeName());
+
+		recipeDatabase->list_recipes[i]->SetMethod();
+		button->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+		recipeButtons->addChild(button);
+	}
+
+	popUp->addChild(recipeButtons);
+
+	// Text for Recipe Details 
+	recipeDetailsText = "";
+	recipeDetailsLabel = Label::createWithTTF(recipeDetailsText, "fonts/Marker Felt.ttf", 15);
+	recipeDetailsLabel->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.75f));
+	recipeDetailsLabel->setTextColor(Color4B::BLACK);
+	recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
+	popUp->addChild(recipeDetailsLabel);
+
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -235,10 +286,12 @@ bool GameScene::init()
 	this->scheduleUpdate();
 	return true;
 }
+
 bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Vec2 touchPos = touch->getLocation();
 	//Vec2 touchInNodeSpace = (0, 0);
+	
 	if (isBoardInUse)
 	{
 		Rect boardRect = Popup_ChoppingBoard->getBoundingBox();
@@ -254,6 +307,48 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 		}
 	}
 
+	//// Showing Recipe on Gamescene - Liang Li
+	Rect rect = this->getBoundingBox();
+
+	for (auto it = objectContainer.begin(); it != objectContainer.end(); it++)
+	{
+		// If PopUp is CLOSED
+		if (!isPopUpOpen)
+		{
+			rect = it->second->getBoundingBox();
+
+			if (it->first == "RECIPE_BUTTON")
+			{
+				// If User touches Recipe Button
+				if (rect.containsPoint(touchPos))
+				{
+					openPopUpMenu(it->first);
+					return true;
+				}
+			}
+		}
+	}
+
+	// If POP UP MENU IS OPEN - Liang Li
+	if (isPopUpOpen)
+	{
+		Rect popUpRect = popUp->getBoundingBox();
+
+		// If user TOUCHES POP UP
+		if (popUpRect.containsPoint(touchPos))
+		{
+			// NOTHING HAPPENS
+			return true;
+		}
+
+		// If user TOUCHES OUTSIDE OF POP UP
+		if (!popUpRect.containsPoint(touchPos))
+		{
+			closePopUpMenu();
+			return true;
+		}
+	}
+
 	return false;
 }
 bool GameScene::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
@@ -262,8 +357,8 @@ bool GameScene::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 }
 void GameScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
-
 }
+
 void GameScene::CuttingBoardEvent(Ref *pSender)
 {
 	if(isBoardInUse == false)
@@ -276,6 +371,7 @@ void GameScene::CuttingBoardEvent(Ref *pSender)
 	SelectedIngredient->setName("potato");
 	this->addChild(SelectedIngredient);
 }
+
 void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 {
 	++iCuts;
@@ -295,6 +391,7 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 	//Kitchen_ChoppingBoard->setPositionX((visibleSize.width / 2 + origin.x) * 1.45f);
 	//Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
 }
+
 //void GameScene::SetRecipeMethodText(string val)
 //{
 //	for (int i = 0; i < numOfRecipes; ++i)
@@ -308,7 +405,7 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 void GameScene::update(float dt)
 {
 	Label_ChoppingBoard_Counter->setString(to_string(iCuts));
-	
+	recipeDetailsLabel->setString(recipeDetailsText);
 }
 
 // Key Pressed
@@ -405,6 +502,45 @@ void GameScene::closepop()
 	this->removeChildByTag(popmenu);
 		//return true;
 }
+
+//// Showing Recipe on GameScene - Liang Li
+void GameScene::openPopUpMenu(const char * objectID)
+{
+	isPopUpOpen = true;
+	popUp->setScale(1.2f);
+
+}
+
+void GameScene::closePopUpMenu()
+{
+	isPopUpOpen = false;
+	recipeDetailsText = "";
+	popUp->setScale(0.f);
+}
+
+// Button Pressed - Liang Li
+void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventType)
+{
+	string buttonName;
+	string recipeName;
+
+	if (ui::Widget::TouchEventType::BEGAN == eventType)
+	{
+		buttonName = ((ui::Button*) sender)->getName();
+
+		for (int i = 0; i < recipeDatabase->iRecNum; i++)
+		{
+			recipeName = recipeDatabase->list_recipes[i]->GetRecipeName();
+
+			// If Selected Button is inside the Recipe Database
+			if (buttonName == recipeName)
+			{
+				recipeDetailsText = recipeDatabase->list_recipes[i]->GetMethod();
+			}
+		}
+	}
+}
+
 //bool GameScene::InteractWSpices(Touch * touch, Event * event)
 //{
 //	Vec2 p = touch->getLocation();
