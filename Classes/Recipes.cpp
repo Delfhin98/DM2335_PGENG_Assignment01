@@ -21,67 +21,109 @@ void Recipe::SetData(string val, int element)
 		recipe_name = val;
 		break;
 	case 2:
-		SetCookingType(val);
+		SetCookingType(stoi(val));
 		break;
 	case 3:
-		main_ingredient = val;
-		break;
 	case 4:
-		sub_ingredient1 = val;
-		break;
 	case 5:
-		sub_ingredient2 = val;
-		break;
 	case 6:
-		sub_ingredient3 = val;
+		SetIngredientType(element, stoi(val));
 		break;
 	case 7:
-		sub_ingredient4 = val;
-		break;
-	case 8:
-		sub_ingredient5 = val;
-		break;
-	case 9:
-		sub_ingredient6 = val;
-		break;
-	case 10:
-		recipe_method = val;
+		recipe_filename = val;
 		break;
 	}
 }
 
-void Recipe::SetCookingType(string val)
+void Recipe::SetCookingType(int val)
 {
-	if (val == "water")
+	switch (val)
 	{
+	case 0:
 		COOKTYPE = CT_WATER;
-	}
-	else if (val == "lowoil")
-	{
-		COOKTYPE = CT_LOW_OIL;
-	}
-	else if (val == "highoil")
-	{
-		COOKTYPE = CT_HIGH_OIL;
-	}
-	else if (val == "oven")
-	{
+		break;
+	case 1:
+		COOKTYPE = CT_OIL;
+		break;
+	case 2:
 		COOKTYPE = CT_OVEN;
-	}
-	else
-	{
+		break;
+	case 3:
 		COOKTYPE = CT_NONE;
+		break;
+	}
+}
+
+void Recipe::SetIngredientType(int counter, int val)
+{
+	INGREDIENT_TYPE temp = ING_NONE;
+	switch (val)
+	{
+	case 0:
+		temp = ING_EGG;
+		break;
+	case 1:
+		temp = ING_POTATO;
+		break;
+	case 2:
+		temp = ING_FISH;
+		break;
+	case 3:
+		temp = ING_CHICKEN;
+		break;
+	case 4:
+		temp = ING_SPINACH;
+		break;
+	case 5:
+		temp = ING_CARROT;
+		break;
+	case 6:
+		temp = ING_TOMATO;
+		break;
+	case 7:
+		temp = ING_BUTTER;
+		break;
+	case 8:
+		temp = ING_SALT;
+		break;
+	case 9:
+		temp = ING_PEPPER;
+		break;
+	case 10:
+		temp = ING_FRIES;
+		break;
+	case 11:
+		temp = ING_FISHFILLET;
+		break;
+	case 12:
+		temp = ING_ROASTEDCHICKEN;
+		break;
+	}
+	switch (counter)
+	{
+	case 3:
+		main_ingredient = temp;
+		break;
+	case 4:
+		sub_ingredient1 = temp;
+		break;
+	case 5:
+		sub_ingredient2 = temp;
+		break;
+	case 6:
+		sub_ingredient3 = temp;
+		break;
 	}
 }
 
 void Recipe::SetMethod()
 {
-	string temp = recipe_method;
+	recipe_method = "";
+	string temp = recipe_filename;
 	ifstream file_method;
 	istringstream ss(temp);
 
 	file_method.open(temp + ".txt");
-	recipe_method.clear();
 	while (file_method.is_open() && !file_method.eof())
 	{
 		getline(file_method, temp);

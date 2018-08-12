@@ -14,9 +14,9 @@ RecipeDatabase::RecipeDatabase()
 	
 	while (file_recipes.is_open() && !file_recipes.eof())
 	{
-		for (iElement; iElement <= 10; ++iElement)
+		for (iElement; iElement <= 7; ++iElement)
 		{
-			if (iElement == 10)
+			if (iElement == 7)
 			{
 				getline(file_recipes, temp, '\n');
 			}

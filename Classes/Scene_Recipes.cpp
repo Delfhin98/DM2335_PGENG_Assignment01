@@ -1,5 +1,4 @@
 #include "Scene_Recipes.h"
-
 #include "ui/CocosGUI.h"
 #include "SimpleAudioEngine.h"
 using namespace ui;
@@ -318,6 +317,7 @@ void RecipeScene::SetRecipeMethodText(string val)
 		if (val == rd->list_recipes[i]->GetRecipeName())
 		{
 			selected_method = rd->list_recipes[i]->GetMethod();
+			break;
 		}
 	}
 }

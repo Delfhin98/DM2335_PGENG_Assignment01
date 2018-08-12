@@ -1,9 +1,7 @@
 #include "Scene_MainMenu.h"
-#include "SimpleAudioEngine.h"
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
 #include "Scene_Recipes.h"
-#include "SimpleAudioEngine.h"
 
 using namespace ui;
 
@@ -29,17 +27,14 @@ bool MainMenu::init()
 	{
 		return false;
 	}
-
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadBackgroundMusic("bensound_thelounge.mp3");
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	audio->playBackgroundMusic("Kalimba.mp3", true);
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
-
-	// Adding a label shows "Main Menu"
-	// Create and initialize a label
+	
 	auto titleLabel = Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", visibleSize.width * 0.1f);
 	if (titleLabel == nullptr)
 	{
@@ -89,6 +84,7 @@ bool MainMenu::init()
 			MainMenuChangeScene(2.0f, RecipeScene::createScene());
 		}
 	});
+	
 	this->addChild(btn_RecipeDatabase);
 	pos_buttons += pos_offset;
 
@@ -105,6 +101,8 @@ bool MainMenu::init()
 		}
 	});
 	this->addChild(btn_Quit);
+
+	audio->playBackgroundMusic("bensound_thelounge.mp3", true);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
@@ -130,7 +128,7 @@ void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 	// Testing Purposes
 	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
-		
+
 	}
 
 	// Closing the Application

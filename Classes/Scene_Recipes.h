@@ -25,7 +25,6 @@ public:
 	string selected_method;
 	Label* text_methodtext;
 	int numOfRecipes;
-
 	void SetRecipeMethodText(string val);
 	
 	// implement the "static create()" method manually

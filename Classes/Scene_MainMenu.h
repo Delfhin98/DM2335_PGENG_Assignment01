@@ -4,8 +4,10 @@
 #include "cocos2d.h"
 #include "ui\CocosGUI.h"
 #include "Recipe_Database.h"
+#include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
+using namespace CocosDenshion;
 
 class MainMenu : public cocos2d::Scene
 {

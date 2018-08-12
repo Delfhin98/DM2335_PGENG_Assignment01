@@ -443,7 +443,7 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 void GameScene::menuChangeScene(float time, cocos2d::Scene * scene)
 {
-	CCDirector::getInstance()->replaceScene(TransitionJumpZoom::create(time, scene));
+	CCDirector::getInstance()->replaceScene(TransitionFade::create(time, scene));
 }
 
 void GameScene::openpop()

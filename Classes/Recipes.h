@@ -13,11 +13,27 @@ using namespace std;
 
 enum COOKING_TYPE
 {
-	CT_NONE = 0,
-	CT_WATER,
-	CT_LOW_OIL,
-	CT_HIGH_OIL,
-	CT_OVEN
+	CT_WATER = 0,
+	CT_OIL,
+	CT_OVEN,
+	CT_NONE
+};
+enum INGREDIENT_TYPE
+{
+	ING_EGG = 0,
+	ING_POTATO,
+	ING_FISH,
+	ING_CHICKEN,
+	ING_SPINACH,
+	ING_CARROT,
+	ING_TOMATO,
+	ING_BUTTER,
+	ING_SALT,
+	ING_PEPPER,
+	ING_FRIES,
+	ING_FISHFILLET,
+	ING_ROASTEDCHICKEN,
+	ING_NONE
 };
 
 class Recipe
@@ -32,17 +48,17 @@ public:
 	string GetMethod();
 private:
 	string recipe_name;
-	string main_ingredient;
-	string sub_ingredient1;
-	string sub_ingredient2;
-	string sub_ingredient3;
-	string sub_ingredient4;
-	string sub_ingredient5;
-	string sub_ingredient6;
+	INGREDIENT_TYPE main_ingredient;
+	INGREDIENT_TYPE sub_ingredient1;
+	INGREDIENT_TYPE sub_ingredient2;
+	INGREDIENT_TYPE sub_ingredient3;
+	string recipe_filename;
 	string recipe_method;
 	COOKING_TYPE COOKTYPE;
+	
 
-	void SetCookingType(string val);
+	void SetCookingType(int val);
+	void SetIngredientType(int counter, int val);
 };
 
 #endif // _MAINMENU_SCENE_H_

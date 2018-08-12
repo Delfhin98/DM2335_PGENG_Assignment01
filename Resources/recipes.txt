@@ -1,10 +1,10 @@
-Fried Egg,lowoil,egg,none,none,none,none,none,none,friedegg
-Boiled Egg,water,egg,none,none,none,none,none,none,boiledegg
-Mashed Potato,water,potato,butter,salt,pepper,none,none,none,mashedpotato
-Potato Wedges,lowoil,potato,salt,pepper,none,none,none,none,potatowedges
-Fries,highoil,potato,salt,pepper,none,none,none,none,fries
-Fish Fillet,highoil,fish,salt,pepper,flour,none,none,none,fishfillet
-Roasted Chicken,oven,chicken,salt,pepper,butter,none,none,none,roastedchicken
-Simple Salad,none,spinach,carrot,tomato,greenbean,none,none,none,simplesalad
-Fish Fillet Platter,none,Fish Fillet,Fries,lemon,mayonnaise,none,none,none,fishfilletplatter
-Roasted Chicken Platter,none,Roasted Chicken,Fries,lemon,mayonnaise,none,none,none,roastedchickenplatter
+Fried Egg,1,0,13,13,13,friedegg
+Boiled Egg,0,0,13,13,13,boiledegg
+Mashed Potato,0,1,7,8,9,mashedpotato
+Potato Wedges,1,1,8,9,13,potatowedges
+Fries,1,1,8,9,13,fries
+Fish Fillet,1,2,8,9,10,fishfillet
+Roasted Chicken,2,3,8,9,7,roastedchicken
+Simple Salad,3,4,5,6,13,simplesalad
+Fish Fillet Platter,3,11,10,13,13,fishfilletplatter
+Roasted Chicken Platter,3,12,10,13,13,roastedchickenplatter
