@@ -541,6 +541,67 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 	}
 }
 
+//INVENTORY
+bool GameScene::CHECKstore()
+{
+	if (A.storage.size() == A.countsize)
+	{
+		return true;//if the storage has no duplicates with the item thats being added
+	}
+	else {
+
+		return false;
+	}
+}
+void GameScene::addstore(pair<string, int> lel)
+{
+	A.storage.insert(lel);
+	A.countsize++;
+	if (!CHECKstore())
+	{
+		pair<string, int> temp;
+		int temp2;
+		temp = lel;
+		temp2 = A.storage.find(lel.first)->second;
+		//cout << "THIS IS MY TEMP   " << temp.first << " : " << temp.second << endl;
+		
+		temp.second = temp.second + temp2;
+		//cout << "this is temp now " << temp.second << endl;
+		A.storage.erase(temp.first);
+		A.storage.insert(temp);
+
+		A.countsize--;
+	}
+}
+void GameScene::addstoreB(pair<string, int> lelB)
+{
+	A.storageB.insert(lelB);
+	A.Bcountsize++;
+}
+void GameScene::add_both(pair<string, int> lOl)
+{
+	addstore(lOl);
+	addstoreB(lOl);
+}
+void GameScene::PRINT()
+{
+	cout << "MAP 1" << endl;
+	for (auto& x : A.storage)
+	{
+
+		cout << x.first << " : " << x.second << '\n';
+	}
+
+	cout << "MAP 2" << endl;
+	for (auto&x : A.storageB)
+	{
+		cout << x.first << " : " << x.second << '\n';
+	}
+
+
+	cout << "-----------------------------------------------------------------------------------" << endl;
+}
+
 //bool GameScene::InteractWSpices(Touch * touch, Event * event)
 //{
 //	Vec2 p = touch->getLocation();
