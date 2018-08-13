@@ -544,7 +544,7 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 //INVENTORY
 bool GameScene::CHECKstore()
 {
-	if (A.storage.size() == A.countsize)
+	if (storage.size() == countsize)
 	{
 		return true;//if the storage has no duplicates with the item thats being added
 	}
@@ -555,28 +555,28 @@ bool GameScene::CHECKstore()
 }
 void GameScene::addstore(pair<string, int> lel)
 {
-	A.storage.insert(lel);
-	A.countsize++;
+	storage.insert(lel);
+	countsize++;
 	if (!CHECKstore())
 	{
 		pair<string, int> temp;
 		int temp2;
 		temp = lel;
-		temp2 = A.storage.find(lel.first)->second;
+		temp2 = storage.find(lel.first)->second;
 		//cout << "THIS IS MY TEMP   " << temp.first << " : " << temp.second << endl;
 		
 		temp.second = temp.second + temp2;
 		//cout << "this is temp now " << temp.second << endl;
-		A.storage.erase(temp.first);
-		A.storage.insert(temp);
+		storage.erase(temp.first);
+		storage.insert(temp);
 
-		A.countsize--;
+		countsize--;
 	}
 }
 void GameScene::addstoreB(pair<string, int> lelB)
 {
-	A.storageB.insert(lelB);
-	A.Bcountsize++;
+	storageB.insert(lelB);
+	Bcountsize++;
 }
 void GameScene::add_both(pair<string, int> lOl)
 {
@@ -586,14 +586,14 @@ void GameScene::add_both(pair<string, int> lOl)
 void GameScene::PRINT()
 {
 	cout << "MAP 1" << endl;
-	for (auto& x : A.storage)
+	for (auto& x : storage)
 	{
 
 		cout << x.first << " : " << x.second << '\n';
 	}
 
 	cout << "MAP 2" << endl;
-	for (auto&x : A.storageB)
+	for (auto&x : storageB)
 	{
 		cout << x.first << " : " << x.second << '\n';
 	}
