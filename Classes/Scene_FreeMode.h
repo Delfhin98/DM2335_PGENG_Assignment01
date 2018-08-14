@@ -73,6 +73,7 @@ public:
 	void SetFinalProduct(Sprite* _sprite);
 	Sprite* GetFinalProduct();
 
+	void CheckIfPlayerFinished(string _name);
 
 	// Touch for Button Type
 	void onButtonPressed(Ref* sender, ui::Widget::TouchEventType eventType);

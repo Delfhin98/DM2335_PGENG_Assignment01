@@ -329,7 +329,7 @@ bool GameScene::init()
 	// Pop Up
 	productPopUp = Sprite::create("FreeMode/PopUpMenu.png");
 	productPopUp->setPosition(Vec2(screenWidth * 0.5f, screenHeight * 0.5f));
-	productPopUp->setScale(1.f);
+	productPopUp->setScale(0.f);
 	productPopUp->setAnchorPoint(Vec2(0.5f, 0.5f));
 	this->addChild(productPopUp);
 
@@ -574,15 +574,6 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 void GameScene::update(float dt)
 {
 	Label_ChoppingBoard_Counter->setString(StringUtils::toString(iCuts));
-
-	if (isProductFinish)
-	{
-		ShowFinalProduct(productContainer.at(0));
-	}
-	else
-	{
-		CloseFinalProduct(productContainer.at(0));
-	}
 }
 
 // Key Pressed
@@ -659,6 +650,7 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 			if (isBoardFull)
 			{
 				SelectedIngredient = mainItem->getName();
+				CheckIfPlayerFinished(SelectedIngredient);
 				isBoardFull = false;
 				this->removeChild(mainItem);
 			}
@@ -704,4 +696,27 @@ void GameScene::SetFinalProduct(Sprite * _sprite)
 Sprite * GameScene::GetFinalProduct()
 {
 	return finalProduct;
+}
+
+void GameScene::CheckIfPlayerFinished(string _name)
+{
+	for (auto it : productContainer)
+	{
+		// POTATO DISHES
+		if (_name == "FreeMode/Potato_Sliced.png")
+		{
+			if (it->getName() == "PRODUCT_FRIES")
+				ShowFinalProduct(it);
+
+			CCLOG("FRENCH FRIES");
+		}
+		if (_name == "FreeMode/Potato_Diced.png")
+		{
+			CCLOG("WEDGES");
+		}
+		if (_name == "FreeMode/Potato_Mashed.png")
+		{
+			CCLOG("MASHED POTATO");
+		}
+	}
 }
