@@ -418,21 +418,25 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 		if (choppingBoardSpriteNames[0] == "")
 			break;
 		mainItem->setTexture(choppingBoardSpriteNames[0]);
+		mainItem->setName(choppingBoardSpriteNames[0]);
 		break;
 	case 10:
 		if (choppingBoardSpriteNames[1] == "")
 			break;
 		mainItem->setTexture(choppingBoardSpriteNames[1]);
+		mainItem->setName(choppingBoardSpriteNames[1]);
 		break;
 	case 15:
 		if (choppingBoardSpriteNames[2] == "")
 			break;
 		mainItem->setTexture(choppingBoardSpriteNames[2]);
+		mainItem->setName(choppingBoardSpriteNames[2]);
 		break;
 	case 20:
 		if (choppingBoardSpriteNames[3] == "")
 			break;
 		mainItem->setTexture(choppingBoardSpriteNames[3]);
+		mainItem->setName(choppingBoardSpriteNames[3]);
 		break;
 	}
 	
