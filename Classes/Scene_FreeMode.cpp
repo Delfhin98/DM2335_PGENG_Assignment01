@@ -89,7 +89,7 @@ bool GameScene::init()
     float Counter_X = screenWidth / Kitchen_Counter->getContentSize().width;
     float Counter_Y = screenHeight / Kitchen_Counter->getContentSize().height;
     // Set Scale
-    Kitchen_Counter->setScaleX(Counter_X);
+    Kitchen_Counter->setScale(Counter_X, Counter_Y * 0.8f);
     this->addChild(Kitchen_Counter);
 
     // Kitchen Spice Rack
@@ -255,6 +255,88 @@ bool GameScene::init()
     Ingredient_RoastedChicken->setScale(RoastedChicken_X * 0.05f, RoastedChicken_Y * 0.1f);
     this->addChild(Ingredient_RoastedChicken);
 
+    // Kitchen Chopping Board
+    Kitchen_ChoppingBoard = MenuItemImage::create("FreeMode/ChoppingBoard.png", "FreeMode/ChoppingBoard.png", CC_CALLBACK_1(GameScene::CuttingBoardEvent, this));
+    Kitchen_ChoppingBoard->setPosition(Vec2(visibleSize.width * 0.75f, visibleSize.height * 0.35f));
+    // Scale Image
+    float Board_X = screenWidth / Kitchen_ChoppingBoard->getContentSize().width;
+    float Board_Y = screenHeight / Kitchen_ChoppingBoard->getContentSize().height;
+    // Set Scale
+    Kitchen_ChoppingBoard->setScale(Board_X * 0.3f, Board_Y * 0.2f);
+    Kitchen_ChoppingBoard->setName("Kitchen_ChoppingBoard");
+
+	// Chopping Board Pop Up Menu
+    Popup_ChoppingBoard = MenuItemImage::create("FreeMode/PopUpChopBoard.png", "FreeMode/PopUpChopBoard.png", CC_CALLBACK_1(GameScene::PopupChoppingBoardEvent, this));
+    Popup_ChoppingBoard->setPosition(visibleSize.width + Popup_ChoppingBoard->getContentSize().width, visibleSize.height / 2 + origin.y);
+	Popup_ChoppingBoard->setScale(0.65f);
+    Popup_ChoppingBoard->setLocalZOrder(2);
+    Popup_ChoppingBoard->setName("Popup_ChoppingBoard");
+
+	// Chopping Board Touch Counter Text
+    Label_ChoppingBoard_Counter = Label::createWithTTF("", "fonts/Marker Felt.ttf", visibleSize.width * 0.04f);
+    Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
+    Label_ChoppingBoard_Counter->setTextColor(Color4B::BLACK);
+    Label_ChoppingBoard_Counter->setLocalZOrder(3);
+    this->addChild(Label_ChoppingBoard_Counter);
+
+    auto menuitemholder = Menu::create(Kitchen_ChoppingBoard, Popup_ChoppingBoard, NULL);
+    menuitemholder->setPosition(origin);
+    menuitemholder->setName("menuitemholder");
+
+    this->addChild(menuitemholder);
+
+    //// Showing Recipe on GameScene - Liang Li
+    // Recipe Button
+    Sprite* recipeButton = Sprite::create("FreeMode/RecipeButton.png");
+    recipeButton->setPosition(Vec2(playingSize.width * 0.05f, playingSize.height * 0.8f));
+    objectContainer.push_back(make_pair("RECIPE_BUTTON", recipeButton));
+    this->addChild(recipeButton);
+
+    // Common Pop Up Menu
+    popUp = Sprite::create("FreeMode/PopUpMenu.png");
+    popUp->setPosition(playingSize * 0.5f);
+    popUp->setScale(0.f);
+    popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
+    isPopUpOpen = false;
+
+    objectContainer.push_back(make_pair("POPUP", popUp));
+    this->addChild(popUp);
+
+    // Scrolling Recipe Buttons
+    ui::ScrollView* recipeButtons = ui::ScrollView::create();
+    recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
+    recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
+    recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * recipeDatabase->iRecNum));
+    recipeButtons->setBounceEnabled(true);
+    recipeButtons->setSwallowTouches(true);
+
+    // Putting Recipe Buttons into ScrollView
+    for (int i = 0; i < recipeDatabase->iRecNum; i++)
+    {
+        ui::Button* button = ui::Button::create("recipebutton.png");
+        button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
+        button->setTitleText(recipeDatabase->list_recipes[i]->GetRecipeName());
+        button->setTitleFontName("fonts/Marker Felt.ttf");
+        button->setTitleColor(Color3B::BLACK);
+        button->setTitleFontSize(20.0f);
+        button->setAnchorPoint(Vec2(0, 0));
+        button->setName(recipeDatabase->list_recipes[i]->GetRecipeName());
+
+        recipeDatabase->list_recipes[i]->SetMethod();
+        button->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+        recipeButtons->addChild(button);
+    }
+
+    popUp->addChild(recipeButtons);
+
+    // Text for Recipe Details
+    recipeDetailsText = "";
+    recipeDetailsLabel = Label::createWithTTF(recipeDetailsText, "fonts/Marker Felt.ttf", 15);
+    recipeDetailsLabel->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.75f));
+    recipeDetailsLabel->setTextColor(Color4B::BLACK);
+    recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
+    popUp->addChild(recipeDetailsLabel);
+
 	//// Cooking Animation
 	//cookingAnim = new CookingAnimation();
 	//cookingAnim->init();
@@ -330,79 +412,6 @@ bool GameScene::init()
 	this->addChild(popupmen);
     */
 
-	Kitchen_ChoppingBoard = MenuItemImage::create("FreeMode/ChoppingBoard.png", "FreeMode/ChoppingBoard.png", CC_CALLBACK_1(GameScene::CuttingBoardEvent, this));
-	Kitchen_ChoppingBoard->setPosition((visibleSize.width / 2 + origin.x) * 1.45f, (visibleSize.height / 2 + origin.y) * 0.5f);
-	Kitchen_ChoppingBoard->setName("Kitchen_ChoppingBoard");
-
-	Popup_ChoppingBoard = MenuItemImage::create("FreeMode/PopUpChopBoard.png", "FreeMode/PopUpChopBoard.png", CC_CALLBACK_1(GameScene::PopupChoppingBoardEvent, this));
-	Popup_ChoppingBoard->setScale(0.65f);
-	Popup_ChoppingBoard->setPosition(visibleSize.width + Popup_ChoppingBoard->getContentSize().width, visibleSize.height / 2 + origin.y);
-	Popup_ChoppingBoard->setLocalZOrder(2);
-	Popup_ChoppingBoard->setName("Popup_ChoppingBoard");
-	
-	Label_ChoppingBoard_Counter = Label::createWithTTF("", "fonts/Marker Felt.ttf", visibleSize.width * 0.04f);
-	Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
-	Label_ChoppingBoard_Counter->setTextColor(Color4B::BLACK);
-	Label_ChoppingBoard_Counter->setLocalZOrder(3);
-	this->addChild(Label_ChoppingBoard_Counter);
-
-	auto menuitemholder = Menu::create(Kitchen_ChoppingBoard, Popup_ChoppingBoard, NULL);
-	menuitemholder->setPosition(origin);
-	menuitemholder->setName("menuitemholder");
-
-	this->addChild(menuitemholder);
-
-	//// Showing Recipe on GameScene - Liang Li
-	// Recipe Button
-	Sprite* recipeButton = Sprite::create("FreeMode/RecipeButton.png");
-	recipeButton->setPosition(Vec2(playingSize.width * 0.05f, playingSize.height * 0.8f));
-	objectContainer.push_back(make_pair("RECIPE_BUTTON", recipeButton));
-	this->addChild(recipeButton);
-
-	// Common Pop Up Menu
-	popUp = Sprite::create("FreeMode/PopUpMenu.png");
-	popUp->setPosition(playingSize * 0.5f);
-	popUp->setScale(0.f);
-	popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
-	isPopUpOpen = false;
-
-	objectContainer.push_back(make_pair("POPUP", popUp));
-	this->addChild(popUp);
-
-	// Scrolling Recipe Buttons
-	ui::ScrollView* recipeButtons = ui::ScrollView::create();
-	recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
-	recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
-	recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * recipeDatabase->iRecNum));
-	recipeButtons->setBounceEnabled(true);
-	recipeButtons->setSwallowTouches(true);
-
-	// Putting Recipe Buttons into ScrollView
-	for (int i = 0; i < recipeDatabase->iRecNum; i++)
-	{
-		ui::Button* button = ui::Button::create("recipebutton.png");
-		button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
-		button->setTitleText(recipeDatabase->list_recipes[i]->GetRecipeName());
-		button->setTitleFontName("fonts/Marker Felt.ttf");
-		button->setTitleColor(Color3B::BLACK);
-		button->setTitleFontSize(20.0f);
-		button->setAnchorPoint(Vec2(0, 0));
-		button->setName(recipeDatabase->list_recipes[i]->GetRecipeName());
-
-		recipeDatabase->list_recipes[i]->SetMethod();
-		button->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
-		recipeButtons->addChild(button);
-	}
-
-	popUp->addChild(recipeButtons);
-
-	// Text for Recipe Details 
-	recipeDetailsText = "";
-	recipeDetailsLabel = Label::createWithTTF(recipeDetailsText, "fonts/Marker Felt.ttf", 15);
-	recipeDetailsLabel->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.75f));
-	recipeDetailsLabel->setTextColor(Color4B::BLACK);
-	recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
-	popUp->addChild(recipeDetailsLabel);
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
@@ -434,7 +443,7 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 		{
 			iCuts = 0;
 			Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
-			Kitchen_ChoppingBoard->setPositionX((visibleSize.width / 2 + origin.x) * 1.45f);
+			Kitchen_ChoppingBoard->setPositionX(visibleSize.width * 0.75f);
 			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
 			this->removeChildByName("potato");
 			isBoardInUse = false;
