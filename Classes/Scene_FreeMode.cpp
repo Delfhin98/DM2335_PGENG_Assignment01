@@ -35,6 +35,11 @@ bool GameScene::init()
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
 	isBoardInUse = false;
+	isBoardFull = false;
+	choppingBoardSpriteNames.resize(4);
+	for (int i = 0; i < 4; ++i)
+		choppingBoardSpriteNames[i] = "";
+
 	iCuts = 0;
 
 	auto TouchListener = EventListenerTouchOneByOne::create();
@@ -45,27 +50,6 @@ bool GameScene::init()
 	TouchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
-
-	// Adding a label shows "Main Menu"
-	// Create and initialize a label
-	//auto titleLabel = Label::createWithTTF("Game Scene", "fonts/Marker Felt.ttf", visibleSize.width * 0.1f);
-	//if (titleLabel == nullptr)
-	//{
-	//	problemLoading("'fonts/Marker Felt.ttf'");
-	//}
-	//else
-	//{
-	//	// Position at the Center of the screen
-	//	titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-	//		origin.y + visibleSize.height - titleLabel->getContentSize().height));
-
-	//	// Setting Title Color to be Orange + Shadow
-	//	titleLabel->setTextColor(Color4B::ORANGE);
-	//	titleLabel->enableOutline(Color4B::WHITE, 2);
-
-	//	// add the label as a child to this layer
-	//	this->addChild(titleLabel, 1);
-	//}
 
     float screenWidth = visibleSize.width;
     float screenHeight = visibleSize.height;
@@ -91,18 +75,6 @@ bool GameScene::init()
     // Set Scale
     Kitchen_Counter->setScale(Counter_X, Counter_Y * 0.8f);
     this->addChild(Kitchen_Counter);
-
-    // Kitchen Spice Rack
-    /*
-	auto Kitchen_SpiceRack = Sprite::create("FreeMode/SpiceShelf.png");
-	Kitchen_SpiceRack->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.9f));
-    // Scale Image
-    float SpiceRack_X = screenWidth / Kitchen_SpiceRack->getContentSize().width;
-    float SpiceRack_Y = screenHeight / Kitchen_SpiceRack->getContentSize().height;
-    // Set Scale
-    Kitchen_SpiceRack->setScale(SpiceRack_Y * 0.2f ,SpiceRack_X * 0.75f);
-    this->addChild(Kitchen_SpiceRack);
-    */
 
 	// Kitchen Stove
 	auto Kitchen_Stove = Sprite::create("FreeMode/Stove.png");
@@ -140,17 +112,18 @@ bool GameScene::init()
 	this->addChild(Ingredient_Egg);
 
 	// Potato
-	auto Ingredient_Potato = Sprite::create("FreeMode/SpicesSalt.png");
+	auto Ingredient_Potato = ui::Button::create("FreeMode/Potato_Raw.png", "FreeMode/Potato_Raw.png");
 	Ingredient_Potato->setPosition(Vec2(screenWidth * 0.21f, screenHeight * 0.9f));
 	// Scale Image
 	float Potato_X = screenWidth / Ingredient_Potato->getContentSize().width;
 	float Potato_Y = screenHeight / Ingredient_Potato->getContentSize().height;
 	// Set Name
-	Ingredient_Potato->setName("POTATO");
+	Ingredient_Potato->setName("ICON_POTATO");
 	// Set Scale
 	Ingredient_Potato->setScale(Potato_X * 0.05f, Potato_Y * 0.1f);
+	Ingredient_Potato->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
 
-	ingredientContainer.push_back(Ingredient_Potato);
+	//ingredientContainer.push_back(Ingredient_Potato);
 	this->addChild(Ingredient_Potato);
 
 	// Fish
@@ -312,6 +285,7 @@ bool GameScene::init()
     // Set Scale
     Kitchen_ChoppingBoard->setScale(Board_X * 0.3f, Board_Y * 0.2f);
     Kitchen_ChoppingBoard->setName("Kitchen_ChoppingBoard");
+	SelectedIngredient = "";
 
 	// Chopping Board Pop Up Menu
     Popup_ChoppingBoard = MenuItemImage::create("FreeMode/PopUpChopBoard.png", "FreeMode/PopUpChopBoard.png", CC_CALLBACK_1(GameScene::PopupChoppingBoardEvent, this));
@@ -340,92 +314,6 @@ bool GameScene::init()
     objectContainer.push_back(make_pair("RECIPE_BUTTON", recipeButton));
     this->addChild(recipeButton);
 
-    // Common Pop Up Menu
-    popUp = Sprite::create("FreeMode/PopUpMenu.png");
-    popUp->setPosition(playingSize * 0.5f);
-    popUp->setScale(0.f);
-    popUp->setAnchorPoint(Vec2(0.5f, 0.5f));
-    isPopUpOpen = false;
-
-    objectContainer.push_back(make_pair("POPUP", popUp));
-    this->addChild(popUp);
-
-    // Scrolling Recipe Buttons
-    ui::ScrollView* recipeButtons = ui::ScrollView::create();
-    recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
-    recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
-    recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * rd->iRecNum));
-    recipeButtons->setBounceEnabled(true);
-    recipeButtons->setSwallowTouches(true);
-
-    // Putting Recipe Buttons into ScrollView
-    for (int i = 0; i < rd->iRecNum; i++)
-    {
-        ui::Button* button = ui::Button::create("recipebutton.png");
-        button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
-        button->setTitleText(rd->list_recipes[i]->GetRecipeName());
-        button->setTitleFontName("fonts/Marker Felt.ttf");
-        button->setTitleColor(Color3B::BLACK);
-        button->setTitleFontSize(20.0f);
-        button->setAnchorPoint(Vec2(0, 0));
-        button->setName(rd->list_recipes[i]->GetRecipeName());
-
-        rd->list_recipes[i]->SetMethod();
-        button->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
-        recipeButtons->addChild(button);
-    }
-
-    popUp->addChild(recipeButtons);
-
-    // Text for Recipe Details
-    recipeDetailsText = "";
-    recipeDetailsLabel = Label::createWithTTF(recipeDetailsText, "fonts/Marker Felt.ttf", 15);
-    recipeDetailsLabel->setPosition(Vec2(popUp->getPosition().x * 0.75f, popUp->getPosition().y * 0.75f));
-    recipeDetailsLabel->setTextColor(Color4B::BLACK);
-    recipeDetailsLabel->setAlignment(TextHAlignment::LEFT);
-    popUp->addChild(recipeDetailsLabel);
-
-	//// Cooking Animation
-	//cookingAnim = new CookingAnimation();
-	//cookingAnim->init();
-	//cookingAnim->playAnimation(this, "WaterAboutToBoil", 1.0f / 8, Vec2(Kitchen_Stove->getPositionX(), Kitchen_Stove->getPositionY() * 0.75f), 1.f);
-
-    /*
-	// Spices
-	auto Spices_Salt = Sprite::create("FreeMode/SpicesSalt.png");
-	objectContainer.push_back(std::make_pair("salt", Spices_Salt));
-	auto Spices_Pepper = Sprite::create("FreeMode/SpicesPepper.png");
-	objectContainer.push_back(std::make_pair("pepper", Spices_Pepper));
-
-	//i assume both are same png for offset in the slider( Raph )-----------------------------------------------------------------------------------------<<<<<<<<<<<<<<<<<<<
-	//auto Spice_offset = Spices_Salt->getContentSize().width * 0.5;
-
-    //float testingX = Kitchen_SpiceRack->getContentSize().width * 0.9f;
-    //float testingY = Kitchen_SpiceRack->getContentSize().height * 2.f;
-
-    // Scrolling Spice Shelf
-	ui::ScrollView *Scroll_SpiceShelf = ui::ScrollView::create();
-	Scroll_SpiceShelf->setDirection(ui::ScrollView::Direction::HORIZONTAL);
-	Scroll_SpiceShelf->setContentSize(Size(testingX, testingY));
-	Scroll_SpiceShelf->setInnerContainerSize(Size(1000, 200));
-	Scroll_SpiceShelf->setBounceEnabled(true);
-	Scroll_SpiceShelf->setAnchorPoint(Vec2(0.5, 0.5));
-	Scroll_SpiceShelf->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
-
-	for (auto it = objectContainer.begin(); it != objectContainer.end();)
-	{
-		for (int i = 0; i < objectContainer.size(); i++)
-		{
-			it->second->setPosition(Vec2(i * 100 + Spice_offset, Scroll_SpiceShelf->getContentSize().height * 0.3f));
-			Scroll_SpiceShelf->addChild(it->second);
-			
-			it++;
-		}
-	}
-
-	this->addChild(Scroll_SpiceShelf);
-    */
-
 	auto buttonBack = ui::Button::create("backbutton.png", "backbuttonselected.png");
 	buttonBack->setPosition(Vec2((visibleSize.width / 2 + origin.x) * 0.15f, (visibleSize.height / 2 + origin.y) * 1.85f));
 	buttonBack->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
@@ -436,30 +324,6 @@ bool GameScene::init()
 		}
 	});
 	this->addChild(buttonBack);
-
-    /*
-	popmenu = 42;//i set randomly so no taking my tag
-	auto popupmen = ui::Button::create("backbutton.png", "backbuttonselected.png");
-	popupmen->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2 ) * 1.85f));
-	popupmen->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
-		{
-			if (!this->getChildByTag(popmenu))
-			{
-				openpop();
-			}
-			else
-			{
-				closepop();
-				//this->removeChildByTag(popmenu);
-
-			}
-		}
-	});
-	this->addChild(popupmen);
-    */
-
 
 	// KeyPressed
 	auto Keyboardlistener = EventListenerKeyboard::create();
@@ -487,91 +351,16 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 
 	if (isBoardInUse)
 	{
-		Rect boardRect = Popup_ChoppingBoard->getBoundingBox();
-		if (!boardRect.containsPoint(touchPos))
+		rect = Popup_ChoppingBoard->getBoundingBox();
+		if (!rect.containsPoint(touchPos))
 		{
-			iCuts = 0;
 			Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 			Kitchen_ChoppingBoard->setPositionX(visibleSize.width * 0.75f);
 			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
-			this->removeChildByName("potato");
-			isBoardInUse = false;
-			return true;
-		}
-	}
-
-	// Grabbing Ingredient
-	for (auto it : ingredientContainer)
-	{
-		// Get Sprite Bounding Box
-		rect = it->getBoundingBox();
-
-		// If Player touches an Ingredient
-		if (rect.containsPoint(touchPos))
-		{
-
-		}
-	}
-
-	//for (auto it = ingredientContainer.begin(); it != ingredientContainer.end(); it++)
-	//{
-
-	//	if (!isBoardInUse)
-	//	{
-	//		//// Get Sprite Bounding Box
-	//		//rect = it->second->getBoundingBox();
-	//		//
-	//		//if (rect.containsPoint(touchPos))
-	//		//{
-	//		//	// Check what TYPE is Player TOUCHING
-	//		//	if (it->first == "BOARD")
-	//		//	{
-	//		//		// Send the Sprite to SetGrabIngredientFunction
-	//		//	}
-	//		//}
-
-	//		// Get Sprite Bounding Box
-	//	}
-	//}
-
-
-
-	//// Showing Recipe on Gamescene - Liang Li
-	for (auto it = objectContainer.begin(); it != objectContainer.end(); it++)
-	{
-		// If PopUp is CLOSED
-		if (!isPopUpOpen)
-		{
-			rect = it->second->getBoundingBox();
-
-			if (it->first == "RECIPE_BUTTON")
-			{
-				// If User touches Recipe Button
-				if (rect.containsPoint(touchPos))
-				{
-					openPopUpMenu(it->first);
-					return true;
-				}
-			}
-		}
-	}
-
-	// If POP UP MENU IS OPEN - Liang Li
-	if (isPopUpOpen)
-	{
-		Rect popUpRect = popUp->getBoundingBox();
-
-		// If user TOUCHES POP UP
-		if (popUpRect.containsPoint(touchPos))
-		{
-			// NOTHING HAPPENS
-			return true;
-		}
-
-		// If user TOUCHES OUTSIDE OF POP UP
-		if (!popUpRect.containsPoint(touchPos))
-		{
-			closePopUpMenu();
+			if (isBoardFull)
+				mainItem->setPosition(Popup_ChoppingBoard->getPosition());
+			/*this->removeChildByName("potato");
+			isBoardInUse = false;*/
 			return true;
 		}
 	}
@@ -593,46 +382,69 @@ void GameScene::CuttingBoardEvent(Ref *pSender)
 	Popup_ChoppingBoard->setPositionX(visibleSize.width / 2);
 	Kitchen_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 	Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
-	SelectedIngredient = Sprite::create("FreeMode/Potato_Raw.png");
-	SelectedIngredient->setPosition(Popup_ChoppingBoard->getPosition());
-	SelectedIngredient->setName("potato");
-	this->addChild(SelectedIngredient);
+
+	if (SelectedIngredient == "")
+		return;
+	
+	if (isBoardFull == false)
+	{
+		if (SelectedIngredient == "potato")
+		{
+			mainItem = Sprite::create("FreeMode/Potato_Raw.png");
+			mainItem->setName(SelectedIngredient);
+			choppingBoardSpriteNames[0] = ("FreeMode/Potato_Peeled.png");
+			choppingBoardSpriteNames[1] = ("FreeMode/Potato_Sliced.png");
+			choppingBoardSpriteNames[2] = ("FreeMode/Potato_Diced.png");
+			choppingBoardSpriteNames[3] = ("FreeMode/Potato_Mashed.png");
+		}
+		mainItem->setPosition(Popup_ChoppingBoard->getPosition());
+		this->addChild(mainItem);
+	}
+	
+	
+	mainItem->setPosition(Popup_ChoppingBoard->getPosition());
+	
+	isBoardFull = true;
 }
 
 void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 {
+	if (isBoardFull == false)
+		return;
+
 	++iCuts;
-	if (iCuts == 5)
+	switch (iCuts)
 	{
-		SelectedIngredient->setTexture("FreeMode/Potato_Peeled.png");
+	case 5:
+		if (choppingBoardSpriteNames[0] == "")
+			break;
+		mainItem->setTexture(choppingBoardSpriteNames[0]);
+		break;
+	case 10:
+		if (choppingBoardSpriteNames[1] == "")
+			break;
+		mainItem->setTexture(choppingBoardSpriteNames[1]);
+		break;
+	case 15:
+		if (choppingBoardSpriteNames[2] == "")
+			break;
+		mainItem->setTexture(choppingBoardSpriteNames[2]);
+		break;
+	case 20:
+		if (choppingBoardSpriteNames[3] == "")
+			break;
+		mainItem->setTexture(choppingBoardSpriteNames[3]);
+		break;
 	}
-	else if (iCuts == 10)
-	{
-		SelectedIngredient->setTexture("FreeMode/Potato_Sliced.png");
-	}
-	else if (iCuts == 15)
-	{
-		SelectedIngredient->setTexture("FreeMode/Potato_Diced.png");
-	}
+	
 	//Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 	//Kitchen_ChoppingBoard->setPositionX((visibleSize.width / 2 + origin.x) * 1.45f);
 	//Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
 }
 
-//void GameScene::SetRecipeMethodText(string val)
-//{
-//	for (int i = 0; i < numOfRecipes; ++i)
-//	{
-//		if (val == RD->list_recipes[i]->GetRecipeName())
-//		{
-//			selected_method = RD->list_recipes[i]->GetMethod();
-//		}
-//	}
-//}
 void GameScene::update(float dt)
 {
 	Label_ChoppingBoard_Counter->setString(StringUtils::toString(iCuts));
-	recipeDetailsLabel->setString(recipeDetailsText);
 }
 
 // Key Pressed
@@ -673,79 +485,6 @@ void GameScene::menuChangeScene(float time, cocos2d::Scene * scene)
 	CCDirector::getInstance()->replaceScene(TransitionFade::create(time, scene));
 }
 
-void GameScene::openpop()
-{
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto sprite_methodpanel = Sprite::create("methodpanel.png");
-	sprite_methodpanel->setAnchorPoint(Vec2(0.5f, 0.5f));
-	sprite_methodpanel->setContentSize(visibleSize / 200);
-	sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
-	sprite_methodpanel->setTag(popmenu);
-	auto sprite_methodpanel1 = Sprite::create("strawberry.png");
-	sprite_methodpanel1->setAnchorPoint(Vec2(0.5f, 0.5f));
-	sprite_methodpanel1->setContentSize(visibleSize / 200);
-	sprite_methodpanel1->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
-	sprite_methodpanel1->setTag(popmenu);
-	this->addChild(sprite_methodpanel, 1);
-	this->addChild(sprite_methodpanel1, 1);
-
-	//move to center
-	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
-	auto moveEvent1 = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
-
-	//scale to menu size
-	auto increasesize = ScaleTo::create(0.25f, 100);
-	auto increasesize1 = ScaleTo::create(0.25f, 90);
-	//action
-	sprite_methodpanel->runAction(moveEvent);
-	sprite_methodpanel->runAction(increasesize);
-	sprite_methodpanel1->runAction(moveEvent1);
-	sprite_methodpanel1->runAction(increasesize1);
-}
-
-void GameScene::closepop()
-{
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	//auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto sprite_methodpanel = this->getChildByTag(popmenu);
-	//sprite_methodpanel->setContentSize(visibleSize / 200);
-	//sprite_methodpanel->setPosition(Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
-
-	//this->addChild(sprite_methodpanel, 1);
-	//move to center
-	auto moveEvent = MoveTo::create(0.25f, Vec2((visibleSize.width / 2), (visibleSize.height / 2) * 1.85f));
-	//scale to menu size
-	auto increasesize = ScaleTo::create(0.25f, 0);
-	//action
-
-	sprite_methodpanel->runAction(moveEvent);
-	sprite_methodpanel->runAction(increasesize);
-	
-	
-	//DelayTime().setDuration(0.25f);
-	//DelayTime();
-	this->removeChildByTag(popmenu);
-	this->removeChildByTag(popmenu);
-		//return true;
-}
-
-//// Showing Recipe on GameScene - Liang Li
-void GameScene::openPopUpMenu(const char * objectID)
-{
-	isPopUpOpen = true;
-	popUp->setScale(1.2f);
-
-}
-
-void GameScene::closePopUpMenu()
-{
-	isPopUpOpen = false;
-	recipeDetailsText = "";
-	popUp->setScale(0.f);
-}
-
-// Button Pressed - Liang Li
 void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventType)
 {
 	string buttonName;
@@ -755,98 +494,9 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 	{
 		buttonName = ((ui::Button*) sender)->getName();
 
-		for (int i = 0; i < rd->iRecNum; i++)
+		if (buttonName == "ICON_POTATO")
 		{
-			recipeName = rd->list_recipes[i]->GetRecipeName();
-
-			// If Selected Button is inside the Recipe Database
-			if (buttonName == recipeName)
-			{
-				recipeDetailsText = rd->list_recipes[i]->GetMethod();
-			}
+			SelectedIngredient = "potato";
 		}
 	}
 }
-
-////INVENTORY
-//bool GameScene::CHECKstore()
-//{
-//	if (storage.size() == countsize)
-//	{
-//		return true;//if the storage has no duplicates with the item thats being added
-//	}
-//	else {
-//
-//		return false;
-//	}
-//}
-//void GameScene::addstore(pair<string, int> lel)
-//{
-//	storage.insert(lel);
-//	countsize++;
-//	if (!CHECKstore())
-//	{
-//		pair<string, int> temp;
-//		int temp2;
-//		temp = lel;
-//		temp2 = storage.find(lel.first)->second;
-//		//cout << "THIS IS MY TEMP   " << temp.first << " : " << temp.second << endl;
-//		
-//		temp.second = temp.second + temp2;
-//		//cout << "this is temp now " << temp.second << endl;
-//		storage.erase(temp.first);
-//		storage.insert(temp);
-//
-//		countsize--;
-//	}
-//}
-//void GameScene::addstoreB(pair<string, int> lelB)
-//{
-//	storageB.insert(lelB);
-//	Bcountsize++;
-//}
-//void GameScene::add_both(pair<string, int> lOl)
-//{
-//	addstore(lOl);
-//	addstoreB(lOl);
-//}
-/*
-void GameScene::PRINT()
-{
-	cout << "MAP 1" << endl;
-	for (auto& x : storage)
-	{
-
-		cout << x.first << " : " << x.second << '\n';
-	}
-
-	cout << "MAP 2" << endl;
-	for (auto&x : storageB)
-	{
-		cout << x.first << " : " << x.second << '\n';
-	}
-
-
-	cout << "-----------------------------------------------------------------------------------" << endl;
-}
-*/
-//bool GameScene::InteractWSpices(Touch * touch, Event * event)
-//{
-//	Vec2 p = touch->getLocation();
-//	Rect rect = this->getBoundingBox();
-//
-//	for (auto it = objectContainer.begin(); it != objectContainer.end(); it++)
-//	{
-//		if (it->first == "pepper")
-//		{
-//			rect = it->second->getBoundingBox();
-//			if (rect.containsPoint(p))
-//			{
-//				menuChangeScene(1.5f, MainMenu::createScene());				
-//				return true;
-//			}
-//		}
-//	}
-//
-//	return false;
-//}
