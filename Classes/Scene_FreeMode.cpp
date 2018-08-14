@@ -51,8 +51,8 @@ bool GameScene::init()
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
 
-    float screenWidth = visibleSize.width;
-    float screenHeight = visibleSize.height;
+    screenWidth = visibleSize.width;
+    screenHeight = visibleSize.height;
 
 	// Freemode Background + Kitchen
 	// Background
