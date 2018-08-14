@@ -307,6 +307,23 @@ bool GameScene::init()
 
     this->addChild(menuitemholder);
 
+	// Button to Transfer Ingredient to Pot
+	ui::Button* transferButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	transferButton->setPosition(Vec2(Popup_ChoppingBoard->getContentSize().width * 0.5f, Popup_ChoppingBoard->getContentSize().height * 0.1f));
+	transferButton->setTitleText("TRANSFER TO POT");
+	transferButton->setTitleFontName("fonts/Marker Felt.ttf");
+	transferButton->setTitleColor(Color3B::BLACK);
+	transferButton->setTitleFontSize(25.f);
+	transferButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	transferButton->setName("TRANSFER_BUTTON");
+
+	float Transfer_X = screenWidth / transferButton->getContentSize().width;
+	float Transfer_Y = screenHeight / transferButton->getContentSize().height;
+	transferButton->setScale(Transfer_X * 0.25f, Transfer_Y * 0.1f);
+
+	transferButton->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+	Popup_ChoppingBoard->addChild(transferButton);
+
     //// Showing Recipe on GameScene - Liang Li
     // Recipe Button
     Sprite* recipeButton = Sprite::create("FreeMode/RecipeButton.png");
@@ -492,14 +509,35 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 {
 	string buttonName;
 	string recipeName;
+	buttonName = ((ui::Button*) sender)->getName();
 
 	if (ui::Widget::TouchEventType::BEGAN == eventType)
 	{
-		buttonName = ((ui::Button*) sender)->getName();
-
 		if (buttonName == "ICON_POTATO")
 		{
 			SelectedIngredient = "potato";
+		}
+
+	}
+
+	if (ui::Widget::TouchEventType::ENDED == eventType)
+	{
+		// If Player Press TRANSFER
+		if (buttonName == "TRANSFER_BUTTON")
+		{
+			CCLOG("TRANSFER");
+
+			if (isBoardFull)
+			{
+				SelectedIngredient = mainItem->getName();
+				isBoardFull = false;
+				this->removeChild(mainItem);
+			}
+
+			// Close Pop Up
+			Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
+			Kitchen_ChoppingBoard->setPositionX(visibleSize.width * 0.75f);
+			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
 		}
 	}
 }
