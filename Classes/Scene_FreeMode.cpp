@@ -357,7 +357,7 @@ bool GameScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 			Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 			Kitchen_ChoppingBoard->setPositionX(visibleSize.width * 0.75f);
 			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
-			if (isBoardFull)
+			if (isBoardFull == true)
 				mainItem->setPosition(Popup_ChoppingBoard->getPosition());
 			/*this->removeChildByName("potato");
 			isBoardInUse = false;*/
@@ -382,11 +382,8 @@ void GameScene::CuttingBoardEvent(Ref *pSender)
 	Popup_ChoppingBoard->setPositionX(visibleSize.width / 2);
 	Kitchen_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 	Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
-
-	if (SelectedIngredient == "")
-		return;
 	
-	if (isBoardFull == false)
+	if (isBoardFull == false && SelectedIngredient != "")
 	{
 		if (SelectedIngredient == "potato")
 		{
@@ -399,12 +396,14 @@ void GameScene::CuttingBoardEvent(Ref *pSender)
 		}
 		mainItem->setPosition(Popup_ChoppingBoard->getPosition());
 		this->addChild(mainItem);
+		isBoardFull = true;
 	}
+	else if (isBoardFull == true)
+	{
+		mainItem->setPosition(Popup_ChoppingBoard->getPosition());
+	}
+	SelectedIngredient = "";
 	
-	
-	mainItem->setPosition(Popup_ChoppingBoard->getPosition());
-	
-	isBoardFull = true;
 }
 
 void GameScene::PopupChoppingBoardEvent(Ref *pSender)
