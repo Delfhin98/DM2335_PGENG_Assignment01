@@ -27,87 +27,95 @@ bool MainMenu::init()
 	{
 		return false;
 	}
-	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	audio->preloadBackgroundMusic("bensound_thelounge.mp3");
+	//auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	//audio->preloadBackgroundMusic("bensound_thelounge.mp3");
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// Creating a size that is valid.
-	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
+	float screenWidth = visibleSize.width;
+	float screenHeight = visibleSize.height;
 	
-	auto titleLabel = Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", visibleSize.width * 0.1f);
+	//// Background
+	auto BG_Image = Sprite::create("MainMenu/Background.png");
+	BG_Image->setPosition(Vec2(screenWidth * 0.5f, screenHeight * 0.5f));
+	// Scale Image
+	float BG_X = screenWidth / BG_Image->getContentSize().width;
+	float BG_Y = screenHeight / BG_Image->getContentSize().height;
+	// Set Scaling Factor to BG_Image.
+	BG_Image->setScale(BG_X, BG_Y);
+	this->addChild(BG_Image);
+
+	//// Game Title
+	auto titleLabel = Label::createWithTTF("CookFree!", "fonts/Marker Felt.ttf", screenWidth * 0.1f);
 	if (titleLabel == nullptr)
 	{
 		problemLoading("'fonts/Marker Felt.ttf'");
 	}
 	else
 	{
-		// Position at the Center of the screen
-		titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - titleLabel->getContentSize().height));
-
+		// Position
+		titleLabel->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.85f));
 		// Setting Title Color to be Orange + Shadow
 		titleLabel->setTextColor(Color4B::ORANGE);
 		titleLabel->enableOutline(Color4B::WHITE, 2);
-
 		// add the label as a child to this layer
 		this->addChild(titleLabel, 1);
 	}
-	auto winSize = Director::getInstance()->getWinSize();
-	Vec2 pos_buttons = Vec2(winSize.width / 2, winSize.height / 2);
-	Vec2 pos_offset = Vec2(0, -50);
 
-	auto btn_FreeMode = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
-	btn_FreeMode->setTitleText("Free Mode");
-	btn_FreeMode->setTitleFontName("fonts/Marker Felt.ttf");
-	btn_FreeMode->setTitleFontSize(20.0f);
-	btn_FreeMode->setPosition(pos_buttons);
-	btn_FreeMode->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
-		{
-			MainMenuChangeScene(1.0f, LoadingScene::createScene());
-		}
-	});
-	this->addChild(btn_FreeMode);
-	pos_buttons += pos_offset;
+	//// Start Button
+	ui::Button* startButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	startButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.55f));
+	startButton->setTitleText("PLAY");
+	startButton->setTitleFontName("fonts/Marker Felt.ttf");
+	startButton->setTitleColor(Color3B::BLACK);
+	startButton->setTitleFontSize(20.f);
+	startButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	startButton->setName("PLAY_BUTTON");
 
-	auto btn_RecipeDatabase = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
-	btn_RecipeDatabase->setTitleText("Recipes");
-	btn_RecipeDatabase->setTitleFontName("fonts/Marker Felt.ttf");
-	btn_RecipeDatabase->setTitleFontSize(20.0f);
-	btn_RecipeDatabase->setPosition(pos_buttons);
-	btn_RecipeDatabase->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
-		{
-			MainMenuChangeScene(2.0f, RecipeScene::createScene());
-		}
-	});
-	
-	this->addChild(btn_RecipeDatabase);
-	pos_buttons += pos_offset;
+	float Start_X = screenWidth / startButton->getContentSize().width;
+	float Start_Y = screenHeight / startButton->getContentSize().height;
+	startButton->setScale(Start_X * 0.2f, Start_Y * 0.1f);
 
-	auto btn_Quit = Button::create("button.png", "buttonselected.png", "buttondisabled.png");
-	btn_Quit->setTitleText("Quit Game");
-	btn_Quit->setTitleFontName("fonts/Marker Felt.ttf");
-	btn_Quit->setTitleFontSize(20.0f);
-	btn_Quit->setPosition(pos_buttons);
-	btn_Quit->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
-	{
-		if (type == ui::Widget::TouchEventType::ENDED)
-		{
-			menuCloseCallback(this);
-		}
-	});
-	this->addChild(btn_Quit);
+	// Adding Listener
+	startButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
+	this->addChild(startButton);
 
-	audio->playBackgroundMusic("bensound_thelounge.mp3", true);
+	//// Recipe Button
+	ui::Button* recipeButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	recipeButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.4f));
+	recipeButton->setTitleText("RECIPES");
+	recipeButton->setTitleFontName("fonts/Marker Felt.ttf");
+	recipeButton->setTitleColor(Color3B::BLACK);
+	recipeButton->setTitleFontSize(20.f);
+	recipeButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	recipeButton->setName("RECIPE_BUTTON");
 
-	// KeyPressed
-	auto Keyboardlistener = EventListenerKeyboard::create();
-	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(MainMenu::onKeyPressed, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(Keyboardlistener, this);
+	float Recipe_X = screenWidth / recipeButton->getContentSize().width;
+	float Recipe_Y = screenHeight / recipeButton->getContentSize().height;
+	recipeButton->setScale(Recipe_X * 0.2f, Recipe_Y * 0.1f);
+
+	// Adding Listener
+	recipeButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
+	this->addChild(recipeButton);
+
+	//// Quit Button
+	ui::Button* quitButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	quitButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.25f));
+	quitButton->setTitleText("QUIT");
+	quitButton->setTitleFontName("fonts/Marker Felt.ttf");
+	quitButton->setTitleColor(Color3B::BLACK);
+	quitButton->setTitleFontSize(20.f);
+	quitButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	quitButton->setName("QUIT_BUTTON");
+
+	float Quit_X = screenWidth / quitButton->getContentSize().width;
+	float Quit_Y = screenHeight / quitButton->getContentSize().height;
+	quitButton->setScale(Quit_X * 0.2f, Quit_Y * 0.1f);
+
+	// Adding Listener
+	quitButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
+	this->addChild(quitButton);
 
 	// Setting up camera
 	auto cam = Camera::create();
@@ -122,19 +130,31 @@ void MainMenu::update(float dt)
 
 }
 
-// Key Pressed
-void MainMenu::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
+void MainMenu::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventType)
 {
-	// Testing Purposes
-	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
-	{
+	string buttonName;
 
-	}
-
-	// Closing the Application
-	if (keycode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	if (ui::Widget::TouchEventType::ENDED == eventType)
 	{
+		buttonName = ((ui::Button*) sender)->getName();
+
+		// Go to GameScene
+		if (buttonName == "PLAY_BUTTON")
+		{
+			MainMenuChangeScene(1.f, GameScene::createScene());
+		}
 		
+		// Go to RecipeScene
+		if (buttonName == "RECIPE_BUTTON")
+		{
+			MainMenuChangeScene(1.f, RecipeScene::createScene());
+		}
+
+		// Quit the Game
+		if (buttonName == "QUIT_BUTTON")
+		{
+			menuCloseCallback(this);
+		}
 	}
 }
 
