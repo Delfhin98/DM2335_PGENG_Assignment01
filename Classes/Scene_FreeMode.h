@@ -25,6 +25,20 @@ private:
 	// TESTING FOR GRABBING INGREDIENT
 	std::vector<Sprite*> ingredientContainer;
 
+	// POPUP for FINISHED PRODUCTS
+	bool isProductFinish;
+	bool isSaved;
+	bool isPinned;
+	int playerMoney;
+	float screenWidth;
+	float screenHeight;
+	std::vector<Sprite*> productContainer;
+	std::vector<Sprite*> savedProductContainer;
+	Sprite* productPopUp;
+	Sprite* finalProduct;
+	ui::Button* moneyNumberButton;
+	char showPlayerMoney[256];
+
 	// Showing Recipe on Gamescene
 	std::vector <std::pair<const char*, Sprite*>> objectContainer;
 	std::vector <string> choppingBoardSpriteNames;
@@ -52,6 +66,13 @@ public:
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void CuttingBoardEvent(Ref *pSender);
 	void PopupChoppingBoardEvent(Ref *pSender);
+
+	// TESTING FOR SHOWING POP UP ON SCENE FOR FINAL PRODUCT
+	void ShowFinalProduct(Sprite* _sprite);
+	void CloseFinalProduct(Sprite* _sprite);
+	void SetFinalProduct(Sprite* _sprite);
+	Sprite* GetFinalProduct();
+
 
 	// Touch for Button Type
 	void onButtonPressed(Ref* sender, ui::Widget::TouchEventType eventType);

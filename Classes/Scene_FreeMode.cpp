@@ -287,6 +287,7 @@ bool GameScene::init()
     Kitchen_ChoppingBoard->setName("Kitchen_ChoppingBoard");
 	SelectedIngredient = "";
 
+
 	// Chopping Board Pop Up Menu
     Popup_ChoppingBoard = MenuItemImage::create("FreeMode/PopUpChopBoard.png", "FreeMode/PopUpChopBoard.png", CC_CALLBACK_1(GameScene::PopupChoppingBoardEvent, this));
     Popup_ChoppingBoard->setPosition(visibleSize.width + Popup_ChoppingBoard->getContentSize().width, visibleSize.height / 2 + origin.y);
@@ -323,6 +324,114 @@ bool GameScene::init()
 
 	transferButton->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
 	Popup_ChoppingBoard->addChild(transferButton);
+
+	//// FINISHED PRODUCT
+	// Pop Up
+	productPopUp = Sprite::create("FreeMode/PopUpMenu.png");
+	productPopUp->setPosition(Vec2(screenWidth * 0.5f, screenHeight * 0.5f));
+	productPopUp->setScale(1.f);
+	productPopUp->setAnchorPoint(Vec2(0.5f, 0.5f));
+	this->addChild(productPopUp);
+
+	// Salad
+	auto Product_Salad = Sprite::create("FreeMode/Salad.png");
+	Product_Salad->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Salad->setName("PRODUCT_SALAD");
+	// Set Scale
+	Product_Salad->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Salad);
+	productPopUp->addChild(Product_Salad);
+
+	// Fries
+	auto Product_Fries = Sprite::create("FreeMode/Potato_Fries.png");
+	Product_Fries->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Fries->setName("PRODUCT_FRIES");
+	// Set Scale
+	Product_Fries->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Fries);
+	productPopUp->addChild(Product_Fries);
+
+	// Wedges
+	auto Product_Wedges = Sprite::create("FreeMode/Potato_Wedges.png");
+	Product_Wedges->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Wedges->setName("PRODUCT_WEDGES");
+	// Set Scale
+	Product_Wedges->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Wedges);
+	productPopUp->addChild(Product_Wedges);
+
+	// Mashed Potato
+	auto Product_Mashed = Sprite::create("FreeMode/Potato_BowlMashed.png");
+	Product_Mashed->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Mashed->setName("PRODUCT_MASHED");
+	// Set Scale
+	Product_Mashed->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Mashed);
+	productPopUp->addChild(Product_Mashed);
+
+	//// Options on PopUp
+	playerMoney = 0;
+	sprintf(showPlayerMoney, "%d", playerMoney);
+
+	moneyNumberButton = ui::Button::create("moneyArea.png");
+	moneyNumberButton->setPosition(Vec2(screenWidth * 0.95f, screenHeight * 0.9f));
+	moneyNumberButton->setTitleText(showPlayerMoney);
+	moneyNumberButton->setTitleFontName("fonts/Marker Felt.ttf");
+	moneyNumberButton->setTitleColor(Color3B::BLACK);
+	moneyNumberButton->setTitleFontSize(30.f);
+	moneyNumberButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	moneyNumberButton->setName("MONEY");
+
+	float Money_X = screenWidth / moneyNumberButton->getContentSize().width;
+	float Money_Y = screenHeight / moneyNumberButton->getContentSize().height;
+	moneyNumberButton->setScale(Money_X * 0.05f, Money_Y * 0.1f);
+
+	this->addChild(moneyNumberButton);
+
+	// Serve Food
+	ui::Button* serveFoodButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	serveFoodButton->setPosition(Vec2(productPopUp->getContentSize().width * 0.1f, productPopUp->getContentSize().height * 0.1f));
+	serveFoodButton->setTitleText("SERVE");
+	serveFoodButton->setTitleFontName("fonts/Marker Felt.ttf");
+	serveFoodButton->setTitleColor(Color3B::BLACK);
+	serveFoodButton->setTitleFontSize(25.f);
+	serveFoodButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	serveFoodButton->setName("SERVE_FOOD_BUTTON");
+
+	float Serve_X = screenWidth / serveFoodButton->getContentSize().width;
+	float Serve_Y = screenHeight / serveFoodButton->getContentSize().height;
+	serveFoodButton->setScale(Serve_X * 0.1f, Serve_Y * 0.1f);
+
+	// Adding Listener
+	serveFoodButton->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+	productPopUp->addChild(serveFoodButton);
+
+	// Keep Food
+	ui::Button* keepFoodButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+	keepFoodButton->setPosition(Vec2(productPopUp->getContentSize().width * 0.9f, productPopUp->getContentSize().height * 0.1f));
+	keepFoodButton->setTitleText("KEEP");
+	keepFoodButton->setTitleFontName("fonts/Marker Felt.ttf");
+	keepFoodButton->setTitleColor(Color3B::BLACK);
+	keepFoodButton->setTitleFontSize(25.f);
+	keepFoodButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+	keepFoodButton->setName("KEEP_FOOD_BUTTON");
+
+	float Keep_X = screenWidth / keepFoodButton->getContentSize().width;
+	float Keep_Y = screenHeight / keepFoodButton->getContentSize().height;
+	keepFoodButton->setScale(Keep_X * 0.1f, Keep_Y * 0.1f);
+
+	// Adding Listener
+	keepFoodButton->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+	productPopUp->addChild(keepFoodButton);
+
 
     //// Showing Recipe on GameScene - Liang Li
     // Recipe Button
@@ -465,11 +574,31 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 void GameScene::update(float dt)
 {
 	Label_ChoppingBoard_Counter->setString(StringUtils::toString(iCuts));
+
+	if (isProductFinish)
+	{
+		ShowFinalProduct(productContainer.at(0));
+	}
+	else
+	{
+		CloseFinalProduct(productContainer.at(0));
+	}
 }
 
 // Key Pressed
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 {
+	// Testing Purposes FOR POP UP
+	if (keycode == EventKeyboard::KeyCode::KEY_1)
+	{
+		isProductFinish = true;
+	}
+
+	if (keycode == EventKeyboard::KeyCode::KEY_2)
+	{
+		isProductFinish = false;
+	}
+
 	// Testing Purposes
 	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
@@ -540,4 +669,39 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
 		}
 	}
+}
+
+// SHOWING POP UP FOR FINISHED PRODUCT
+void GameScene::ShowFinalProduct(Sprite * _sprite)
+{
+	// Show Pop Up
+	productPopUp->setScale(1.f);
+
+	// Show Product
+	float Sprite_X = screenWidth / _sprite->getContentSize().width;
+	float Sprite_Y = screenHeight / _sprite->getContentSize().height;
+	_sprite->setScale(Sprite_X * 0.3f, Sprite_Y * 0.3f);
+
+	SetFinalProduct(_sprite);
+}
+
+void GameScene::CloseFinalProduct(Sprite * _sprite)
+{
+	// Close Pop Up
+	productPopUp->setScale(0.f);
+
+	// Close Product
+	float Sprite_X = screenWidth / _sprite->getContentSize().width;
+	float Sprite_Y = screenHeight / _sprite->getContentSize().height;
+	_sprite->setScale(Sprite_X * 0.f, Sprite_Y * 0.f);
+}
+
+void GameScene::SetFinalProduct(Sprite * _sprite)
+{
+	finalProduct = _sprite;
+}
+
+Sprite * GameScene::GetFinalProduct()
+{
+	return finalProduct;
 }
