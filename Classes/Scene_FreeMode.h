@@ -26,9 +26,7 @@ private:
 	std::vector<Sprite*> ingredientContainer;
 
 	// POPUP for FINISHED PRODUCTS
-	bool isProductFinish;
-	bool isSaved;
-	bool isPinned;
+	bool isPopUp;
 	int playerMoney;
 	float screenWidth;
 	float screenHeight;
@@ -40,13 +38,23 @@ private:
 	char showPlayerMoney[256];
 
 	// Showing Recipe on Gamescene
+	bool isSaved;
+	bool isPinned;
 	std::vector <std::pair<const char*, Sprite*>> objectContainer;
 	std::vector <string> choppingBoardSpriteNames;
-	
+
+	// Mixed Dish
+	std::vector<std::pair<string, int>> mixedDishContainer;
+	bool isSpinachDiced;
+	bool isTomatoDiced;
+	bool isCarrotDiced;
+	bool isFriesReady;
+	bool isChickenReady;
+	bool isFishReady;
+
 	Sprite* mainItem;
 	string recipeDetailsText;
 	Label* recipeDetailsLabel;
-	bool isPopUpOpen;
 
 public:
     static cocos2d::Scene* createScene();
@@ -69,7 +77,7 @@ public:
 
 	// TESTING FOR SHOWING POP UP ON SCENE FOR FINAL PRODUCT
 	void ShowFinalProduct(Sprite* _sprite);
-	void CloseFinalProduct(Sprite* _sprite);
+	void CloseFinalProduct(Sprite * _sprite);
 	void SetFinalProduct(Sprite* _sprite);
 	Sprite* GetFinalProduct();
 

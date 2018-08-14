@@ -96,10 +96,20 @@ bool GameScene::init()
     Kitchen_Oven->setScale(Oven_X * 0.4f, Oven_Y * 0.2f);
 	this->addChild(Kitchen_Oven);
 
+	// Kitchen Shelf
+	auto Kitchen_Shelf = Sprite::create("FreeMode/SpiceShelf.png");
+	Kitchen_Shelf->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.9f));
+	// Scale Image
+	float Shelf_X = screenWidth / Kitchen_Shelf->getContentSize().width;
+	float Shelf_Y = screenHeight / Kitchen_Shelf->getContentSize().height;
+	// Set Scale
+	Kitchen_Shelf->setScale(Shelf_X * 0.72f, Shelf_Y * 0.2f);
+	this->addChild(Kitchen_Shelf);
+
 	//// Ingredient on Scene
 	// Egg
-	auto Ingredient_Egg = ui::Button::create("FreeMode/Egg_WholeEgg.png", "FreeMode/Egg_WholeEgg.png");
-	Ingredient_Egg->setPosition(Vec2(screenWidth * 0.15f, screenHeight * 0.9f));
+	auto Ingredient_Egg = ui::Button::create("Egg/WholeEgg.png", "Egg/WholeEgg.png");
+	Ingredient_Egg->setPosition(Vec2(screenWidth * 0.2f, screenHeight * 0.9f));
 	// Scale Image
 	float Egg_X = screenWidth / Ingredient_Egg->getContentSize().width;
 	float Egg_Y = screenHeight / Ingredient_Egg->getContentSize().height;
@@ -112,8 +122,8 @@ bool GameScene::init()
 	this->addChild(Ingredient_Egg);
 
 	// Potato
-	auto Ingredient_Potato = ui::Button::create("FreeMode/Potato_Raw.png", "FreeMode/Potato_Raw.png");
-	Ingredient_Potato->setPosition(Vec2(screenWidth * 0.21f, screenHeight * 0.9f));
+	auto Ingredient_Potato = ui::Button::create("Potato/Raw.png", "Potato/Raw.png");
+	Ingredient_Potato->setPosition(Vec2(screenWidth * 0.3f, screenHeight * 0.9f));
 	// Scale Image
 	float Potato_X = screenWidth / Ingredient_Potato->getContentSize().width;
 	float Potato_Y = screenHeight / Ingredient_Potato->getContentSize().height;
@@ -126,8 +136,8 @@ bool GameScene::init()
 	this->addChild(Ingredient_Potato);
 
 	// Fish
-	auto Ingredient_Fish = ui::Button::create("FreeMode/fish_raw.png", "FreeMode/fish_raw.png");
-	Ingredient_Fish->setPosition(Vec2(screenWidth * 0.27f, screenHeight * 0.9f));
+	auto Ingredient_Fish = ui::Button::create("Fish/Raw.png", "Fish/Raw.png");
+	Ingredient_Fish->setPosition(Vec2(screenWidth * 0.4f, screenHeight * 0.9f));
 	// Scale Image
 	float Fish_X = screenWidth / Ingredient_Fish->getContentSize().width;
 	float Fish_Y = screenHeight / Ingredient_Fish->getContentSize().height;
@@ -139,23 +149,23 @@ bool GameScene::init()
 
 	this->addChild(Ingredient_Fish);
 
-	// Chicken
-	auto Ingredient_Chicken = ui::Button::create("FreeMode/Chicken_Raw.png", "FreeMode/Chicken_Raw.png");
-	Ingredient_Chicken->setPosition(Vec2(screenWidth * 0.33f, screenHeight * 0.9f));
-	// Scale Image
-	float Chicken_X = screenWidth / Ingredient_Chicken->getContentSize().width;
-	float Chicken_Y = screenHeight / Ingredient_Chicken->getContentSize().height;
-	// Set Name
-	Ingredient_Chicken->setName("CHICKEN");
-	// Set Scale
-	Ingredient_Chicken->setScale(Chicken_X * 0.05f, Chicken_Y * 0.1f);
-	Ingredient_Chicken->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
+	//// Chicken
+	//auto Ingredient_Chicken = ui::Button::create("FreeMode/Chicken_Raw.png", "FreeMode/Chicken_Raw.png");
+	//Ingredient_Chicken->setPosition(Vec2(screenWidth * 0.5f, screenHeight * 0.9f));
+	//// Scale Image
+	//float Chicken_X = screenWidth / Ingredient_Chicken->getContentSize().width;
+	//float Chicken_Y = screenHeight / Ingredient_Chicken->getContentSize().height;
+	//// Set Name
+	//Ingredient_Chicken->setName("CHICKEN");
+	//// Set Scale
+	//Ingredient_Chicken->setScale(Chicken_X * 0.05f, Chicken_Y * 0.1f);
+	//Ingredient_Chicken->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
 
-	this->addChild(Ingredient_Chicken);
+	//this->addChild(Ingredient_Chicken);
 
 	// Spinach
-	auto Ingredient_Spinach = ui::Button::create("FreeMode/spinach_raw.png", "FreeMode/spinach_raw.png");
-	Ingredient_Spinach->setPosition(Vec2(screenWidth * 0.39f, screenHeight * 0.9f));
+	auto Ingredient_Spinach = ui::Button::create("Spinach/Raw.png", "Spinach/Raw.png");
+	Ingredient_Spinach->setPosition(Vec2(screenWidth * 0.6f, screenHeight * 0.9f));
 	// Scale Image
 	float Spinach_X = screenWidth / Ingredient_Spinach->getContentSize().width;
 	float Spinach_Y = screenHeight / Ingredient_Spinach->getContentSize().height;
@@ -168,8 +178,8 @@ bool GameScene::init()
 	this->addChild(Ingredient_Spinach);
 
 	// Carrot
-	auto Ingredient_Carrot = ui::Button::create("FreeMode/carrot_raw.png", "FreeMode/carrot_raw.png");
-	Ingredient_Carrot->setPosition(Vec2(screenWidth * 0.45f, screenHeight * 0.9f));
+	auto Ingredient_Carrot = ui::Button::create("Carrot/Raw.png", "Carrot/Raw.png");
+	Ingredient_Carrot->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.9f));
 	// Scale Image
 	float Carrot_X = screenWidth / Ingredient_Carrot->getContentSize().width;
 	float Carrot_Y = screenHeight / Ingredient_Carrot->getContentSize().height;
@@ -182,8 +192,8 @@ bool GameScene::init()
 	this->addChild(Ingredient_Carrot);
 
 	// Tomato
-	auto Ingredient_Tomato = ui::Button::create("FreeMode/tomato_raw.png", "FreeMode/tomato_raw.png");
-	Ingredient_Tomato->setPosition(Vec2(screenWidth * 0.51f, screenHeight * 0.9f));
+	auto Ingredient_Tomato = ui::Button::create("Tomato/Raw.png", "Tomato/Raw.png");
+	Ingredient_Tomato->setPosition(Vec2(screenWidth * 0.8f, screenHeight * 0.9f));
 	// Scale Image
 	float Tomato_X = screenWidth / Ingredient_Tomato->getContentSize().width;
 	float Tomato_Y = screenHeight / Ingredient_Tomato->getContentSize().height;
@@ -194,6 +204,8 @@ bool GameScene::init()
 	Ingredient_Tomato->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
 
 	this->addChild(Ingredient_Tomato);
+
+	isPopUp = false;
 
 	//// Butter
 	//auto Ingredient_Butter = Sprite::create("FreeMode/SpicesSalt.png");
@@ -233,48 +245,6 @@ bool GameScene::init()
 	//Ingredient_Pepper->setScale(Pepper_X * 0.05f, Pepper_Y * 0.1f);
 	//this->addChild(Ingredient_Pepper);
 
-	//// Fries
-	//auto Ingredient_Fries = Sprite::create("FreeMode/SpicesSalt.png");
-	//Ingredient_Fries->setPosition(Vec2(screenWidth * 0.75f, screenHeight * 0.9f));
-	//// Scale Image
-	//float Fries_X = screenWidth / Ingredient_Fries->getContentSize().width;
-	//float Fries_Y = screenHeight / Ingredient_Fries->getContentSize().height;
-	//// Set Name
-	//Ingredient_Fries->setName("FRIES");
-	//// Set Scale
-	//Ingredient_Fries->setScale(Fries_X * 0.05f, Fries_Y * 0.1f);
-
-	//ingredientContainer.push_back(Ingredient_Fries);
-	//this->addChild(Ingredient_Fries);
-
-	//// Fish Fillet
-	//auto Ingredient_FishFillet = Sprite::create("FreeMode/SpicesSalt.png");
-	//Ingredient_FishFillet->setPosition(Vec2(screenWidth * 0.81f, screenHeight * 0.9f));
-	//// Scale Image
-	//float FishFillet_X = screenWidth / Ingredient_FishFillet->getContentSize().width;
-	//float FishFillet_Y = screenHeight / Ingredient_FishFillet->getContentSize().height;
-	//// Set Name
-	//Ingredient_FishFillet->setName("FISH_FILLET");
-	//// Set Scale
-	//Ingredient_FishFillet->setScale(FishFillet_X * 0.05f, FishFillet_Y * 0.1f);
-
-	//ingredientContainer.push_back(Ingredient_FishFillet);
-	//this->addChild(Ingredient_FishFillet);
-
-	//// Roasted Chicken
-	//auto Ingredient_RoastedChicken = Sprite::create("FreeMode/SpicesSalt.png");
-	//Ingredient_RoastedChicken->setPosition(Vec2(screenWidth * 0.87f, screenHeight * 0.9f));
-	//// Scale Image
-	//float RoastedChicken_X = screenWidth / Ingredient_RoastedChicken->getContentSize().width;
-	//float RoastedChicken_Y = screenHeight / Ingredient_RoastedChicken->getContentSize().height;
-	//// Set Name
-	//Ingredient_RoastedChicken->setName("ROASTED_CHICKEN");
-	//// Set Scale
-	//Ingredient_RoastedChicken->setScale(RoastedChicken_X * 0.05f, RoastedChicken_Y * 0.1f);
-
-	//ingredientContainer.push_back(Ingredient_RoastedChicken);
-	//this->addChild(Ingredient_RoastedChicken);
-
     // Kitchen Chopping Board
     Kitchen_ChoppingBoard = MenuItemImage::create("FreeMode/ChoppingBoard.png", "FreeMode/ChoppingBoard.png", CC_CALLBACK_1(GameScene::CuttingBoardEvent, this));
     Kitchen_ChoppingBoard->setPosition(Vec2(visibleSize.width * 0.75f, visibleSize.height * 0.35f));
@@ -286,11 +256,14 @@ bool GameScene::init()
     Kitchen_ChoppingBoard->setName("Kitchen_ChoppingBoard");
 	SelectedIngredient = "";
 
-
 	// Chopping Board Pop Up Menu
     Popup_ChoppingBoard = MenuItemImage::create("FreeMode/PopUpChopBoard.png", "FreeMode/PopUpChopBoard.png", CC_CALLBACK_1(GameScene::PopupChoppingBoardEvent, this));
     Popup_ChoppingBoard->setPosition(visibleSize.width + Popup_ChoppingBoard->getContentSize().width, visibleSize.height / 2 + origin.y);
-	Popup_ChoppingBoard->setScale(0.65f);
+	// Scale Pop Up Menu
+	float PopUp_X = screenWidth / Popup_ChoppingBoard->getContentSize().width;
+	float PopUp_Y = screenHeight / Popup_ChoppingBoard->getContentSize().height;
+	// Set Scale
+	Popup_ChoppingBoard->setScale(PopUp_X * 0.75f, PopUp_Y * 0.75f);
     Popup_ChoppingBoard->setLocalZOrder(2);
     Popup_ChoppingBoard->setName("Popup_ChoppingBoard");
 
@@ -310,7 +283,7 @@ bool GameScene::init()
 	// Button to Transfer Ingredient to Pot
 	ui::Button* transferButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
 	transferButton->setPosition(Vec2(Popup_ChoppingBoard->getContentSize().width * 0.5f, Popup_ChoppingBoard->getContentSize().height * 0.1f));
-	transferButton->setTitleText("TRANSFER TO POT");
+	transferButton->setTitleText("TRANSFER");
 	transferButton->setTitleFontName("fonts/Marker Felt.ttf");
 	transferButton->setTitleColor(Color3B::BLACK);
 	transferButton->setTitleFontSize(25.f);
@@ -344,7 +317,7 @@ bool GameScene::init()
 	productPopUp->addChild(Product_Salad);
 
 	// Fries
-	auto Product_Fries = Sprite::create("FreeMode/Potato_Fries.png");
+	auto Product_Fries = Sprite::create("Potato/Fries.png");
 	Product_Fries->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
 	// Set Name
 	Product_Fries->setName("PRODUCT_FRIES");
@@ -355,7 +328,7 @@ bool GameScene::init()
 	productPopUp->addChild(Product_Fries);
 
 	// Wedges
-	auto Product_Wedges = Sprite::create("FreeMode/Potato_Wedges.png");
+	auto Product_Wedges = Sprite::create("Potato/Wedges.png");
 	Product_Wedges->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
 	// Set Name
 	Product_Wedges->setName("PRODUCT_WEDGES");
@@ -366,7 +339,7 @@ bool GameScene::init()
 	productPopUp->addChild(Product_Wedges);
 
 	// Mashed Potato
-	auto Product_Mashed = Sprite::create("FreeMode/Potato_BowlMashed.png");
+	auto Product_Mashed = Sprite::create("Potato/MashBowl.png");
 	Product_Mashed->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
 	// Set Name
 	Product_Mashed->setName("PRODUCT_MASHED");
@@ -375,6 +348,112 @@ bool GameScene::init()
 
 	productContainer.push_back(Product_Mashed);
 	productPopUp->addChild(Product_Mashed);
+
+	// Fish Fillet
+	auto Product_Fillet = Sprite::create("Fish/Cooked.png");
+	Product_Fillet->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Fillet->setName("PRODUCT_FISH");
+	// Set Scale
+	Product_Fillet->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Fillet);
+	productPopUp->addChild(Product_Fillet);
+
+	//// Roasted Chicken
+	//auto Product_Chicken = Sprite::create("Chicken/Roasted.png");
+	//Product_Chicken->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	//// Set Name
+	//Product_Chicken->setName("PRODUCT_CHICKEN");
+	//// Set Scale
+	//Product_Chicken->setScale(0.f, 0.f);
+
+	//productContainer.push_back(Product_Chicken);
+	//productPopUp->addChild(Product_Chicken);
+
+	// Fried Egg
+	auto Product_Egg = Sprite::create("Egg/FriedEgg.png");
+	Product_Egg->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Egg->setName("PRODUCT_EGG");
+	// Set Scale
+	Product_Egg->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Egg);
+	productPopUp->addChild(Product_Egg);
+
+	// Spinach
+	auto Product_Spinach = Sprite::create("Spinach/Diced.png");
+	Product_Spinach->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Spinach->setName("PRODUCT_SPINACH");
+	// Set Scale
+	Product_Spinach->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Spinach);
+	productPopUp->addChild(Product_Spinach);
+
+	// Tomato
+	auto Product_Tomato = Sprite::create("Tomato/Diced.png");
+	Product_Tomato->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Tomato->setName("PRODUCT_TOMATO");
+	// Set Scale
+	Product_Tomato->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Tomato);
+	productPopUp->addChild(Product_Tomato);
+
+	// Carrot
+	auto Product_Carrot = Sprite::create("Carrot/Diced.png");
+	Product_Carrot->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_Carrot->setName("PRODUCT_CARROT");
+	// Set Scale
+	Product_Carrot->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_Carrot);
+	productPopUp->addChild(Product_Carrot);
+
+	// Fish Platter (Fish + Fries)
+	auto Product_FishPlatter = Sprite::create("Fish/Platter.png");
+	Product_FishPlatter->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	// Set Name
+	Product_FishPlatter->setName("PRODUCT_FISH_PLATTER");
+	// Set Scale
+	Product_FishPlatter->setScale(0.f, 0.f);
+
+	productContainer.push_back(Product_FishPlatter);
+	productPopUp->addChild(Product_FishPlatter);
+
+	//// Chicken Platter (Chicken + Fries)
+	//auto Product_ChickenPlatter = Sprite::create("Chicken/Platter.png");
+	//Product_ChickenPlatter->setPosition(Vec2(productPopUp->getContentSize().width * 0.5f, productPopUp->getContentSize().height * 0.5f));
+	//// Set Name
+	//Product_ChickenPlatter->setName("PRODUCT_CHICKEN_PLATTER");
+	//// Set Scale
+	//Product_ChickenPlatter->setScale(0.f, 0.f);
+
+	//productContainer.push_back(Product_ChickenPlatter);
+	//productPopUp->addChild(Product_ChickenPlatter);
+
+	// Storing Mixed Dish
+	isSpinachDiced = false;
+	isTomatoDiced = false;
+	isCarrotDiced = false;
+	isFriesReady = false;
+	isChickenReady = false;
+	isFishReady = false;
+
+	// Salad Ingredient
+	mixedDishContainer.push_back(make_pair("Spinach/Diced.png", 0));
+	mixedDishContainer.push_back(make_pair("Carrot/Diced.png", 0));
+	mixedDishContainer.push_back(make_pair("Tomato/Diced.png", 0));
+
+	// Platter Ingredients
+	mixedDishContainer.push_back(make_pair("Potato/Fries.png", 0));
+	mixedDishContainer.push_back(make_pair("Fish/Cooked.png", 0));
+	mixedDishContainer.push_back(make_pair("Chicken/Roasted.png", 0));
 
 	//// Options on PopUp
 	playerMoney = 0;
@@ -432,15 +511,13 @@ bool GameScene::init()
 	productPopUp->addChild(keepFoodButton);
 
 
-    //// Showing Recipe on GameScene - Liang Li
-    // Recipe Button
-    Sprite* recipeButton = Sprite::create("FreeMode/RecipeButton.png");
-    recipeButton->setPosition(Vec2(playingSize.width * 0.05f, playingSize.height * 0.8f));
-    objectContainer.push_back(make_pair("RECIPE_BUTTON", recipeButton));
-    this->addChild(recipeButton);
-
 	auto buttonBack = ui::Button::create("backbutton.png", "backbuttonselected.png");
-	buttonBack->setPosition(Vec2((visibleSize.width / 2 + origin.x) * 0.15f, (visibleSize.height / 2 + origin.y) * 1.85f));
+	buttonBack->setPosition(Vec2(screenWidth * 0.05f, screenHeight * 0.9f));
+	// Scale Image
+	float Back_X = screenWidth / keepFoodButton->getContentSize().width;
+	float Back_Y = screenHeight / keepFoodButton->getContentSize().height;
+	buttonBack->setScale(Back_X * 0.2f, Back_Y * 0.1f);
+
 	buttonBack->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type)
 	{
 		if (type == ui::Widget::TouchEventType::ENDED)
@@ -454,11 +531,6 @@ bool GameScene::init()
 	auto Keyboardlistener = EventListenerKeyboard::create();
 	Keyboardlistener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(Keyboardlistener, this);
-
-	//// Touch
-	//auto TouchListener = EventListenerTouchOneByOne::create();
-	//TouchListener->onTouchBegan = CC_CALLBACK_2(GameScene::InteractWSpices, this);
-	//_eventDispatcher->addEventListenerWithSceneGraphPriority(TouchListener, this);
 
 	// Setting up camera
 	auto cam = Camera::create();
@@ -512,67 +584,67 @@ void GameScene::CuttingBoardEvent(Ref *pSender)
 	{
 		if (SelectedIngredient == "POTATO")
 		{
-			mainItem = Sprite::create("FreeMode/Potato_Raw.png");
+			mainItem = Sprite::create("Potato/Raw.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/Potato_Peeled.png");
-			choppingBoardSpriteNames[1] = ("FreeMode/Potato_Sliced.png");
-			choppingBoardSpriteNames[2] = ("FreeMode/Potato_Diced.png");
-			choppingBoardSpriteNames[3] = ("FreeMode/Potato_Mashed.png");
+			choppingBoardSpriteNames[0] = ("Potato/Peeled.png");
+			choppingBoardSpriteNames[1] = ("Potato/Sliced.png");
+			choppingBoardSpriteNames[2] = ("Potato/Diced.png");
+			choppingBoardSpriteNames[3] = ("Potato/Mashed.png");
 		}
 		else if (SelectedIngredient == "EGG")
 		{
-			mainItem = Sprite::create("FreeMode/Egg_WholeEgg.png");
+			mainItem = Sprite::create("Egg/WholeEgg.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/Egg_UncookedFriedEgg.png");
+			choppingBoardSpriteNames[0] = ("Egg/UnFriedEgg.png");
 			choppingBoardSpriteNames[1] = ("");
 			choppingBoardSpriteNames[2] = ("");
 			choppingBoardSpriteNames[3] = ("");
 		}
 		else if (SelectedIngredient == "TOMATO")
 		{
-			mainItem = Sprite::create("FreeMode/tomato_raw.png");
+			mainItem = Sprite::create("Tomato/Raw.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/tomato_sliced.png");
-			choppingBoardSpriteNames[1] = ("FreeMode/tomato_diced.png");
+			choppingBoardSpriteNames[0] = ("Tomato/Sliced.png");
+			choppingBoardSpriteNames[1] = ("Tomato/Diced.png");
 			choppingBoardSpriteNames[2] = ("");
 			choppingBoardSpriteNames[3] = ("");
 		}
 		else if (SelectedIngredient == "SPINACH")
 		{
-			mainItem = Sprite::create("FreeMode/spinach_raw.png");
+			mainItem = Sprite::create("Spinach/Raw.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/spinach_sliced.png");
-			choppingBoardSpriteNames[1] = ("FreeMode/spinach_diced.png");
+			choppingBoardSpriteNames[0] = ("Spinach/Sliced.png");
+			choppingBoardSpriteNames[1] = ("Spinach/Diced.png");
 			choppingBoardSpriteNames[2] = ("");
 			choppingBoardSpriteNames[3] = ("");
 		}
 		else if (SelectedIngredient == "CARROT")
 		{
-			mainItem = Sprite::create("FreeMode/carrot_raw.png");
+			mainItem = Sprite::create("Carrot/Raw.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/carrot_sliced.png");
-			choppingBoardSpriteNames[1] = ("FreeMode/carrot_diced.png");
+			choppingBoardSpriteNames[0] = ("Carrot/Sliced.png");
+			choppingBoardSpriteNames[1] = ("Carrot/Diced.png");
 			choppingBoardSpriteNames[2] = ("");
 			choppingBoardSpriteNames[3] = ("");
 		}
 		else if (SelectedIngredient == "FISH")
 		{
-			mainItem = Sprite::create("FreeMode/fish_raw.png");
+			mainItem = Sprite::create("Fish/Raw.png");
 			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("FreeMode/fish_sliced.png");
-			choppingBoardSpriteNames[1] = ("FreeMode/Fish_Fillet.png");
-			choppingBoardSpriteNames[2] = ("");
-			choppingBoardSpriteNames[3] = ("");
-		}
-		else if (SelectedIngredient == "CHICKEN")
-		{
-			mainItem = Sprite::create("FreeMode/Chicken_Raw.png");
-			mainItem->setName(SelectedIngredient);
-			choppingBoardSpriteNames[0] = ("");
+			choppingBoardSpriteNames[0] = ("Fish/Fillet.png");
 			choppingBoardSpriteNames[1] = ("");
 			choppingBoardSpriteNames[2] = ("");
 			choppingBoardSpriteNames[3] = ("");
 		}
+		//else if (SelectedIngredient == "CHICKEN")
+		//{
+		//	mainItem = Sprite::create("Chicken/Raw.png");
+		//	mainItem->setName(SelectedIngredient);
+		//	choppingBoardSpriteNames[0] = ("");
+		//	choppingBoardSpriteNames[1] = ("");
+		//	choppingBoardSpriteNames[2] = ("");
+		//	choppingBoardSpriteNames[3] = ("");
+		//}
 		mainItem->setPosition(Popup_ChoppingBoard->getPosition());
 		this->addChild(mainItem);
 		isBoardFull = true;
@@ -627,22 +699,44 @@ void GameScene::PopupChoppingBoardEvent(Ref *pSender)
 void GameScene::update(float dt)
 {
 	Label_ChoppingBoard_Counter->setString(StringUtils::toString(iCuts));
+
+	for (auto it : productContainer)
+	{
+		// Check if ALL SALAD INGREDIENT ARE IN then SHOW SALAD
+		if (isSpinachDiced && isCarrotDiced && isTomatoDiced)
+		{
+			if (it->getName() == "PRODUCT_SALAD")
+			{
+				if (!isPopUp)
+					ShowFinalProduct(it);
+			}
+		}
+		
+		//// Check if ALL CHICKEN PLATTER INGREDIENT ARE IN then SHOW PLATTER
+		//if (isFriesReady && isChickenReady)
+		//{
+		//	if (it->getName() == "PRODUCT_CHICKEN_PLATTER")
+		//	{
+		//		if (!isPopUp)
+		//			ShowFinalProduct(it);
+		//	}
+		//}
+
+		// Check if ALL FISH PLATTER INGREDIENT ARE IN then SHOW PLATTER
+		if (isFriesReady && isFishReady)
+		{
+			if (it->getName() == "PRODUCT_FISH_PLATTER")
+			{
+				if (!isPopUp)
+					ShowFinalProduct(it);
+			}
+		}
+	}
 }
 
 // Key Pressed
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keycode, Event * event)
 {
-	// Testing Purposes FOR POP UP
-	if (keycode == EventKeyboard::KeyCode::KEY_1)
-	{
-		isProductFinish = true;
-	}
-
-	if (keycode == EventKeyboard::KeyCode::KEY_2)
-	{
-		isProductFinish = false;
-	}
-
 	// Testing Purposes
 	if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
@@ -676,17 +770,88 @@ void GameScene::menuCloseCallback(Ref* pSender)
 void GameScene::menuChangeScene(float time, cocos2d::Scene * scene)
 {
 	CCDirector::getInstance()->replaceScene(TransitionFade::create(time, scene));
+
 }
 
 void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventType)
 {
 	string buttonName;
-	
+	string ingredientName;
+
 	buttonName = ((ui::Button*) sender)->getName();
 
 	if (ui::Widget::TouchEventType::BEGAN == eventType)
 	{
 		SelectedIngredient = buttonName;
+
+		// If SERVE PRODUCT is pressed.
+		if (buttonName == "SERVE_FOOD_BUTTON")
+		{
+			// Add to Player Money
+			playerMoney += 20;
+			CCLOG("PRODUCT: %d", playerMoney);
+			// Show on Scene
+			sprintf(showPlayerMoney, "%d", playerMoney);
+			moneyNumberButton->setTitleText(showPlayerMoney);		
+			SelectedIngredient = "";
+
+		}
+
+		// If KEEP PRODUCT is pressed.
+		if (buttonName == "KEEP_FOOD_BUTTON")
+		{
+			// USE PAIR VECTOR TO CHECK IF FIRST VARIABLE NAME IS THE SAME, THEN INCREASE THE SECOND VARIABLE NUMBER TO 1
+			for (auto it : mixedDishContainer)
+			{
+				ingredientName = GetFinalProduct()->getName();
+
+				// Diced Spinach
+				if (it.first == "Spinach/Diced.png" && ingredientName == "PRODUCT_SPINACH")
+				{
+					it.second = 1;
+					isSpinachDiced = true;
+				}
+
+				// Diced Carrot
+				if (it.first == "Carrots/Diced.png" && ingredientName == "PRODUCT_CARROT")
+				{
+					it.second = 1;
+					isCarrotDiced = true;
+				}
+
+				// Diced Tomato
+				if (it.first == "Tomato/Diced.png" && ingredientName == "PRODUCT_TOMATO")
+				{
+					it.second = 1;
+					isTomatoDiced = true;
+				}
+
+				// Fries
+				if (it.first == "Potato/Fries.png" && ingredientName == "PRODUCT_FRIES")
+				{
+					it.second = 1;
+					isFriesReady = true;
+				}
+
+				// Cooked Fish
+				if (it.first == "Fish/Cooked.png" && ingredientName == "PRODUCT_FISH")
+				{
+					it.second = 1;
+					isFishReady = true;
+				}
+
+				//// Cooked Chicken
+				//if (it.first == "Chicken/Roasted.png" && ingredientName == "PRODUCT_CHICKEN")
+				//{
+				//	it.second = 1;
+				//	isChickenReady = true;
+				//}
+
+			}
+
+			SelectedIngredient = "";
+		}
+
 	}
 
 	if (ui::Widget::TouchEventType::ENDED == eventType)
@@ -701,13 +866,48 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 				SelectedIngredient = mainItem->getName();
 				CheckIfPlayerFinished(SelectedIngredient);
 				isBoardFull = false;
+				SelectedIngredient = "";
 				this->removeChild(mainItem);
 			}
+
+			iCuts = 0;
 
 			// Close Pop Up
 			Popup_ChoppingBoard->setPositionX(visibleSize.width + Popup_ChoppingBoard->getContentSize().width);
 			Kitchen_ChoppingBoard->setPositionX(visibleSize.width * 0.75f);
 			Label_ChoppingBoard_Counter->setPosition(Popup_ChoppingBoard->getPositionX() - visibleSize.width * 0.25f, Popup_ChoppingBoard->getPositionY() + visibleSize.height * 0.3f);
+		}
+
+		for (auto it : productContainer)
+		{
+			if (buttonName == "SERVE_FOOD_BUTTON" || buttonName == "KEEP_FOOD_BUTTON")
+			{
+				if (GetFinalProduct()->getName() == "PRODUCT_SALAD" /*|| GetFinalProduct()->getName() == "PRODUCT_CHICKEN_PLATTER"*/ || GetFinalProduct()->getName() == "PRODUCT_FISH_PLATTER")
+				{
+					isSpinachDiced = false;
+					isCarrotDiced = false;
+					isTomatoDiced = false;
+					isFriesReady = false;
+					isChickenReady = false;
+					isFishReady = false;
+
+					CloseFinalProduct(it);
+				}
+			}
+
+			// If SERVE PRODUCT is pressed.
+			if (buttonName == "SERVE_FOOD_BUTTON")
+			{
+				// Close Pop Up
+				CloseFinalProduct(it);
+			}
+
+			// If KEEP PRODUCT is pressed.
+			if (buttonName == "KEEP_FOOD_BUTTON")
+			{
+				// Close Pop Up
+				CloseFinalProduct(it);
+			}
 		}
 	}
 }
@@ -724,17 +924,15 @@ void GameScene::ShowFinalProduct(Sprite * _sprite)
 	_sprite->setScale(Sprite_X * 0.3f, Sprite_Y * 0.3f);
 
 	SetFinalProduct(_sprite);
+	isPopUp = true;
 }
 
 void GameScene::CloseFinalProduct(Sprite * _sprite)
 {
 	// Close Pop Up
 	productPopUp->setScale(0.f);
-
-	// Close Product
-	float Sprite_X = screenWidth / _sprite->getContentSize().width;
-	float Sprite_Y = screenHeight / _sprite->getContentSize().height;
-	_sprite->setScale(Sprite_X * 0.f, Sprite_Y * 0.f);
+	_sprite->setScale(0.f);
+	isPopUp = false;
 }
 
 void GameScene::SetFinalProduct(Sprite * _sprite)
@@ -752,20 +950,80 @@ void GameScene::CheckIfPlayerFinished(string _name)
 	for (auto it : productContainer)
 	{
 		// POTATO DISHES
-		if (_name == "FreeMode/Potato_Sliced.png")
+		if (_name == "Potato/Sliced.png")
 		{
 			if (it->getName() == "PRODUCT_FRIES")
 				ShowFinalProduct(it);
 
-			CCLOG("FRENCH FRIES");
+			CCLOG("PRODUCT_FRIES");
 		}
-		if (_name == "FreeMode/Potato_Diced.png")
+		if (_name == "Potato/Diced.png")
 		{
-			CCLOG("WEDGES");
+			if (it->getName() == "PRODUCT_WEDGES")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_WEDGES");
 		}
-		if (_name == "FreeMode/Potato_Mashed.png")
+		if (_name == "Potato/Mashed.png")
 		{
-			CCLOG("MASHED POTATO");
+			if (it->getName() == "PRODUCT_MASHED")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_MASHED");
+		}
+
+		// FISH DISH
+		if (_name == "Fish/Fillet.png")
+		{
+			if (it->getName() == "PRODUCT_FISH")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_FISH");
+		}
+
+		//// CHICKEN DISH
+		//if (_name == "Chicken/Raw.png")
+		//{
+		//	if (it->getName() == "PRODUCT_CHICKEN")
+		//		ShowFinalProduct(it);
+
+		//	CCLOG("PRODUCT_CHICKEN");
+		//}
+
+		if (_name == "Egg/UnFriedEgg.png")
+		{
+			if (it->getName() == "PRODUCT_EGG")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_EGG");
+		}
+
+		//// VEGETABLE DISH
+		// DICED SPINACH
+		if (_name == "Spinach/Diced.png")
+		{
+			if (it->getName() == "PRODUCT_SPINACH")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_SPINACH");
+		}
+
+		// DICED TOMATO
+		if (_name == "Tomato/Diced.png")
+		{
+			if (it->getName() == "PRODUCT_TOMATO")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_TOMATO");
+		}
+
+		// DICED CARROT
+		if (_name == "Carrot/Diced.png")
+		{
+			if (it->getName() == "PRODUCT_CARROT")
+				ShowFinalProduct(it);
+
+			CCLOG("PRODUCT_CARROT");
 		}
 	}
 }

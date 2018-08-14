@@ -2,6 +2,7 @@
 #include "Scene_MainMenu.h"
 #include "Scene_FreeMode.h"
 #include "Scene_Loading.h"
+#include "Scene_Testing.h"
 //#include "TouchScene.h"
 
 // #define USE_AUDIO_ENGINE 1

@@ -32,6 +32,18 @@ bool RecipeScene::init()
 	
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
+
+	// Background
+	auto BG_Image = Sprite::create("Recipes/Background.png");
+	BG_Image->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
+	// Scale Image
+	float BG_X = visibleSize.width / BG_Image->getContentSize().width;
+	float BG_Y = visibleSize.height / BG_Image->getContentSize().height;
+	// Set Scaling Factor to BG_Image.
+	BG_Image->setScale(BG_X, BG_Y);
+	this->addChild(BG_Image);
+
+
 	//string test = to_string(numOfRecipes);
 	// Create and initialize a label
 	auto titleLabel = Label::createWithTTF("RECIPES", "fonts/Marker Felt.ttf", visibleSize.width * 0.05f);
