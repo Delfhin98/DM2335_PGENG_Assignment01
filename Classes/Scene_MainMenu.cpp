@@ -22,13 +22,24 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool MainMenu::init()
 {
+    // If Platform is Windows
+    if(CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    {
+        isWindows = true;
+        isAndroid = false;
+    }
+    // If Platform is Android
+    if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    {
+        isAndroid = true;
+        isWindows = false;
+    }
+
 	// Super Init First
 	if (!Scene::init())
 	{
 		return false;
 	}
-	//auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	//audio->preloadBackgroundMusic("bensound_thelounge.mp3");
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -65,7 +76,7 @@ bool MainMenu::init()
 
 	//// Start Button
 	ui::Button* startButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
-	startButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.55f));
+    startButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.55f));
 	startButton->setTitleText("PLAY");
 	startButton->setTitleFontName("fonts/Marker Felt.ttf");
 	startButton->setTitleColor(Color3B::BLACK);
@@ -81,27 +92,38 @@ bool MainMenu::init()
 	startButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
 	this->addChild(startButton);
 
-	//// Recipe Button
-	ui::Button* recipeButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
-	recipeButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.4f));
-	recipeButton->setTitleText("RECIPES");
-	recipeButton->setTitleFontName("fonts/Marker Felt.ttf");
-	recipeButton->setTitleColor(Color3B::BLACK);
-	recipeButton->setTitleFontSize(20.f);
-	recipeButton->setAnchorPoint(Vec2(0.5f, 0.5f));
-	recipeButton->setName("RECIPE_BUTTON");
+    // If it's windows, show Recipe
+    if(isWindows && !isAndroid)
+    {
+        //// Recipe Button
+        ui::Button* recipeButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
+        recipeButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.4f));
+        recipeButton->setTitleText("RECIPES");
+        recipeButton->setTitleFontName("fonts/Marker Felt.ttf");
+        recipeButton->setTitleColor(Color3B::BLACK);
+        recipeButton->setTitleFontSize(20.f);
+        recipeButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+        recipeButton->setName("RECIPE_BUTTON");
 
-	float Recipe_X = screenWidth / recipeButton->getContentSize().width;
-	float Recipe_Y = screenHeight / recipeButton->getContentSize().height;
-	recipeButton->setScale(Recipe_X * 0.2f, Recipe_Y * 0.1f);
+        float Recipe_X = screenWidth / recipeButton->getContentSize().width;
+        float Recipe_Y = screenHeight / recipeButton->getContentSize().height;
+        recipeButton->setScale(Recipe_X * 0.2f, Recipe_Y * 0.1f);
 
-	// Adding Listener
-	recipeButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
-	this->addChild(recipeButton);
+        // Adding Listener
+        recipeButton->addTouchEventListener(CC_CALLBACK_2(MainMenu::onButtonPressed, this));
+        this->addChild(recipeButton);
+    }
 
 	//// Quit Button
 	ui::Button* quitButton = ui::Button::create("MainMenu/button.png", "MainMenu/buttonselected.png");
-	quitButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.25f));
+    if(isWindows && !isAndroid)
+    {
+        quitButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.25f));
+    }
+    else if(isAndroid && !isWindows)
+    {
+        quitButton->setPosition(Vec2(screenWidth * 0.7f, screenHeight * 0.35f));
+    }
 	quitButton->setTitleText("QUIT");
 	quitButton->setTitleFontName("fonts/Marker Felt.ttf");
 	quitButton->setTitleColor(Color3B::BLACK);

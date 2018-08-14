@@ -11,6 +11,10 @@ using namespace CocosDenshion;
 
 class MainMenu : public cocos2d::Scene
 {
+	bool isWindows;
+	bool isAndroid;
+	CocosDenshion::SimpleAudioEngine* BG_Music;
+
 public:
     static cocos2d::Scene* createScene();
 
@@ -19,7 +23,9 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void MainMenuChangeScene(float time, cocos2d::Scene *scene);
-	virtual void onKeyPressed(EventKeyboard::KeyCode, Event*);
+
+	// Button Pressed
+	void onButtonPressed(Ref* sender, ui::Widget::TouchEventType eventType);
 
 	// Update Every Frame
 	virtual void update(float);
