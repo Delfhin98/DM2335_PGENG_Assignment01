@@ -11,6 +11,7 @@ class GameScene : public cocos2d::Scene
 {
 private:
 	CookingAnimation* cookingAnim;
+	RecipeDatabase* rd;
 	Size visibleSize;
 	Vec2 origin;
 	MenuItemImage* Kitchen_ChoppingBoard;

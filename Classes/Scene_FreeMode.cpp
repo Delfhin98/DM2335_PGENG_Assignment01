@@ -5,7 +5,6 @@
 //using namespace ui;
 
 USING_NS_CC;
-RecipeDatabase* recipeDatabase = RecipeDatabase::GetInstance();
 
 Scene* GameScene::createScene()
 {
@@ -30,8 +29,8 @@ bool GameScene::init()
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
-
-	//numOfRecipes = RD->iRecNum;
+	rd = new RecipeDatabase();
+	//numOfRecipes = rd->iRecNum;
 	// Creating a size that is valid.
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
 	isBoardInUse = false;
@@ -306,23 +305,23 @@ bool GameScene::init()
     ui::ScrollView* recipeButtons = ui::ScrollView::create();
     recipeButtons->setDirection(ui::ScrollView::Direction::VERTICAL);
     recipeButtons->setContentSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height));
-    recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * recipeDatabase->iRecNum));
+    recipeButtons->setInnerContainerSize(Size(popUp->getContentSize().width * 0.5f, popUp->getContentSize().height * rd->iRecNum));
     recipeButtons->setBounceEnabled(true);
     recipeButtons->setSwallowTouches(true);
 
     // Putting Recipe Buttons into ScrollView
-    for (int i = 0; i < recipeDatabase->iRecNum; i++)
+    for (int i = 0; i < rd->iRecNum; i++)
     {
         ui::Button* button = ui::Button::create("recipebutton.png");
         button->setPosition(Vec2(popUp->getPosition().x * 0.05f, i * 60));
-        button->setTitleText(recipeDatabase->list_recipes[i]->GetRecipeName());
+        button->setTitleText(rd->list_recipes[i]->GetRecipeName());
         button->setTitleFontName("fonts/Marker Felt.ttf");
         button->setTitleColor(Color3B::BLACK);
         button->setTitleFontSize(20.0f);
         button->setAnchorPoint(Vec2(0, 0));
-        button->setName(recipeDatabase->list_recipes[i]->GetRecipeName());
+        button->setName(rd->list_recipes[i]->GetRecipeName());
 
-        recipeDatabase->list_recipes[i]->SetMethod();
+        rd->list_recipes[i]->SetMethod();
         button->addTouchEventListener(CC_CALLBACK_2(GameScene::onButtonPressed, this));
         recipeButtons->addChild(button);
     }
@@ -672,14 +671,14 @@ void GameScene::onButtonPressed(Ref * sender, ui::Widget::TouchEventType eventTy
 	{
 		buttonName = ((ui::Button*) sender)->getName();
 
-		for (int i = 0; i < recipeDatabase->iRecNum; i++)
+		for (int i = 0; i < rd->iRecNum; i++)
 		{
-			recipeName = recipeDatabase->list_recipes[i]->GetRecipeName();
+			recipeName = rd->list_recipes[i]->GetRecipeName();
 
 			// If Selected Button is inside the Recipe Database
 			if (buttonName == recipeName)
 			{
-				recipeDetailsText = recipeDatabase->list_recipes[i]->GetMethod();
+				recipeDetailsText = rd->list_recipes[i]->GetMethod();
 			}
 		}
 	}

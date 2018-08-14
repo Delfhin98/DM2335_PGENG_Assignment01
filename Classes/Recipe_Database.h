@@ -6,20 +6,20 @@
 class RecipeDatabase
 {
 private:
-	RecipeDatabase();
 	~RecipeDatabase();
-	static RecipeDatabase* RD_Instance;
+	//static RecipeDatabase* RD_Instance;
 
 public:
+	RecipeDatabase();
 	vector<Recipe*> list_recipes;
 	int iRecNum;
-	static RecipeDatabase* GetInstance() {
+	/*static RecipeDatabase* GetInstance() {
 		if (RD_Instance == NULL)
 		{
 			RD_Instance = new RecipeDatabase();
 		}
 		return RD_Instance;
-	};
+	};*/
 };
 
 #endif // _RECIPE_DATABASE_H_

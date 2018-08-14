@@ -1,6 +1,6 @@
 #include "Recipe_Database.h"
 
-RecipeDatabase* RecipeDatabase::RD_Instance = NULL;
+//RecipeDatabase* RecipeDatabase::RD_Instance = NULL;
 
 RecipeDatabase::RecipeDatabase()
 {

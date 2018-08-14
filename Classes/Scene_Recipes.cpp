@@ -3,7 +3,7 @@
 #include "SimpleAudioEngine.h"
 using namespace ui;
 USING_NS_CC;
-RecipeDatabase* rd = RecipeDatabase::GetInstance();
+
 Scene* RecipeScene::createScene()
 {
 	return RecipeScene::create();
@@ -27,6 +27,7 @@ bool RecipeScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	
+	rd = new RecipeDatabase();
 	numOfRecipes = rd->iRecNum;
 	
 	// Creating a size that is valid.
